@@ -2,25 +2,27 @@ package com.openclassrooms.paymybuddy.service.impl;
 
 import com.openclassrooms.paymybuddy.model.Transaction;
 import com.openclassrooms.paymybuddy.repository.ITransactionRepository;
-import com.openclassrooms.paymybuddy.service.ITransactionService;
 import com.openclassrooms.paymybuddy.service.dto.TransactionDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class TransactionServiceTest {
 
-    @MockBean
+    @Mock
     private ITransactionRepository repository;
 
-    @Autowired
-    private ITransactionService service;
+    @InjectMocks
+    private TransactionServiceImpl service;
 
 
     @BeforeEach

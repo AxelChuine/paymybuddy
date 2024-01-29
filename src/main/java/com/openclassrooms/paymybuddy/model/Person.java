@@ -2,15 +2,16 @@ package com.openclassrooms.paymybuddy.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.annotation.processing.Generated;
 
-@Data
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Table(name = "person")
 public class Person {
     @Id

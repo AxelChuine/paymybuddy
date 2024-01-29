@@ -10,6 +10,7 @@ import java.util.List;
 @Mapper
 public interface ITransactionMapper {
 
+
     ITransactionMapper INSTANCE = Mappers.getMapper(ITransactionMapper.class);
 
     TransactionDTO transactionToTransactionDto (Transaction transaction);
