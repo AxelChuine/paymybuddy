@@ -4,9 +4,11 @@ import com.openclassrooms.paymybuddy.repository.ITransactionRepository;
 import com.openclassrooms.paymybuddy.service.ITransactionService;
 import com.openclassrooms.paymybuddy.service.dto.TransactionDTO;
 import com.openclassrooms.paymybuddy.service.mapper.ITransactionMapper;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class TransactionServiceImpl implements ITransactionService {
 
     private final ITransactionRepository repository;

@@ -13,7 +13,10 @@ public interface IPersonMapper {
     IPersonMapper INSTANCE = Mappers.getMapper(IPersonMapper.class);
 
     PersonDto personToPersonDto (Person person);
+
     List<PersonDto> personsToPersonsDto (List<Person> personList);
+
     Person personDtoToPerson (PersonDto personDto);
+
     List<Person> personsDtoToPersons (List<PersonDto> personDtos);
 }
