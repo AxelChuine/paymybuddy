@@ -2,40 +2,48 @@ package com.openclassrooms.paymybuddy.service.impl;
 
 import com.openclassrooms.paymybuddy.model.Person;
 import com.openclassrooms.paymybuddy.repository.IPersonRepository;
-import com.openclassrooms.paymybuddy.service.IPersonService;
 import com.openclassrooms.paymybuddy.service.dto.PersonDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class PersonServiceImplTest {
 
-    @MockBean
+    @Mock
     private IPersonRepository repository;
 
-    @Autowired
-    private IPersonService service;
+    @InjectMocks
+    private PersonServiceImpl service;
+
+    private Person person;
 
     @BeforeEach
     public void setPerson () {
-        Person person = new Person(1, "Jean", "Dubois", "password");
+        this.person = new Person(1, "Jean", "Dubois", "password");
     }
 
     @Test
     public void findAllPersonsShouldReturnAListOfPersons () {
-        List<Person> personDtos = List.of(new Person(), new Person());
+        List<Person> persons = new ArrayList<>();
+        persons.add(this.person);
+        PersonDto personDto = new PersonDto(this.person.getIdentifier(), person.getFirstName(), person.getLastName(), person.getPassword());
+        List<PersonDto> personDtos = new ArrayList<>();
+        personDtos.add(personDto);
 
-        when(this.repository.findAll()).thenReturn(personDtos);
+        when(this.repository.findAll()).thenReturn(persons);
         List<PersonDto> personsDtosToCompare = this.service.findAll();
 
         assertEquals(personDtos, personsDtosToCompare);
     }
+
 }
