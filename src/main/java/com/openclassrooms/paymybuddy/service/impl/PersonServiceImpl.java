@@ -4,9 +4,11 @@ import com.openclassrooms.paymybuddy.repository.IPersonRepository;
 import com.openclassrooms.paymybuddy.service.IPersonService;
 import com.openclassrooms.paymybuddy.service.dto.PersonDto;
 import com.openclassrooms.paymybuddy.service.mapper.IPersonMapper;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PersonServiceImpl implements IPersonService {
 
 
