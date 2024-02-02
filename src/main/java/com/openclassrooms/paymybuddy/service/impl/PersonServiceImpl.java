@@ -4,11 +4,9 @@ import com.openclassrooms.paymybuddy.repository.IPersonRepository;
 import com.openclassrooms.paymybuddy.service.IPersonService;
 import com.openclassrooms.paymybuddy.service.dto.PersonDto;
 import com.openclassrooms.paymybuddy.service.mapper.IPersonMapper;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public class PersonServiceImpl implements IPersonService {
 
 
@@ -24,5 +22,10 @@ public class PersonServiceImpl implements IPersonService {
     @Override
     public List<PersonDto> findAll() {
         return IPersonMapper.INSTANCE.personsToPersonsDto(this.repository.findAll());
+    }
+
+    @Override
+    public PersonDto findByFullName(String firstName, String lastName) {
+        return IPersonMapper.INSTANCE.personToPersonDto(this.repository.findByFullName(firstName, lastName));
     }
 }
