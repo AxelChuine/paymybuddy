@@ -46,4 +46,18 @@ public class PersonServiceImplTest {
         assertEquals(personDtos, personsDtosToCompare);
     }
 
+    @Test
+    public void findPersonByFullNameShouldReturnOneEntity () {
+        String firstName = "Jean";
+        String lastName = "Dubois";
+        PersonDto personDto = new PersonDto(this.person.getIdentifier(), this.person.getFirstName(), this.person.getLastName(), this.person.getPassword());
+
+        when(this.repository.findByFullName(firstName, lastName)).thenReturn(this.person);
+        PersonDto personDtoToCompare = this.service.findByFullName (firstName, lastName);
+
+        assertEquals(personDto, personDtoToCompare);
+    }
+
+    
+
 }
