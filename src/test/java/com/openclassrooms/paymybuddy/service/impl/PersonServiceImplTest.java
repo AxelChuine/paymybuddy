@@ -58,6 +58,26 @@ public class PersonServiceImplTest {
         assertEquals(personDto, personDtoToCompare);
     }
 
+    @Test
+    public void updatePasswordShouldChangeThePasswordOfThePerson () {
+        String newPassword = "bo";
+        PersonDto personDto = new PersonDto();
+        personDto.setIdentifier(1);
+        personDto.setFirstName(this.person.getFirstName());
+        personDto.setLastName(this.person.getLastName());
+        personDto.setPassword(newPassword);
+
+        when(this.repository.findByFullName(person.getFirstName(), person.getLastName())).thenReturn(this.person);
+        PersonDto personDtoToCompare = this.service.updatePassword (personDto, newPassword);
+
+        assertEquals(personDto, personDtoToCompare);
+    }
+
+    @Test
+    public void createOersonShouldReturnOnePerson () {
+
+    }
+
     
 
 }

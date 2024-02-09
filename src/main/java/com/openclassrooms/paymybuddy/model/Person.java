@@ -7,8 +7,7 @@ import lombok.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 @EqualsAndHashCode
 @Table(name = "person")
 public class Person {
