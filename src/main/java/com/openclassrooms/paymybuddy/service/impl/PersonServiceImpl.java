@@ -26,7 +26,7 @@ public class PersonServiceImpl implements IPersonService {
 
     @Override
     public PersonDto findByFullName(String firstName, String lastName) {
-        return IPersonMapper.INSTANCE.personToPersonDto(this.repository.findByFullName(firstName, lastName));
+        return IPersonMapper.INSTANCE.personToPersonDto(this.repository.findByFirstNameAndLastName(firstName, lastName));
     }
 
     @Override

@@ -52,7 +52,7 @@ public class PersonServiceImplTest {
         String lastName = "Dubois";
         PersonDto personDto = new PersonDto(this.person.getIdentifier(), this.person.getFirstName(), this.person.getLastName(), this.person.getPassword());
 
-        when(this.repository.findByFullName(firstName, lastName)).thenReturn(this.person);
+        when(this.repository.findByFirstNameAndLastName(firstName, lastName)).thenReturn(this.person);
         PersonDto personDtoToCompare = this.service.findByFullName (firstName, lastName);
 
         assertEquals(personDto, personDtoToCompare);
@@ -67,7 +67,7 @@ public class PersonServiceImplTest {
         personDto.setLastName(this.person.getLastName());
         personDto.setPassword(newPassword);
 
-        when(this.repository.findByFullName(person.getFirstName(), person.getLastName())).thenReturn(this.person);
+        when(this.repository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName())).thenReturn(this.person);
         PersonDto personDtoToCompare = this.service.updatePassword (personDto, newPassword);
 
         assertEquals(personDto, personDtoToCompare);
