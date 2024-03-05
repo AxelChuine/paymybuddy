@@ -10,4 +10,6 @@ public interface IPersonService {
     List<PersonDto> findAll();
 
     PersonDto findByFullName(String firstName, String lastName);
+
+    PersonDto updatePassword(PersonDto personDto, String newPassword);
 }
