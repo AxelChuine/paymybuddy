@@ -10,7 +10,7 @@ CREATE TABLE pay_my_buddy.`account`(
                                        `identifier` integer auto_increment NOT NULL,
                                        `name` VARCHAR(5000),
                                        `description` TEXT,
-                                       person_uuid integer NOT NULL,
+                                       person_id integer NOT NULL,
                                        PRIMARY KEY(`identifier`)
 );
 
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS pay_my_buddy.`transaction`(
                                                          `identifier` integer auto_increment NOT NULL,
                                                          `name` VARCHAR(5000),
     amount FLOAT,
-    account_uuid integer NOT NULL,
+    account_id integer NOT NULL,
     PRIMARY KEY(`identifier`)
     );
 
