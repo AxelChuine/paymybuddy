@@ -4,19 +4,19 @@ import com.openclassrooms.paymybuddy.repository.IPersonRepository;
 import com.openclassrooms.paymybuddy.service.IPersonService;
 import com.openclassrooms.paymybuddy.service.dto.PersonDto;
 import com.openclassrooms.paymybuddy.service.mapper.IPersonMapper;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PersonServiceImpl implements IPersonService {
 
 
     private final IPersonRepository repository;
 
-    private final IPersonMapper mapper;
 
-    public PersonServiceImpl(IPersonRepository repository, IPersonMapper mapper) {
+    public PersonServiceImpl(IPersonRepository repository) {
         this.repository = repository;
-        this.mapper = mapper;
     }
 
     @Override
