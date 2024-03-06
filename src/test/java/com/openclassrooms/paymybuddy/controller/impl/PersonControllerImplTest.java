@@ -13,9 +13,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class PersonControllerImplTest {
 
     @Autowired
-    private PersonControllerImpl controller;
-
-    @Autowired
     private MockMvc mockMvc;
 
     @MockBean
