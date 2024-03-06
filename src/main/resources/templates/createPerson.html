@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>create person</title>
+</head>
+<body>
+
+    <form action="form_creation_person" method="post" th:object="${person}">
+        <input type="text" name="firstName">
+        <input type="text" name="lastName">
+        <input type="password" name="password">
+
+    </form>
+
+</body>
+</html>

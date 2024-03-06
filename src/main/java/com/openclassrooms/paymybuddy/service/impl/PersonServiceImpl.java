@@ -36,4 +36,9 @@ public class PersonServiceImpl implements IPersonService {
         this.repository.save(IPersonMapper.INSTANCE.personDtoToPerson(personDto1));
         return personDto1;
     }
+
+    @Override
+    public PersonDto createPerson(PersonDto personDto) {
+        return null;
+    }
 }
