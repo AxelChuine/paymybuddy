@@ -72,11 +72,7 @@ public class PersonServiceImplTest {
 
         assertEquals(personDto, personDtoToCompare);
     }
-
-    @Test
-    public void createOersonShouldReturnOnePerson () {
-
-    }
+    
 
     
 

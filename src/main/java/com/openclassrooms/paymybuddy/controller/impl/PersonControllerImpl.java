@@ -2,8 +2,10 @@ package com.openclassrooms.paymybuddy.controller.impl;
 
 import com.openclassrooms.paymybuddy.controller.IPersonController;
 import com.openclassrooms.paymybuddy.service.IPersonService;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+@Controller
 public class PersonControllerImpl implements IPersonController {
 
     private final IPersonService service;
