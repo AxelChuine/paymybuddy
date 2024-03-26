@@ -5,10 +5,13 @@ import com.openclassrooms.paymybuddy.model.Transaction;
 import com.openclassrooms.paymybuddy.repository.IAccountRepository;
 import com.openclassrooms.paymybuddy.service.dto.AccountDTO;
 import com.openclassrooms.paymybuddy.service.dto.TransactionDTO;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Set;
@@ -32,8 +35,31 @@ public class AccountServiceImplTest {
 
     @BeforeEach
     public void setAccount () {
-        this.account = new Account(1, "test", "compte personnel", transactions);
-        this.accountDTO = new AccountDTO(1, "test", "compte personnel", transactionsDtos);
-        this.transactionsDtos = Set.of(new TransactionDTO(), new TransactionDTO());
+        this.account = new Account(1, "test", "compte personnel", 1, transactions, 50.00F);
+        this.accountDTO = new AccountDTO(1, "test", "compte personnel", 1, transactionsDtos, 50.00F);
+        this.transactionsDtos = Set.of(new TransactionDTO(1, "test", 20.00F, 2));
+    }
+
+    @Test
+    public void createAnAccountShouldCreateAnAccount () {
+        AccountDTO account = new AccountDTO();
+
+        Mockito.when(this.repository.save(this.account)).thenReturn(this.account);
+        account = this.service.createAnAccount(this.accountDTO);
+
+        Assertions.assertEquals(this.accountDTO, account);
+    }
+
+    @Test
+    public void updateAnAccountShouldUpdateTheAccount () {
+        AccountDTO account;
+        Integer accountId = 1;
+        Float balance = 20.0F;
+        this.account.setBalance(balance);
+
+        Mockito.when(this.repository.updateBalanceOfAccount(balance, this.account)).thenReturn(this.account);
+        account = this.service.updateAccount(balance, accountId);
+
+        Assertions.assertEquals(accountDTO, account);
     }
 }

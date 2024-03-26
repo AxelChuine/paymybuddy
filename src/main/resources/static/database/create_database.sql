@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS pay_my_buddy.person(
                                                   first_name VARCHAR(5000),
     last_name VARCHAR(5000),
     `password` VARCHAR(5000),
+    `email` varchar(1000) not null,
     PRIMARY KEY(`identifier`)
     );
 
@@ -12,6 +13,7 @@ CREATE TABLE pay_my_buddy.`account`(
                                        `description` TEXT,
                                         person_id integer NOT NULL,
                                         `transaction_id` int,
+                                        `balance` double not NULL,
                                         PRIMARY KEY(`identifier`)
 );
 

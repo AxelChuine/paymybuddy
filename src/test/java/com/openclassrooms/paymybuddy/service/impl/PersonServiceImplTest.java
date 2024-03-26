@@ -30,14 +30,14 @@ public class PersonServiceImplTest {
 
     @BeforeEach
     public void setPerson () {
-        this.person = new Person(1, "Jean", "Dubois", "password");
+        this.person = new Person(1, "Jean", "Dubois", "password", null);
     }
 
     @Test
     public void findAllPersonsShouldReturnAListOfPersons () {
         List<Person> persons = new ArrayList<>();
         persons.add(this.person);
-        PersonDto personDto = new PersonDto(this.person.getIdentifier(), person.getFirstName(), person.getLastName(), person.getPassword());
+        PersonDto personDto = new PersonDto(this.person.getIdentifier(), person.getFirstName(), person.getLastName(), person.getPassword(), null);
         List<PersonDto> personDtos = new ArrayList<>();
         personDtos.add(personDto);
 
@@ -51,7 +51,7 @@ public class PersonServiceImplTest {
     public void findPersonByFullNameShouldReturnOneEntity () {
         String firstName = "Jean";
         String lastName = "Dubois";
-        PersonDto personDto = new PersonDto(this.person.getIdentifier(), this.person.getFirstName(), this.person.getLastName(), this.person.getPassword());
+        PersonDto personDto = new PersonDto(this.person.getIdentifier(), this.person.getFirstName(), this.person.getLastName(), this.person.getPassword(), null);
 
         when(this.repository.findByFirstNameAndLastName(firstName, lastName)).thenReturn(this.person);
         PersonDto personDtoToCompare = this.service.findByFullName (firstName, lastName);

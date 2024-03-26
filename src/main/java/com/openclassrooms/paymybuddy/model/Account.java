@@ -23,7 +23,13 @@ public class Account {
     @Column(name = "description")
     private String description;
 
+    @JoinColumn(name = "person_id")
+    private Integer personId;
+
     @OneToMany
     @JoinColumn(name = "transaction_id")
-    Set<Transaction> transactions;
+    private Set<Transaction> transactions;
+
+    @Column(name = "balance")
+    private Float balance;
 }
