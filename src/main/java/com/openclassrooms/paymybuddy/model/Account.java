@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,4 +23,7 @@ public class Account {
     @Column(name = "description")
     private String description;
 
+    @OneToMany
+    @JoinColumn(name = "transaction_id")
+    Set<Transaction> transactions;
 }

@@ -1,5 +1,6 @@
 package com.openclassrooms.paymybuddy.service.impl;
 
+import com.openclassrooms.paymybuddy.model.Person;
 import com.openclassrooms.paymybuddy.repository.IPersonRepository;
 import com.openclassrooms.paymybuddy.service.IPersonService;
 import com.openclassrooms.paymybuddy.service.dto.PersonDto;
@@ -35,5 +36,11 @@ public class PersonServiceImpl implements IPersonService {
         personDto1.setPassword(newPassword);
         this.repository.save(IPersonMapper.INSTANCE.personDtoToPerson(personDto1));
         return personDto1;
+    }
+
+    @Override
+    public PersonDto createPerson(PersonDto personDto) {
+        Person person = this.repository.save(IPersonMapper.INSTANCE.personDtoToPerson(personDto));
+        return IPersonMapper.INSTANCE.personToPersonDto(person);
     }
 }

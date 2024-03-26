@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
@@ -71,6 +72,16 @@ public class PersonServiceImplTest {
         PersonDto personDtoToCompare = this.service.updatePassword (personDto, newPassword);
 
         assertEquals(personDto, personDtoToCompare);
+    }
+
+    @Test
+    public void createPersonShouldCreateAPerson () {
+        PersonDto personDto = new PersonDto();
+
+        Mockito.when(this.repository.save(person)).thenReturn(person);
+        PersonDto personDto1 = this.service.createPerson(personDto);
+
+        assertEquals(personDto, personDto1);
     }
     
 
