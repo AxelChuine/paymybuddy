@@ -1,16 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>create person</title>
 </head>
 <body>
 
-    <form action="form_creation_person" method="post" th:object="${person}">
-        <input type="text" name="firstName">
-        <input type="text" name="lastName">
-        <input type="password" name="password">
-
+    <form th:action="form_creation_person" method="post" th:object="${person}">
+        <p>Prénom</p>
+        <input type="text" name="firstName" placeholder="entrer le prénom">
+        <p>Nom de famille</p>
+        <input type="text" name="lastName" placeholder="entrer le nom de famille">
+        <p>Mot de passe</p>
+        <input type="password" name="password" placeholder="entrer le mot de passe">
+        <button type="button" th:onclick="createPerson()">Soumettre</button>
     </form>
 
 </body>

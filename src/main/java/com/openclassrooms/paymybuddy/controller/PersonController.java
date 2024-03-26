@@ -17,15 +17,21 @@ public class PersonController {
     }
 
 
-    @GetMapping("/all")
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public String findAll(Model model) {
         model.addAttribute("personList", this.service.findAll());
         return "people";
     }
 
-    @RequestMapping(value = "/creation", method = RequestMethod.POST)
-    public String createPerson(Model model, @RequestBody PersonDto personDto) {
-        PersonDto person = this.service.createPerson (personDto);
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public String createPerson(Model model) {
+        model.addAttribute("person", new PersonDto());
         return "createPerson";
+    }
+
+    @RequestMapping(value = "/creation", method = RequestMethod.POST)
+    public String submitCreatePerson (@RequestBody PersonDto personDto) {
+        PersonDto personDto1 = this.service.createPerson(personDto);
+        return "redirect:home";
     }
 }
