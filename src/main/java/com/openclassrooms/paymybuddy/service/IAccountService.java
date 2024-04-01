@@ -7,4 +7,6 @@ public interface IAccountService {
     AccountDTO createAnAccount(AccountDTO accountDTO);
 
     AccountDTO updateAccount(Float balance, Integer accountId);
+
+    AccountDTO sendMoney(AccountDTO account, Float amount);
 }
