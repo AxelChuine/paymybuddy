@@ -37,4 +37,13 @@ public class AccountServiceImpl implements IAccountService {
         }
         return IAccountMapper.INSTANCE.accountToAccountDto(account);
     }
+
+    @Override
+    public AccountDTO sendMoney(AccountDTO account, Float amount) {
+        AccountDTO accountDTO = account;
+        Float balance = accountDTO.getBalance() + amount;
+        accountDTO.setBalance(balance);
+        this.repository.save(IAccountMapper.INSTANCE.accountDtoToAccount(accountDTO));
+        return accountDTO;
+    }
 }
