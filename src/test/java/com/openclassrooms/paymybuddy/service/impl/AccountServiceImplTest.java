@@ -64,4 +64,15 @@ public class AccountServiceImplTest {
 
         Assertions.assertEquals(accountDTO, accountDto);
     }
+
+    @Test
+    public void sendMoneyShouldSendMoneyAndUpdateBalance() {
+        AccountDTO account = new AccountDTO(1, null, null, null, null, 20.0F);
+        AccountDTO accountToCompare = new AccountDTO(1, null, null, null, null, 40.0F);
+        Float amount = 20.0F;
+
+        AccountDTO accountDTO = this.service.sendMoney(account, amount);
+
+        Assertions.assertEquals(accountToCompare, accountDTO);
+    }
 }
