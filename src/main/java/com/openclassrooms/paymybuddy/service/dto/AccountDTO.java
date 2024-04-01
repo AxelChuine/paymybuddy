@@ -6,15 +6,16 @@ import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 @EqualsAndHashCode
+@ToString
 public class AccountDTO {
     private Integer identifier;
     private String name;
     private String description;
     private Integer personId;
     private Set<TransactionDTO> transactionDTOS;
+    private Float balance;
 
 }
 
