@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
 import java.util.Set;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,14 +53,15 @@ public class AccountServiceImplTest {
 
     @Test
     public void updateAnAccountShouldUpdateTheAccount () {
-        AccountDTO account;
+        Account account = new Account(1, null, null, null, null, 20.0F);
+        AccountDTO accountDTO = new AccountDTO(1, null, null, null, null, 20.0F);
         Integer accountId = 1;
         Float balance = 20.0F;
-        this.account.setBalance(balance);
 
-        Mockito.when(this.repository.updateBalanceOfAccount(balance, this.account)).thenReturn(this.account);
-        account = this.service.updateAccount(balance, accountId);
+        Mockito.when(this.repository.findById(accountId)).thenReturn(Optional.of(account));
+        Mockito.when(this.repository.updateBalanceOfAccount(balance, account)).thenReturn(account);
+        AccountDTO accountDto = this.service.updateAccount(balance, accountId);
 
-        Assertions.assertEquals(accountDTO, account);
+        Assertions.assertEquals(accountDTO, accountDto);
     }
 }

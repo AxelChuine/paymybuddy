@@ -7,6 +7,7 @@ import com.openclassrooms.paymybuddy.service.dto.AccountDTO;
 import com.openclassrooms.paymybuddy.service.mapper.IAccountMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -27,11 +28,13 @@ public class AccountServiceImpl implements IAccountService {
     @Override
     public AccountDTO updateAccount(Float balance, Integer accountId) {
         Optional<Account> optionalAccount = this.repository.findById(accountId);
-        Account account = new Account();
+        Account account = null;
         if (optionalAccount.isPresent()) {
             account = optionalAccount.get();
         }
-        account = this.repository.updateBalanceOfAccount(balance, account);
+        if (Objects.nonNull(account)) {
+            account = this.repository.updateBalanceOfAccount(balance, account);
+        }
         return IAccountMapper.INSTANCE.accountToAccountDto(account);
     }
 }
