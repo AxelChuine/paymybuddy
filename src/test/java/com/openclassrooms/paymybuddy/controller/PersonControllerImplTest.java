@@ -1,5 +1,6 @@
-package com.openclassrooms.paymybuddy.controller.impl;
+package com.openclassrooms.paymybuddy.controller;
 
+import com.openclassrooms.paymybuddy.controller.PersonController;
 import com.openclassrooms.paymybuddy.service.IPersonService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(controllers = PersonControllerImpl.class)
+@WebMvcTest(controllers = PersonController.class)
 public class PersonControllerImplTest {
 
     @Autowired

@@ -1,7 +1,6 @@
 package com.openclassrooms.paymybuddy.service;
 
 import com.openclassrooms.paymybuddy.service.dto.PersonDto;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -11,4 +10,6 @@ public interface IPersonService {
     PersonDto findByFullName(String firstName, String lastName);
 
     PersonDto updatePassword(PersonDto personDto, String newPassword);
+
+    PersonDto createPerson(PersonDto personDto);
 }
