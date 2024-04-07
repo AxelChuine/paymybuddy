@@ -6,6 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IAccountRepository extends JpaRepository<Account, Integer> {
-
-    Account updateBalanceOfAccount(Float balance, Account account);
 }
