@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>création d'un compte</title>
 </head>
 <body>
 
+
+    <form th:action="form_creation_account" method="post" th:object="${account}">
+        <p>nom du compte</p>
+        <input type="text" name="name" placeholder="entrer le nom du compte">
+        <p>description</p>
+        <textarea name="description" placeholder="description du compte" th:object="${description}"
+        rows="12">
+        </textarea>
+        <p>Solde</p>
+        <input type="number" name="balance" placeholder="solde du compte">
+        <button type="button" th:onclick="fillAccount()">Créer le compte</button>
+    </form>
 </body>
 </html>

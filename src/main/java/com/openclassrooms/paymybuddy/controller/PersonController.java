@@ -26,7 +26,7 @@ public class PersonController {
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String createPerson(Model model) {
         model.addAttribute("person", new PersonDto());
-        return "createPerson";
+        return "create-person";
     }
 
     @RequestMapping(value = "/creation", method = RequestMethod.POST)
