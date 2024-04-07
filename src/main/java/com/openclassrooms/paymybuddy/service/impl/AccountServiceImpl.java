@@ -7,6 +7,7 @@ import com.openclassrooms.paymybuddy.service.dto.AccountDTO;
 import com.openclassrooms.paymybuddy.service.mapper.IAccountMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -31,9 +32,10 @@ public class AccountServiceImpl implements IAccountService {
         Account account = null;
         if (optionalAccount.isPresent()) {
             account = optionalAccount.get();
+            account.setBalance(balance);
         }
         if (Objects.nonNull(account)) {
-            account = this.repository.updateBalanceOfAccount(balance, account);
+            account = this.repository.save(account);
         }
         return IAccountMapper.INSTANCE.accountToAccountDto(account);
     }
@@ -45,5 +47,11 @@ public class AccountServiceImpl implements IAccountService {
         accountDTO.setBalance(balance);
         this.repository.save(IAccountMapper.INSTANCE.accountDtoToAccount(accountDTO));
         return accountDTO;
+    }
+
+    @Override
+    public List<AccountDTO> findAll() {
+        List<AccountDTO> accountDTOS = IAccountMapper.INSTANCE.accountsToAccountDTOList(this.repository.findAll());
+        return accountDTOS;
     }
 }

@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -59,7 +60,7 @@ public class AccountServiceImplTest {
         Float balance = 20.0F;
 
         Mockito.when(this.repository.findById(accountId)).thenReturn(Optional.of(account));
-        Mockito.when(this.repository.updateBalanceOfAccount(balance, account)).thenReturn(account);
+        Mockito.when(this.repository.save(account)).thenReturn(account);
         AccountDTO accountDto = this.service.updateAccount(balance, accountId);
 
         Assertions.assertEquals(accountDTO, accountDto);
@@ -74,5 +75,16 @@ public class AccountServiceImplTest {
         AccountDTO accountDTO = this.service.sendMoney(account, amount);
 
         Assertions.assertEquals(accountToCompare, accountDTO);
+    }
+
+    @Test
+    public void findAllAccountShouldReturnAllAccounts () {
+        List<Account> accounts = List.of(new Account(), new Account());
+        List<AccountDTO> accountDTOS = List.of(new AccountDTO(), new AccountDTO());
+
+        Mockito.when(this.repository.findAll()).thenReturn(accounts);
+        List<AccountDTO> accountDtosToCompare = this.service.findAll();
+
+        Assertions.assertEquals(accountDTOS, accountDtosToCompare);
     }
 }

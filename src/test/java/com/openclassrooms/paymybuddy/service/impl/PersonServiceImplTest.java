@@ -28,9 +28,12 @@ public class PersonServiceImplTest {
 
     private Person person;
 
+    private PersonDto personDto;
+
     @BeforeEach
     public void setPerson () {
         this.person = new Person(1, "Jean", "Dubois", "password", null);
+        this.personDto = new PersonDto(1, "Jean", "Dubois", "password", null);
     }
 
     @Test
@@ -76,10 +79,8 @@ public class PersonServiceImplTest {
 
     @Test
     public void createPersonShouldCreateAPerson () {
-        PersonDto personDto = new PersonDto();
-
-        Mockito.when(this.repository.save(person)).thenReturn(person);
-        PersonDto personDto1 = this.service.createPerson(personDto);
+        Mockito.when(this.repository.save(this.person)).thenReturn(this.person);
+        PersonDto personDto1 = this.service.createPerson(this.personDto);
 
         assertEquals(personDto, personDto1);
     }
