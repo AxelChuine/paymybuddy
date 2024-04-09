@@ -41,7 +41,7 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public AccountDTO sendMoney(AccountDTO account, Float amount) {
+    public AccountDTO addMoney(AccountDTO account, Float amount) {
         AccountDTO accountDTO = account;
         Float balance = accountDTO.getBalance() + amount;
         accountDTO.setBalance(balance);
@@ -53,5 +53,20 @@ public class AccountServiceImpl implements IAccountService {
     public List<AccountDTO> findAll() {
         List<AccountDTO> accountDTOS = IAccountMapper.INSTANCE.accountsToAccountDTOList(this.repository.findAll());
         return accountDTOS;
+    }
+
+    @Override
+    public AccountDTO findById(Integer senderId) {
+        Optional<Account> optionalAccount = this.repository.findById(senderId);
+        Account account = null;
+        if (optionalAccount.isPresent()) {
+            account = optionalAccount.get();
+        }
+        return IAccountMapper.INSTANCE.accountToAccountDto(account);
+    }
+
+    @Override
+    public AccountDTO save(AccountDTO account) {
+        return IAccountMapper.INSTANCE.accountToAccountDto(this.repository.save(IAccountMapper.INSTANCE.accountDtoToAccount(account)));
     }
 }

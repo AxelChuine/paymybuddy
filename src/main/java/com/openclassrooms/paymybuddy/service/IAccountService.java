@@ -10,7 +10,11 @@ public interface IAccountService {
 
     AccountDTO updateAccount(Float balance, Integer accountId);
 
-    AccountDTO sendMoney(AccountDTO account, Float amount);
+    AccountDTO addMoney(AccountDTO account, Float amount);
 
     List<AccountDTO> findAll();
+
+    AccountDTO findById(Integer senderId);
+
+    AccountDTO save(AccountDTO account);
 }

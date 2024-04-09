@@ -11,6 +11,7 @@ public class TransactionDTO {
     private Integer identifier;
     private String name;
     private Float amount;
-    private Integer accountId;
+    private Integer sender;
+    private Integer receiver;
 
 }

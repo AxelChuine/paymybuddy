@@ -6,5 +6,7 @@ import java.util.List;
 
 
 public interface ITransactionService {
-    List<TransactionDTO> findAllByAccountId();
+    List<TransactionDTO> findByAccountId();
+
+    TransactionDTO sendMoneyToAFriendById(Integer senderId, Integer receiverId, Float money);
 }

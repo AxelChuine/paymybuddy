@@ -5,18 +5,19 @@ import com.openclassrooms.paymybuddy.model.Transaction;
 import com.openclassrooms.paymybuddy.repository.IAccountRepository;
 import com.openclassrooms.paymybuddy.service.dto.AccountDTO;
 import com.openclassrooms.paymybuddy.service.dto.TransactionDTO;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class AccountServiceImplTest {
@@ -39,17 +40,17 @@ public class AccountServiceImplTest {
     public void setAccount () {
         this.account = new Account(1, "test", "compte personnel", 1, transactions, 50.00F);
         this.accountDTO = new AccountDTO(1, "test", "compte personnel", 1, transactionsDtos, 50.00F);
-        this.transactionsDtos = Set.of(new TransactionDTO(1, "test", 20.00F, 2));
+        this.transactionsDtos = Set.of(new TransactionDTO(1, "test", 20.00F, 2, 1));
     }
 
     @Test
     public void createAnAccountShouldCreateAnAccount () {
         AccountDTO account = new AccountDTO();
 
-        Mockito.when(this.repository.save(this.account)).thenReturn(this.account);
+        when(this.repository.save(this.account)).thenReturn(this.account);
         account = this.service.createAnAccount(this.accountDTO);
 
-        Assertions.assertEquals(this.accountDTO, account);
+        assertEquals(this.accountDTO, account);
     }
 
     @Test
@@ -59,22 +60,22 @@ public class AccountServiceImplTest {
         Integer accountId = 1;
         Float balance = 20.0F;
 
-        Mockito.when(this.repository.findById(accountId)).thenReturn(Optional.of(account));
-        Mockito.when(this.repository.save(account)).thenReturn(account);
+        when(this.repository.findById(accountId)).thenReturn(Optional.of(account));
+        when(this.repository.save(account)).thenReturn(account);
         AccountDTO accountDto = this.service.updateAccount(balance, accountId);
 
-        Assertions.assertEquals(accountDTO, accountDto);
+        assertEquals(accountDTO, accountDto);
     }
 
     @Test
-    public void sendMoneyShouldSendMoneyAndUpdateBalance() {
+    public void sendMoneyShouldAddMoneyAndUpdateBalance() {
         AccountDTO account = new AccountDTO(1, null, null, null, null, 20.0F);
         AccountDTO accountToCompare = new AccountDTO(1, null, null, null, null, 40.0F);
         Float amount = 20.0F;
 
-        AccountDTO accountDTO = this.service.sendMoney(account, amount);
+        AccountDTO accountDTO = this.service.addMoney(account, amount);
 
-        Assertions.assertEquals(accountToCompare, accountDTO);
+        assertEquals(accountToCompare, accountDTO);
     }
 
     @Test
@@ -82,9 +83,27 @@ public class AccountServiceImplTest {
         List<Account> accounts = List.of(new Account(), new Account());
         List<AccountDTO> accountDTOS = List.of(new AccountDTO(), new AccountDTO());
 
-        Mockito.when(this.repository.findAll()).thenReturn(accounts);
+        when(this.repository.findAll()).thenReturn(accounts);
         List<AccountDTO> accountDtosToCompare = this.service.findAll();
 
-        Assertions.assertEquals(accountDTOS, accountDtosToCompare);
+        assertEquals(accountDTOS, accountDtosToCompare);
+    }
+
+    @Test
+    public void findByIdShouldReturnAccountById () {
+        Integer accountId = 1;
+
+        when(this.repository.findById(accountId)).thenReturn(Optional.of(this.account));
+        AccountDTO accountDTO = this.service.findById(accountId);
+
+        assertEquals(this.accountDTO, accountDTO);
+    }
+
+    @Test
+    public void saveNewBalanceShouldReturnAnAccountWithANewBalance () {
+        when(this.repository.save(this.account)).thenReturn(this.account);
+        AccountDTO accountToCompare = this.service.save(accountDTO);
+
+        assertEquals(this.accountDTO, accountToCompare);
     }
 }

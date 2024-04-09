@@ -27,6 +27,16 @@ public class Transaction {
     @Column(name = "amount")
     private BigDecimal amount;
 
-    @Column(name = "account_id")
-    private Integer accountId;
+    @JoinColumn(name = "sender")
+    private Integer sender;
+
+    @JoinColumn(name = "receiver")
+    private Integer receiver;
+
+    public Transaction(String name, BigDecimal amount, Integer sender, Integer receiver) {
+        this.name = name;
+        this.amount = amount;
+        this.sender = sender;
+        this.receiver = receiver;
+    }
 }
