@@ -54,6 +54,7 @@ public class TransactionServiceTest {
         assertEquals(transactionDtoList, transactionDtoToCompare);
     }
 
+    // FIXME: problème stubbing
     @Test
     public void sendMoneyToAnotherUserShouldSendMoneyToAnotherUser () {
         Integer senderId = 1;
