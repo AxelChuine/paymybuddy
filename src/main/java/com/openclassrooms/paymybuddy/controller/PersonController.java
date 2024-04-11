@@ -23,10 +23,10 @@ public class PersonController {
         return "people";
     }
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    @RequestMapping(value = "/create-person", method = RequestMethod.GET)
     public String createPerson(Model model) {
         model.addAttribute("person", new PersonDto());
-        return "create-person";
+        return "person/create-person";
     }
 
     @RequestMapping(value = "/creation", method = RequestMethod.POST)
