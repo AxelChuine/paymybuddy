@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -33,10 +34,14 @@ public class Transaction {
     @JoinColumn(name = "receiver")
     private Integer receiver;
 
-    public Transaction(String name, BigDecimal amount, Integer sender, Integer receiver) {
+    @JoinColumn(name = "transaction_date")
+    private LocalDateTime transactionDate;
+
+    public Transaction(String name, BigDecimal amount, Integer sender, Integer receiver, LocalDateTime transactionDate) {
         this.name = name;
         this.amount = amount;
         this.sender = sender;
         this.receiver = receiver;
+        this.transactionDate = transactionDate;
     }
 }

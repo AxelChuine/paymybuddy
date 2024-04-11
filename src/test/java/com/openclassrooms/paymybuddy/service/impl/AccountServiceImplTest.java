@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -38,9 +39,10 @@ public class AccountServiceImplTest {
 
     @BeforeEach
     public void setAccount () {
+        LocalDateTime transactionDate = LocalDateTime.now();
         this.account = new Account(1, "test", "compte personnel", 1, transactions, 50.00F);
         this.accountDTO = new AccountDTO(1, "test", "compte personnel", 1, transactionsDtos, 50.00F);
-        this.transactionsDtos = Set.of(new TransactionDTO(1, "test", 20.00F, 2, 1));
+        this.transactionsDtos = Set.of(new TransactionDTO(1, "test", 20.00F, 2, 1, transactionDate));
     }
 
     @Test

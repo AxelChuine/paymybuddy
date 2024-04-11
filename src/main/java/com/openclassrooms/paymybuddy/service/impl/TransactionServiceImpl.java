@@ -10,6 +10,7 @@ import com.openclassrooms.paymybuddy.service.mapper.ITransactionMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -34,7 +35,8 @@ public class TransactionServiceImpl implements ITransactionService {
         AccountDTO receiver = this.accountService.findById(receiverId);
         AccountDTO sender = this.accountService.findById(senderId);
         sender.setBalance(sender.getBalance() - money);
-        Transaction transaction = this.repository.save(new Transaction("transaction", new BigDecimal(money), senderId, receiverId));
+        LocalDateTime transactionDate = LocalDateTime.now();
+        Transaction transaction = this.repository.save(new Transaction("transaction", new BigDecimal(money), senderId, receiverId, transactionDate));
         receiver.setBalance(receiver.getBalance() + money);
         this.accountService.save(receiver);
         this.accountService.save(sender);

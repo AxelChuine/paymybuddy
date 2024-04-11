@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -59,9 +60,10 @@ public class TransactionServiceTest {
     public void sendMoneyToAnotherUserShouldSendMoneyToAnotherUser () {
         Integer senderId = 1;
         Integer receiverId = 2;
+        LocalDateTime transactionDate = LocalDateTime.now();
         AccountDTO sender = new AccountDTO(senderId, null, null, null, null, 100.0F);
         AccountDTO receiver = new AccountDTO(receiverId, null, null, null, null, null);
-        Transaction transaction = new Transaction("restaurant", new BigDecimal("50.0"), 1, 2);
+        Transaction transaction = new Transaction("restaurant", new BigDecimal("50.0"), 1, 2, transactionDate);
 
         Mockito.when(this.accountService.findById(receiverId)).thenReturn(receiver);
         when(this.accountService.findById(senderId)).thenReturn(sender);
