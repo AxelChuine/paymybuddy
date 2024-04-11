@@ -4,7 +4,9 @@ import com.openclassrooms.paymybuddy.service.IPersonService;
 import com.openclassrooms.paymybuddy.service.dto.PersonDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/person")
@@ -32,6 +34,6 @@ public class PersonController {
     @RequestMapping(value = "/creation", method = RequestMethod.POST)
     public String submitCreatePerson (@RequestBody PersonDto personDto) {
         PersonDto personDto1 = this.service.createPerson(personDto);
-        return "redirect:home";
+        return "redirect:/account/create-account";
     }
 }
