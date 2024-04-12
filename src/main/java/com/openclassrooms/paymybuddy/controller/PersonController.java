@@ -27,6 +27,6 @@ public class PersonController {
     @RequestMapping(value = "/creation", method = RequestMethod.POST)
     public String submitCreatePerson (@ModelAttribute PersonDto personDto) {
         PersonDto personDto1 = this.service.createPerson(personDto);
-        return "redirect:/account/create-account";
+        return "redirect:/account/create-account?person-id=" + personDto1.getIdentifier();
     }
 }
