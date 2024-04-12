@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ITransactionService {
     List<TransactionDTO> findAllByAccountId();
+    List<TransactionDTO> findAllBySenderOrReceiver(Integer identifier);
 }

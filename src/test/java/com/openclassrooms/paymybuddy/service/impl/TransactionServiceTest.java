@@ -40,4 +40,16 @@ public class TransactionServiceTest {
 
         assertEquals(transactionDtoList, transactionDtoToCompare);
     }
+
+    @Test
+    public void findAllBySenderOrReceiverShouldReturnAListOfTransactions () {
+        List<Transaction> transactions = List.of(new Transaction(), new Transaction());
+        List<TransactionDTO> transactionDtoList = List.of(new TransactionDTO(), new TransactionDTO());
+        Integer identifier = 1;
+
+        when(this.repository.findAllBySenderOrReceiver(identifier)).thenReturn(transactions);
+        List<TransactionDTO> transactionDtoToCompare = this.service.findAllBySenderOrReceiver(identifier);
+
+        assertEquals(transactionDtoList, transactionDtoToCompare);
+    }
 }
