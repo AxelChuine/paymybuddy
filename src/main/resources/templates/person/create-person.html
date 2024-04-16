@@ -6,7 +6,7 @@
 </head>
 <body>
 
-    <form th:action="form_creation_person" method="post" th:object="${person}">
+    <form action="/person/creation" method="post" th:object="${person}">
         <p>Prénom</p>
         <input type="text" name="firstName" placeholder="entrer le prénom">
         <p>Nom de famille</p>
@@ -15,7 +15,7 @@
         <input type="email" name="email" placeholder="entrer l'adresse email">
         <p>Mot de passe</p>
         <input type="password" name="password" placeholder="entrer le mot de passe">
-        <button type="button" th:onclick="createPerson()">Soumettre</button>
+        <button type="submit">Soumettre</button>
     </form>
 
 </body>

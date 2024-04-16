@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -85,7 +86,15 @@ public class PersonServiceImplTest {
         assertEquals(personDto, personDto1);
     }
     
+    @Test
+    public void findPersonByIdShouldReturnAPerson () {
+        PersonDto personDto = new PersonDto(1, "Jean", "Dubois", "password", null);
 
+        when(this.repository.findById(personDto.getIdentifier())).thenReturn(Optional.ofNullable(this.person));
+        PersonDto personToCompare = this.service.findById(personDto.getIdentifier());
+
+        assertEquals(personDto, personToCompare);
+    }
     
 
 }

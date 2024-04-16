@@ -47,7 +47,7 @@ public class AccountServiceImplTest {
         AccountDTO account = new AccountDTO();
 
         Mockito.when(this.repository.save(this.account)).thenReturn(this.account);
-        account = this.service.createAnAccount(this.accountDTO);
+        account = this.service.createAnAccount(this.accountDTO, 1);
 
         Assertions.assertEquals(this.accountDTO, account);
     }

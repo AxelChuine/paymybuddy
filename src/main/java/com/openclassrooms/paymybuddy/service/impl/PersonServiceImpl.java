@@ -8,6 +8,7 @@ import com.openclassrooms.paymybuddy.service.mapper.IPersonMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonServiceImpl implements IPersonService {
@@ -42,5 +43,11 @@ public class PersonServiceImpl implements IPersonService {
     public PersonDto createPerson(PersonDto personDto) {
         Person person = this.repository.save(IPersonMapper.INSTANCE.personDtoToPerson(personDto));
         return IPersonMapper.INSTANCE.personToPersonDto(person);
+    }
+
+    @Override
+    public PersonDto findById(Integer personId) {
+        Optional<Person> person = this.repository.findById(personId);
+        return person.map(IPersonMapper.INSTANCE::personToPersonDto).orElse(null);
     }
 }
