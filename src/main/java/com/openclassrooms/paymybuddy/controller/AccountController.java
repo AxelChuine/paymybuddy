@@ -21,13 +21,14 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/create-account", method = RequestMethod.GET)
-    public String findAllAccounts(@RequestParam("person-id") Integer personId, Model model) {
+    public String createAccount(@ModelAttribute("person-id") Integer personId, Model model) {
         model.addAttribute("accounts", new AccountDTO());
-        return "account/create-account?person-id=" + personId;
+        model.addAttribute("person-id", personId);
+        return "account/create-account";
     }
 
     @RequestMapping(value = "/creation", method = RequestMethod.POST)
-    public String createAccount(@ModelAttribute AccountDTO account, @RequestParam("person-id") Integer personId) {
+    public String createAccount(@ModelAttribute AccountDTO account, @ModelAttribute("person-id") Integer personId) {
         AccountDTO accountDTO = this.service.createAnAccount(account, personId);
         return "redirect:/transaction/new-transaction?account-id" + accountDTO.getIdentifier();
     }

@@ -8,6 +8,7 @@
 
 
     <form action="/account/creation" method="post" th:object="${account}">
+        <input type="number" name="person-id" th:object="${personId}">
         <p>nom du compte</p>
         <input type="text" name="name" placeholder="entrer le nom du compte">
         <p>description</p>

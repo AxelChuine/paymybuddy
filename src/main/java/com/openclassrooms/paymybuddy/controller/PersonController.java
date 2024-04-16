@@ -20,7 +20,7 @@ public class PersonController {
 
     @RequestMapping(value = "/create-person", method = RequestMethod.GET)
     public String createPerson(Model model) {
-        model.addAttribute("person", new PersonDto());
+         model.addAttribute("person", new PersonDto());
         return "person/create-person";
     }
 
