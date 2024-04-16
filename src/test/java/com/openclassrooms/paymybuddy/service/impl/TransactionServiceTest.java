@@ -34,9 +34,10 @@ public class TransactionServiceTest {
     public void findAllTransactionsByAccountIdShouldReturnAListOfTransactions () {
         List<Transaction> transactions = List.of(new Transaction(), new Transaction());
         List<TransactionDTO> transactionDtoList = List.of(new TransactionDTO(), new TransactionDTO());
+        Integer accountId = 1;
 
         when(this.repository.findAllByAccountId(1)).thenReturn(transactions);
-        List<TransactionDTO> transactionDtoToCompare = this.service.findAllByAccountId();
+        List<TransactionDTO> transactionDtoToCompare = this.service.findAllByAccountId(accountId);
 
         assertEquals(transactionDtoList, transactionDtoToCompare);
     }
