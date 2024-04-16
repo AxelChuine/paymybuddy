@@ -21,8 +21,10 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public AccountDTO createAnAccount(AccountDTO accountDTO) {
-        Account account = this.repository.save(IAccountMapper.INSTANCE.accountDtoToAccount(accountDTO));
+    public AccountDTO createAnAccount(AccountDTO accountDTO, Integer personId) {
+        Account account = IAccountMapper.INSTANCE.accountDtoToAccount(accountDTO);
+        account.setPersonId(personId);
+        account = this.repository.save(account);
         return IAccountMapper.INSTANCE.accountToAccountDto(account);
     }
 

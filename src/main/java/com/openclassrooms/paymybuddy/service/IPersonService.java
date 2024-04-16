@@ -12,4 +12,6 @@ public interface IPersonService {
     PersonDto updatePassword(PersonDto personDto, String newPassword);
 
     PersonDto createPerson(PersonDto personDto);
+
+    PersonDto findById(Integer personId);
 }
