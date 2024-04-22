@@ -33,8 +33,8 @@ public class PersonServiceImplTest {
 
     @BeforeEach
     public void setPerson () {
-        this.person = new Person(1, "Jean", "Dubois", "password", null);
-        this.personDto = new PersonDto(1, "Jean", "Dubois", "password", null);
+        this.person = new Person(1, "Jean", "Dubois", "password", "test@gmail.com");
+        this.personDto = new PersonDto(1, "Jean", "Dubois", "password", "test@gmail.com");
     }
 
     @Test
@@ -95,6 +95,17 @@ public class PersonServiceImplTest {
 
         assertEquals(personDto, personToCompare);
     }
-    
+
+    @Test
+    public void checkIfEmailExistsShouldReturnTrueIfEmailExists () {
+        boolean exists = true;
+        List<Person> persons = List.of(this.person);
+        String email = "test@gmail.com";
+
+        Mockito.when(this.repository.findAll()).thenReturn(persons);
+        boolean emailExists = this.service.checkIfEmailExists(email);
+
+        assertEquals(exists, emailExists);
+    }
 
 }
