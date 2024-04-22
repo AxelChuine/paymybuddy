@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>New transaction</title>
+    <title>Title</title>
 </head>
 <body>
-    
+    <form action="/transaction-successful" method="post" th:object="${transaction}">
+        <p>raison de la transaction</p>
+        <input type="text" name="name" placeholder="Entrer ici la raison de la transaction">
+        <p>Envoyer de l'argent</p>
+        <input type="number" name="amount">
+    </form>
+
+    <tr th:each="transaction : ${transactions}">
+        <td th:text="${transaction.name}" />
+        <td th:text="${transaction.amount}" />
+    </tr>
 </body>
 </html>
