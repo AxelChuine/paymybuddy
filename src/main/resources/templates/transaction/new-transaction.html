@@ -5,11 +5,12 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="/transaction-successful" method="post" th:object="${transaction}">
+    <form action="/transaction/transaction-successful" method="post" th:object="${transaction}">
         <p>raison de la transaction</p>
         <input type="text" name="name" placeholder="Entrer ici la raison de la transaction">
         <p>Envoyer de l'argent</p>
         <input type="number" name="amount">
+        <button type="submit">Envoyer</button>
     </form>
 
     <tr th:each="transaction : ${transactions}">

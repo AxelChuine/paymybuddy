@@ -14,4 +14,6 @@ public interface IPersonService {
     PersonDto createPerson(PersonDto personDto);
 
     PersonDto findById(Integer personId);
+
+    boolean checkIfEmailExists(String email);
 }
