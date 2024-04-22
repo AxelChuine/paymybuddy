@@ -40,7 +40,10 @@ public class PersonServiceImpl implements IPersonService {
 
     @Override
     public PersonDto createPerson(PersonDto personDto) {
-        Person person = this.repository.save(IPersonMapper.INSTANCE.personDtoToPerson(personDto));
+        Person person = null;
+        if(!checkIfEmailExists(personDto.getEmail())) {
+            person = this.repository.save(IPersonMapper.INSTANCE.personDtoToPerson(personDto));
+        }
         return IPersonMapper.INSTANCE.personToPersonDto(person);
     }
 
