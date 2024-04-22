@@ -7,8 +7,7 @@ import com.openclassrooms.paymybuddy.service.dto.PersonDto;
 import com.openclassrooms.paymybuddy.service.mapper.IPersonMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PersonServiceImpl implements IPersonService {
@@ -49,5 +48,11 @@ public class PersonServiceImpl implements IPersonService {
     public PersonDto findById(Integer personId) {
         Optional<Person> person = this.repository.findById(personId);
         return person.map(IPersonMapper.INSTANCE::personToPersonDto).orElse(null);
+    }
+
+    @Override
+    public boolean checkIfEmailExists(String email) {
+        Set<Person> persons = new HashSet<>(this.repository.findAll());
+        return persons.stream().anyMatch(person -> Objects.equals(person.getEmail(), email));
     }
 }

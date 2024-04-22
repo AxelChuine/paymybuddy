@@ -23,7 +23,6 @@ public class AccountController {
     @RequestMapping(value = "/create-account", method = RequestMethod.GET)
     public String createAccount(@ModelAttribute("person-id") Integer personId, Model model) {
         model.addAttribute("accounts", new AccountDTO());
-        model.addAttribute("person-id", personId);
         return "account/create-account";
     }
 

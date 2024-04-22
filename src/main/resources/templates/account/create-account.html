@@ -8,7 +8,6 @@
 
 
     <form action="/account/creation" method="post" th:object="${account}">
-        <input type="number" name="person-id" th:object="${personId}">
         <p>nom du compte</p>
         <input type="text" name="name" placeholder="entrer le nom du compte">
         <p>description</p>
@@ -17,7 +16,7 @@
         </textarea>
         <p>Solde</p>
         <input type="number" name="balance" placeholder="solde du compte">
-        <button type="submit" th:onclick="fillAccount()">Créer le compte</button>
+        <button type="submit">Créer le compte</button>
     </form>
 </body>
 </html>
