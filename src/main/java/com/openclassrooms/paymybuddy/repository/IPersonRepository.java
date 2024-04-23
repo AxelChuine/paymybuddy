@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IPersonRepository extends JpaRepository<Person, Integer> {
     Person findByFirstNameAndLastName(String firstName, String lastName);
+    Person findByEmailAndPassword(String email, String password);
 }
