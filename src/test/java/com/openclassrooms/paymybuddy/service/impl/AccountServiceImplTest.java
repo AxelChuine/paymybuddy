@@ -36,26 +36,26 @@ public class AccountServiceImplTest {
     private Set<Transaction> transactions;
 
     @BeforeEach
-    public void setAccount () {
-        this.account = new Account(1, "test", "compte personnel", 1, transactions, 50.00F);
-        this.accountDTO = new AccountDTO(1, "test", "compte personnel", 1, transactionsDtos, 50.00F);
+    public void setAccount() {
+        this.account = new Account(1, "test", null, null, null, null, 50.00F, null, transactions);
+        this.accountDTO = new AccountDTO(1, "test", null, null, null, null, 50.00F, null, transactionsDtos);
         this.transactionsDtos = Set.of(new TransactionDTO(1, "test", 20.00F, 2));
     }
 
     @Test
-    public void createAnAccountShouldCreateAnAccount () {
+    public void createAnAccountShouldCreateAnAccount() {
         AccountDTO account = new AccountDTO();
 
         Mockito.when(this.repository.save(this.account)).thenReturn(this.account);
-        account = this.service.createAnAccount(this.accountDTO, 1);
+        account = this.service.createAnAccount(this.accountDTO);
 
         Assertions.assertEquals(this.accountDTO, account);
     }
 
     @Test
-    public void updateAnAccountShouldUpdateTheAccount () {
-        Account account = new Account(1, null, null, null, null, 20.0F);
-        AccountDTO accountDTO = new AccountDTO(1, null, null, null, null, 20.0F);
+    public void updateAnAccountShouldUpdateTheAccount() {
+        Account account = new Account(1, null, null, null, null, null, 20.0F, null, null);
+        AccountDTO accountDTO = new AccountDTO(1, null, null, null, null, null, 20.0F, null, null);
         Integer accountId = 1;
         Float balance = 20.0F;
 
@@ -68,17 +68,15 @@ public class AccountServiceImplTest {
 
     @Test
     public void sendMoneyShouldSendMoneyAndUpdateBalance() {
-        AccountDTO account = new AccountDTO(1, null, null, null, null, 20.0F);
-        AccountDTO accountToCompare = new AccountDTO(1, null, null, null, null, 40.0F);
         Float amount = 20.0F;
 
-        AccountDTO accountDTO = this.service.sendMoney(account, amount);
+        AccountDTO accountToCompare = this.service.sendMoney(this.accountDTO, amount);
 
-        Assertions.assertEquals(accountToCompare, accountDTO);
+        Assertions.assertEquals(this.accountDTO, accountToCompare);
     }
 
     @Test
-    public void findAllAccountShouldReturnAllAccounts () {
+    public void findAllAccountShouldReturnAllAccounts() {
         List<Account> accounts = List.of(new Account(), new Account());
         List<AccountDTO> accountDTOS = List.of(new AccountDTO(), new AccountDTO());
 
