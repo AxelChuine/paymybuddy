@@ -1,6 +1,7 @@
 package com.openclassrooms.paymybuddy.controller;
 
-import com.openclassrooms.paymybuddy.service.IPersonService;
+import com.openclassrooms.paymybuddy.service.IAccountService;
+import com.openclassrooms.paymybuddy.service.dto.AccountDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,14 +12,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping
 public class HomeController {
 
-    private final IPersonService personService;
+    private final IAccountService accountService;
 
-    public HomeController(IPersonService personService) {
-        this.personService = personService;
+    public HomeController(IAccountService accountService) {
+        this.accountService = accountService;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String login(@ModelAttribute("email") String email, @ModelAttribute("password") String password, Model model) {
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String enterLogin(Model model) {
         return "login";
+    }
+
+    @RequestMapping(value = "logged-in", method = RequestMethod.POST)
+    public String login(@ModelAttribute("email") String email, @ModelAttribute("password") String password, Model model) {
+        AccountDTO accountDTO = this.accountService.findAccountByEmailAndPassword(email, password);
+        return "redirect:/home";
+    }
+
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public String home(Model model) {
+        return "home";
     }
 }

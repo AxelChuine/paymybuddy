@@ -21,9 +21,8 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public AccountDTO createAnAccount(AccountDTO accountDTO, Integer personId) {
+    public AccountDTO createAnAccount(AccountDTO accountDTO) {
         Account account = IAccountMapper.INSTANCE.accountDtoToAccount(accountDTO);
-        account.setPersonId(personId);
         account = this.repository.save(account);
         return IAccountMapper.INSTANCE.accountToAccountDto(account);
     }
@@ -55,5 +54,14 @@ public class AccountServiceImpl implements IAccountService {
     public List<AccountDTO> findAll() {
         List<AccountDTO> accountDTOS = IAccountMapper.INSTANCE.accountsToAccountDTOList(this.repository.findAll());
         return accountDTOS;
+    }
+
+    @Override
+    public AccountDTO findAccountByEmailAndPassword(String email, String password) {
+        Account account = this.repository.findByEmailAndPassword(email, password);
+        if (Objects.nonNull(account)) {
+            return IAccountMapper.INSTANCE.accountToAccountDto(account);
+        }
+        return null;
     }
 }
