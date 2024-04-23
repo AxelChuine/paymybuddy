@@ -58,4 +58,13 @@ public class PersonServiceImpl implements IPersonService {
         Set<Person> persons = new HashSet<>(this.repository.findAll());
         return persons.stream().anyMatch(person -> Objects.equals(person.getEmail(), email));
     }
+
+    @Override
+    public PersonDto findByEmailAndPassword(String email, String password) {
+        Person person = this.repository.findByEmailAndPassword(email, password);
+        if (Objects.nonNull(person)) {
+            return IPersonMapper.INSTANCE.personToPersonDto(person);
+        }
+        return null;
+    }
 }

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -106,6 +107,37 @@ public class PersonServiceImplTest {
         boolean emailExists = this.service.checkIfEmailExists(email);
 
         assertEquals(exists, emailExists);
+    }
+
+    @Test
+    public void checkIfEmailExistsShouldReturnFalseIfEmailDoesNotExist () {
+        boolean exists = false;
+        List<Person> persons = List.of(this.person);
+        String email = "test1@gmail.com";
+
+        Mockito.when(this.repository.findAll()).thenReturn(persons);
+        boolean emailExists = this.service.checkIfEmailExists(email);
+
+        assertEquals(exists, emailExists);
+    }
+
+    @Test
+    public void findPersonByEmailAndPasswordShouldReturnAPersonIfPersonExists () {
+        String email = this.person.getEmail();
+        String password = this.person.getPassword();
+
+        Mockito.when(this.repository.findByEmailAndPassword(email, password)).thenReturn(this.person);
+        PersonDto personDto1 = this.service.findByEmailAndPassword(email, password);
+
+        assertEquals(personDto, personDto1);
+    }
+
+    @Test
+    public void findPersonByEmailAndPasswordShouldReturnNullIfPersonDoesNotExist () {
+        Mockito.when(this.repository.findByEmailAndPassword(this.person.getEmail(), this.person.getPassword())).thenReturn(null);
+        PersonDto personDto1 = this.service.findByEmailAndPassword(this.person.getEmail(), this.person.getPassword());
+
+        assertNull(personDto1);
     }
 
 }
