@@ -27,6 +27,6 @@ public class Transaction {
     @Column(name = "amount")
     private BigDecimal amount;
 
-    @Column(name = "account_id")
+    @Column(name = "sender")
     private Integer accountId;
 }
