@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS pay_my_buddy.`transaction`(
     `identifier` integer auto_increment NOT NULL,
     `name` VARCHAR(5000),
     amount FLOAT,
-    account_id integer NOT NULL,
+    sender integer NOT NULL,
     PRIMARY KEY(`identifier`)
     );
 

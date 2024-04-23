@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,19 +18,29 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer identifier;
 
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description")
-    private String description;
-
-    @JoinColumn(name = "person_id")
-    private Integer personId;
-
-    @OneToMany
-    @JoinColumn(name = "transaction_id")
-    private Set<Transaction> transactions;
-
     @Column(name = "balance")
     private Float balance;
+
+    @OneToMany
+    @JoinColumn(name = "sender")
+    private List<Transaction> senders;
+
+    @OneToMany
+    @JoinColumn(name = "receiver")
+    private Set<Transaction> receivers;
 }

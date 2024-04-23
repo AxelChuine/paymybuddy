@@ -10,9 +10,14 @@
     <form action="/account/creation" method="post" th:object="${account}">
         <p>nom du compte</p>
         <input type="text" name="name" placeholder="entrer le nom du compte">
-        <p>description</p>
-        <textarea name="description" placeholder="description du compte" th:object="${description}"
-        rows="12">
+        <p>Prénom</p>
+        <input type="text" name="firstName" placeholder="entrer le prénom">
+        <p>Nom de famille</p>
+        <input type="text" name="lastName" placeholder="entrer le nom de famille">
+        <p>e-mail</p>
+        <input type="email" name="email" placeholder="entrer l'adresse email">
+        <p>Mot de passe</p>
+        <input type="password" name="password" placeholder="entrer le mot de passe">
         </textarea>
         <p>Solde</p>
         <input type="number" name="balance" placeholder="solde du compte">
