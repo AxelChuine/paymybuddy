@@ -5,7 +5,6 @@ import com.openclassrooms.paymybuddy.model.Transaction;
 import com.openclassrooms.paymybuddy.repository.IAccountRepository;
 import com.openclassrooms.paymybuddy.service.dto.AccountDTO;
 import com.openclassrooms.paymybuddy.service.dto.TransactionDTO;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +16,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
 public class AccountServiceImplTest {
@@ -49,7 +51,7 @@ public class AccountServiceImplTest {
         Mockito.when(this.repository.save(this.account)).thenReturn(this.account);
         account = this.service.createAnAccount(this.accountDTO);
 
-        Assertions.assertEquals(this.accountDTO, account);
+        assertEquals(this.accountDTO, account);
     }
 
     @Test
@@ -63,7 +65,7 @@ public class AccountServiceImplTest {
         Mockito.when(this.repository.save(account)).thenReturn(account);
         AccountDTO accountDto = this.service.updateAccount(balance, accountId);
 
-        Assertions.assertEquals(accountDTO, accountDto);
+        assertEquals(accountDTO, accountDto);
     }
 
     @Test
@@ -72,7 +74,7 @@ public class AccountServiceImplTest {
 
         AccountDTO accountToCompare = this.service.sendMoney(this.accountDTO, amount);
 
-        Assertions.assertEquals(this.accountDTO, accountToCompare);
+        assertEquals(this.accountDTO, accountToCompare);
     }
 
     @Test
@@ -83,6 +85,28 @@ public class AccountServiceImplTest {
         Mockito.when(this.repository.findAll()).thenReturn(accounts);
         List<AccountDTO> accountDtosToCompare = this.service.findAll();
 
-        Assertions.assertEquals(accountDTOS, accountDtosToCompare);
+        assertEquals(accountDTOS, accountDtosToCompare);
+    }
+
+    @Test
+    public void findAccountByEmailAndPasswordShouldReturnAnAccountIfExists() {
+        String email = "test@test.com";
+        String password = "test";
+
+        Mockito.when(this.repository.findByEmailAndPassword(email, password)).thenReturn(this.account);
+        AccountDTO accountToCompare = this.service.findAccountByEmailAndPassword(email, password);
+
+        assertEquals(this.accountDTO, accountToCompare);
+    }
+
+    @Test
+    public void findAccountByEmailAndPasswordShouldReturnNullIfNotExists() {
+        String email = "test@test.com";
+        String password = "test";
+
+        Mockito.when(this.repository.findByEmailAndPassword(email, password)).thenReturn(null);
+        AccountDTO accountToCompare = this.service.findAccountByEmailAndPassword(email, password);
+
+        assertNull(accountToCompare);
     }
 }

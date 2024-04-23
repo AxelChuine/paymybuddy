@@ -30,7 +30,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public String home(Model model) {
+    public String home(@ModelAttribute("account-id") Integer accountId, Model model) {
         return "home";
     }
 }

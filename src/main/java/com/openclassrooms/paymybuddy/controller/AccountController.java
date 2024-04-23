@@ -28,7 +28,7 @@ public class AccountController {
     @RequestMapping(value = "/creation", method = RequestMethod.POST)
     public String createAccount(@ModelAttribute AccountDTO account) {
         AccountDTO accountDTO = this.service.createAnAccount(account);
-        return "redirect:/transaction/new-transaction?account-id" + accountDTO.getIdentifier();
+        return "redirect:/home?account-id=" + accountDTO.getIdentifier();
     }
 
 }
