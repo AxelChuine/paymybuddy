@@ -26,11 +26,12 @@ public class HomeController {
     @RequestMapping(value = "logged-in", method = RequestMethod.POST)
     public String login(@ModelAttribute("email") String email, @ModelAttribute("password") String password, Model model) {
         AccountDTO accountDTO = this.accountService.findAccountByEmailAndPassword(email, password);
-        return "redirect:/home";
+        return "redirect:/home?account-id=" + accountDTO.getIdentifier();
     }
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(@ModelAttribute("account-id") Integer accountId, Model model) {
+        model.addAttribute("connections", this.accountService.findAllConnectionsByAccountId(accountId));
         return "home";
     }
 }

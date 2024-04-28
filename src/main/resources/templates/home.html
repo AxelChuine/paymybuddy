@@ -5,6 +5,12 @@
     <title>Title</title>
 </head>
 <body>
-<h1 style="color: red">Ceci est ma page <strong>Home</strong></h1>
+
+<div id="connections">
+    <tr th:each="connection : ${connections}"> // add friend
+        <td th:text="${connection.firstName}"></td>
+        <td th:text="${connection.lastName}"></td>
+    </tr>
+</div>
 </body>
 </html>

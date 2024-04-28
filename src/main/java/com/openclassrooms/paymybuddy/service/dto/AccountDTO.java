@@ -20,6 +20,7 @@ public class AccountDTO {
     private Float balance;
     private List<TransactionDTO> senders;
     private Set<TransactionDTO> receivers;
+    private List<AccountDTO> connections;
 
 }
 

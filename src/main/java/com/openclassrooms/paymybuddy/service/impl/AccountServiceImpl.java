@@ -64,4 +64,13 @@ public class AccountServiceImpl implements IAccountService {
         }
         return null;
     }
+
+    @Override
+    public List<AccountDTO> findAllConnectionsByAccountId(Integer accountId) {
+        List<AccountDTO> connections = IAccountMapper.INSTANCE.accountsToAccountDTOList(this.repository.findAllConnectionsByIdentifier(accountId));
+        if (Objects.nonNull(connections)) {
+            return connections;
+        }
+        return List.of();
+    }
 }

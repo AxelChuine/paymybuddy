@@ -39,8 +39,8 @@ public class AccountServiceImplTest {
 
     @BeforeEach
     public void setAccount() {
-        this.account = new Account(1, "test", null, null, null, null, 50.00F, null, transactions);
-        this.accountDTO = new AccountDTO(1, "test", null, null, null, null, 50.00F, null, transactionsDtos);
+        this.account = new Account(1, "test", null, null, null, null, 50.00F, null, transactions, null);
+        this.accountDTO = new AccountDTO(1, "test", null, null, null, null, 50.00F, null, transactionsDtos, null);
         this.transactionsDtos = Set.of(new TransactionDTO(1, "test", 20.00F, 2));
     }
 
@@ -56,8 +56,8 @@ public class AccountServiceImplTest {
 
     @Test
     public void updateAnAccountShouldUpdateTheAccount() {
-        Account account = new Account(1, null, null, null, null, null, 20.0F, null, null);
-        AccountDTO accountDTO = new AccountDTO(1, null, null, null, null, null, 20.0F, null, null);
+        Account account = new Account(1, null, null, null, null, null, 20.0F, null, null, null);
+        AccountDTO accountDTO = new AccountDTO(1, null, null, null, null, null, 20.0F, null, null, null);
         Integer accountId = 1;
         Float balance = 20.0F;
 
@@ -108,5 +108,27 @@ public class AccountServiceImplTest {
         AccountDTO accountToCompare = this.service.findAccountByEmailAndPassword(email, password);
 
         assertNull(accountToCompare);
+    }
+
+    @Test
+    public void findAllConnectionsShouldReturnAListOfConnections() {
+        List<Account> accounts = List.of(new Account(), new Account());
+        List<AccountDTO> accountDTOS = List.of(new AccountDTO(), new AccountDTO());
+
+        Mockito.when(this.repository.findAllConnectionsByIdentifier(1)).thenReturn(accounts);
+        List<AccountDTO> connectionsToCompare = this.service.findAllConnectionsByAccountId(1);
+
+        assertEquals(accountDTOS, connectionsToCompare);
+    }
+
+    @Test
+    public void findAllConnectionsShouldReturnAnEmptyListIfNoConnectionsExists() {
+        List<Account> connections = List.of();
+        List<AccountDTO> connectionsDtos = List.of();
+
+        Mockito.when(this.repository.findAllConnectionsByIdentifier(1)).thenReturn(connections);
+        List<AccountDTO> connectionsToCompare = this.service.findAllConnectionsByAccountId(1);
+
+        assertEquals(connectionsDtos, connectionsToCompare);
     }
 }
