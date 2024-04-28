@@ -18,9 +18,15 @@ public class HomeController {
         this.accountService = accountService;
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String enterLogin(Model model) {
         return "login";
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public String login(@ModelAttribute("email") String email, @ModelAttribute("password") String password, Model model) {
+        AccountDTO accountDTO = this.accountService.findAccountByEmailAndPassword(email, password);
+        return "redirect:/home";
     }
 
     @RequestMapping(value = "logged-in", method = RequestMethod.POST)
