@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -36,11 +35,6 @@ public class Account {
     @Column(name = "balance")
     private Float balance;
 
-    @OneToMany
-    @JoinColumn(name = "sender")
-    private List<Transaction> senders;
-
-    @OneToMany
-    @JoinColumn(name = "receiver")
-    private Set<Transaction> receivers;
+    @ManyToMany
+    private List<Account> connections;
 }

@@ -3,7 +3,6 @@ package com.openclassrooms.paymybuddy.service.dto;
 import lombok.*;
 
 import java.util.List;
-import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,8 +17,6 @@ public class AccountDTO {
     private String password;
     private String name;
     private Float balance;
-    private List<TransactionDTO> senders;
-    private Set<TransactionDTO> receivers;
     private List<AccountDTO> connections;
 
 }
