@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -25,8 +25,21 @@ public class Transaction {
     private String name;
 
     @Column(name = "amount")
-    private BigDecimal amount;
+    private Float amount;
 
     @Column(name = "sender")
-    private Integer accountId;
+    private Integer senderId;
+
+    @Column(name = "receiver")
+    private Integer receiverId;
+
+    @Column(name = "transaction_date")
+    private LocalDateTime transactionDate;
+
+    public Transaction(Float amount, Integer senderId, Integer receiverId, LocalDateTime transactionDate) {
+        this.amount = amount;
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.transactionDate = transactionDate;
+    }
 }
