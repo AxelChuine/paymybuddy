@@ -39,8 +39,8 @@ public class AccountServiceImplTest {
 
     @BeforeEach
     public void setAccount() {
-        this.account = new Account(1, "test", null, null, null, null, 50.00F, null, transactions, null);
-        this.accountDTO = new AccountDTO(1, "test", null, null, null, null, 50.00F, null, transactionsDtos, null);
+        this.account = new Account(1, null, null, null, null, null, 20.0F, null);
+        this.accountDTO = new AccountDTO(1, null, null, null, null, null, 20.0F, null);
         this.transactionsDtos = Set.of(new TransactionDTO(1, "test", 20.00F, 2));
     }
 
@@ -56,8 +56,8 @@ public class AccountServiceImplTest {
 
     @Test
     public void updateAnAccountShouldUpdateTheAccount() {
-        Account account = new Account(1, null, null, null, null, null, 20.0F, null, null, null);
-        AccountDTO accountDTO = new AccountDTO(1, null, null, null, null, null, 20.0F, null, null, null);
+        Account account = new Account(1, null, null, null, null, null, 20.0F, List.of());
+        AccountDTO accountDTO = new AccountDTO(1, null, null, null, null, null, 20.0F, List.of());
         Integer accountId = 1;
         Float balance = 20.0F;
 
