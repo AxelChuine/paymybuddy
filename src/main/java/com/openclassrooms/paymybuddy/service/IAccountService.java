@@ -8,10 +8,6 @@ public interface IAccountService {
 
     AccountDTO createAnAccount(AccountDTO accountDTO);
 
-    AccountDTO updateAccount(Float balance, Integer accountId);
-
-    AccountDTO sendMoney(AccountDTO account, Float amount);
-
     List<AccountDTO> findAll();
 
     AccountDTO findAccountByEmailAndPassword(String email, String password);
@@ -19,4 +15,10 @@ public interface IAccountService {
     List<AccountDTO> findAllConnectionsByAccountId(Integer accountId);
 
     AccountDTO findByEmail(String email);
+
+    AccountDTO updateAccount(AccountDTO accountDTO, Float amount);
+
+    AccountDTO findById(Integer senderId);
+
+    AccountDTO save(AccountDTO accountDTO);
 }

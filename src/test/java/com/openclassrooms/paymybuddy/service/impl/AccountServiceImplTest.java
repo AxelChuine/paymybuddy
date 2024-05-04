@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -42,7 +43,7 @@ public class AccountServiceImplTest {
     public void setAccount() {
         this.account = new Account(1, null, null, null, null, null, 20.0F, null);
         this.accountDTO = new AccountDTO(1, null, null, null, null, null, 20.0F, null);
-        this.transactionsDtos = Set.of(new TransactionDTO(1, "test", 20.00F, 2));
+        this.transactionsDtos = Set.of(new TransactionDTO(1, "test", 20.00F, 1, 2, LocalDateTime.now()));
     }
 
     @Test
@@ -53,29 +54,6 @@ public class AccountServiceImplTest {
         account = this.service.createAnAccount(this.accountDTO);
 
         assertEquals(this.accountDTO, account);
-    }
-
-    @Test
-    public void updateAnAccountShouldUpdateTheAccount() {
-        Account account = new Account(1, null, null, null, null, null, 20.0F, List.of());
-        AccountDTO accountDTO = new AccountDTO(1, null, null, null, null, null, 20.0F, List.of());
-        Integer accountId = 1;
-        Float balance = 20.0F;
-
-        Mockito.when(this.repository.findById(accountId)).thenReturn(Optional.of(account));
-        Mockito.when(this.repository.save(account)).thenReturn(account);
-        AccountDTO accountDto = this.service.updateAccount(balance, accountId);
-
-        assertEquals(accountDTO, accountDto);
-    }
-
-    @Test
-    public void sendMoneyShouldSendMoneyAndUpdateBalance() {
-        Float amount = 20.0F;
-
-        AccountDTO accountToCompare = this.service.sendMoney(this.accountDTO, amount);
-
-        assertEquals(this.accountDTO, accountToCompare);
     }
 
     @Test
@@ -141,5 +119,33 @@ public class AccountServiceImplTest {
         AccountDTO accountToCompare = this.service.findByEmail(email);
 
         Assertions.assertEquals(this.accountDTO, accountToCompare);
+    }
+
+    @Test
+    public void updateBalanceShouldUpdateTheBalanceOfTheAccount() {
+        Float amount = 20.0F;
+
+        Mockito.when(this.repository.save(this.account)).thenReturn(this.account);
+        AccountDTO accountToCompare = this.service.updateAccount(this.accountDTO, amount);
+
+        assertEquals(this.accountDTO, accountToCompare);
+    }
+
+    @Test
+    public void findByIdShouldReturnAnAccountIfAccountExists() {
+        Integer senderId = 1;
+
+        Mockito.when(this.repository.findById(senderId)).thenReturn(Optional.ofNullable(this.account));
+        AccountDTO accountToCompare = this.service.findById(senderId);
+
+        Assertions.assertEquals(this.accountDTO, accountToCompare);
+    }
+
+    @Test
+    public void savingAnAccountShouldReturnAnAccount() {
+        Mockito.when(this.repository.save(this.account)).thenReturn(this.account);
+        AccountDTO accountToCompare = this.service.save(this.accountDTO);
+
+        assertEquals(this.accountDTO, accountToCompare);
     }
 }

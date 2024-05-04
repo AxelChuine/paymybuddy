@@ -7,9 +7,7 @@ import com.openclassrooms.paymybuddy.service.dto.AccountDTO;
 import com.openclassrooms.paymybuddy.service.mapper.IAccountMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AccountServiceImpl implements IAccountService {
@@ -28,32 +26,8 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public AccountDTO updateAccount(Float balance, Integer accountId) {
-        Optional<Account> optionalAccount = this.repository.findById(accountId);
-        Account account = null;
-        if (optionalAccount.isPresent()) {
-            account = optionalAccount.get();
-            account.setBalance(balance);
-        }
-        if (Objects.nonNull(account)) {
-            account = this.repository.save(account);
-        }
-        return IAccountMapper.INSTANCE.accountToAccountDto(account);
-    }
-
-    @Override
-    public AccountDTO sendMoney(AccountDTO account, Float amount) {
-        AccountDTO accountDTO = account;
-        Float balance = accountDTO.getBalance() + amount;
-        accountDTO.setBalance(balance);
-        this.repository.save(IAccountMapper.INSTANCE.accountDtoToAccount(accountDTO));
-        return accountDTO;
-    }
-
-    @Override
     public List<AccountDTO> findAll() {
-        List<AccountDTO> accountDTOS = IAccountMapper.INSTANCE.accountsToAccountDTOList(this.repository.findAll());
-        return accountDTOS;
+        return IAccountMapper.INSTANCE.accountsToAccountDTOList(this.repository.findAll());
     }
 
     @Override
@@ -81,5 +55,24 @@ public class AccountServiceImpl implements IAccountService {
             return accountDTO;
         }
         return null;
+    }
+
+    @Override
+    public AccountDTO updateAccount(AccountDTO accountDTO, Float amount) {
+        AccountDTO accountToReturn = accountDTO;
+        accountToReturn.setBalance(amount);
+        this.repository.save(IAccountMapper.INSTANCE.accountDtoToAccount(accountToReturn));
+        return accountToReturn;
+    }
+
+    @Override
+    public AccountDTO findById(Integer senderId) {
+        Optional<Account> account = this.repository.findById(senderId);
+        return account.map(IAccountMapper.INSTANCE::accountToAccountDto).orElse(null);
+    }
+
+    @Override
+    public AccountDTO save(AccountDTO accountDTO) {
+        return IAccountMapper.INSTANCE.accountToAccountDto(this.repository.save(IAccountMapper.INSTANCE.accountDtoToAccount(accountDTO)));
     }
 }
