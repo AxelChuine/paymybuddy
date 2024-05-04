@@ -70,9 +70,9 @@ public class TransactionServiceTest {
 
         Mockito.when(this.accountService.findById(identifier)).thenReturn(this.sender);
         Mockito.when(this.accountService.findByEmail(emailReceiver)).thenReturn(this.recipient);
-        Mockito.when(this.repository.save(this.transaction)).thenReturn(transaction);
         Mockito.when(this.accountService.save(senderToSave)).thenReturn(senderToSave);
         Mockito.when(this.accountService.save(recipientToSave)).thenReturn(recipientToSave);
+        Mockito.when(this.repository.save(this.transaction)).thenReturn(transaction);
         TransactionDTO transactionToCompare = this.service.payMyBuddy(this.transaction.getSenderId(), emailReceiver, this.transaction.getAmount());
 
         Assertions.assertEquals(this.transactionDTO, transactionToCompare);
