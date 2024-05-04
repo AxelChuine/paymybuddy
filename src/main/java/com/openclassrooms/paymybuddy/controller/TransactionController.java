@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.math.BigDecimal;
+
 @Controller
 @RequestMapping("/transaction")
 public class TransactionController {
@@ -20,6 +22,11 @@ public class TransactionController {
     @RequestMapping(value = "/new-transaction", method = RequestMethod.GET)
     public String newTransaction(@ModelAttribute("account-id") Integer accountId, Model model) {
         model.addAttribute("new transaction", new Transaction());
-        return "/transaction/new-transaction";
+        return "transfer";
+    }
+
+    @RequestMapping(value = "/new-transaction-success", method = RequestMethod.POST)
+    public String newTransactionSuccess(@ModelAttribute("account-id") Integer accountId, @ModelAttribute("amount")BigDecimal amount, Model model) {
+        return "new-transaction-success";
     }
 }
