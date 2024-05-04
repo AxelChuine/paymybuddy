@@ -73,4 +73,13 @@ public class AccountServiceImpl implements IAccountService {
         }
         return List.of();
     }
+
+    @Override
+    public AccountDTO findByEmail(String email) {
+        AccountDTO accountDTO = IAccountMapper.INSTANCE.accountToAccountDto(this.repository.findByEmail(email));
+        if (Objects.nonNull(accountDTO)) {
+            return accountDTO;
+        }
+        return null;
+    }
 }

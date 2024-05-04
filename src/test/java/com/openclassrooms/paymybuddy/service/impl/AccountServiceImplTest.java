@@ -5,6 +5,7 @@ import com.openclassrooms.paymybuddy.model.Transaction;
 import com.openclassrooms.paymybuddy.repository.IAccountRepository;
 import com.openclassrooms.paymybuddy.service.dto.AccountDTO;
 import com.openclassrooms.paymybuddy.service.dto.TransactionDTO;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -130,5 +131,15 @@ public class AccountServiceImplTest {
         List<AccountDTO> connectionsToCompare = this.service.findAllConnectionsByAccountId(1);
 
         assertEquals(connectionsDtos, connectionsToCompare);
+    }
+
+    @Test
+    public void findByEmailShouldReturnAnAccount() {
+        String email = "test@test.com";
+
+        Mockito.when(this.repository.findByEmail(email)).thenReturn(this.account);
+        AccountDTO accountToCompare = this.service.findByEmail(email);
+
+        Assertions.assertEquals(this.accountDTO, accountToCompare);
     }
 }

@@ -17,4 +17,6 @@ public interface IAccountService {
     AccountDTO findAccountByEmailAndPassword(String email, String password);
 
     List<AccountDTO> findAllConnectionsByAccountId(Integer accountId);
+
+    AccountDTO findByEmail(String email);
 }
