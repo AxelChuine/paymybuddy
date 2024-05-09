@@ -73,6 +73,8 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public AccountDTO save(AccountDTO accountDTO) {
-        return IAccountMapper.INSTANCE.accountToAccountDto(this.repository.save(IAccountMapper.INSTANCE.accountDtoToAccount(accountDTO)));
+        Account accountToSave = IAccountMapper.INSTANCE.accountDtoToAccount(accountDTO);
+        return IAccountMapper.INSTANCE.accountToAccountDto(
+                this.repository.save(accountToSave));
     }
 }
