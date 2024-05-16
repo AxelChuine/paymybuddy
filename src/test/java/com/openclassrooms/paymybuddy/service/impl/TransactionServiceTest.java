@@ -1,5 +1,6 @@
 package com.openclassrooms.paymybuddy.service.impl;
 
+import com.openclassrooms.paymybuddy.model.Account;
 import com.openclassrooms.paymybuddy.model.Transaction;
 import com.openclassrooms.paymybuddy.repository.ITransactionRepository;
 import com.openclassrooms.paymybuddy.service.IAccountService;
@@ -31,7 +32,7 @@ public class TransactionServiceTest {
 
     @InjectMocks
     private TransactionServiceImpl service;
-
+    
     private Transaction transaction;
 
     private TransactionDTO transactionDTO;
@@ -42,15 +43,15 @@ public class TransactionServiceTest {
 
 
     @BeforeEach
-    public void setTransaction () {
-        transaction = new Transaction( 50.0F, 1, 2, LocalDateTime.now());
+    public void setTransaction() {
+        transaction = new Transaction(50.0F, 1, 2, LocalDateTime.now());
         transactionDTO = new TransactionDTO(50.0F, 1, 2, LocalDateTime.now());
-        this.sender = new AccountDTO(1, null, null, null, null, null, 100.0F, null);
-        this.recipient = new AccountDTO(1, null, null, null, null, null, 100.0F, null);
+        this.sender = new AccountDTO(1, null, null, "test1@gmail.com", null, null, 100.0F, null);
+        this.recipient = new AccountDTO(2, null, null, "test2@gmail.com", null, null, 100.0F, null);
     }
 
     @Test
-    public void findAllTransactionsByAccountIdShouldReturnAListOfTransactions () {
+    public void findAllTransactionsByAccountIdShouldReturnAListOfTransactions() {
         List<Transaction> transactions = List.of(new Transaction(), new Transaction());
         List<TransactionDTO> transactionDtoList = List.of(new TransactionDTO(), new TransactionDTO());
         Integer accountId = 1;
@@ -62,11 +63,13 @@ public class TransactionServiceTest {
     }
 
     @Test
-    public void payMyBuddyShouldReturnATransaction () {
+    public void payMyBuddyShouldReturnATransactionDto() {
         String emailReceiver = "test@test.com";
-        Integer identifier = 1;
-        AccountDTO senderToSave = new AccountDTO(1, null, null, null, null, null, 50.0F, null);
-        AccountDTO recipientToSave = new AccountDTO(1, null, null, null, null, null, 150.0F, null);
+        Integer identfierSender = 1;
+        Account sender = new Account(1, null, null, null, null, null, 50.0F, null);
+        Account receiver = new Account(2, null, null, null, null, null, 150.0F, null);
+        AccountDTO senderDto = new AccountDTO(1, null, null, null, null, null, 100.0F, null);
+        AccountDTO recipientDto = new AccountDTO(2, null, null, null, null, null, 100.0F, null);
 
         Mockito.when(this.accountService.findById(identifier)).thenReturn(this.sender);
         Mockito.when(this.accountService.findByEmail(emailReceiver)).thenReturn(this.recipient);
@@ -76,4 +79,5 @@ public class TransactionServiceTest {
 
         Assertions.assertEquals(this.transactionDTO, transactionToCompare);
     }
+
 }

@@ -7,6 +7,7 @@ import com.openclassrooms.paymybuddy.service.ITransactionService;
 import com.openclassrooms.paymybuddy.service.dto.AccountDTO;
 import com.openclassrooms.paymybuddy.service.dto.TransactionDTO;
 import com.openclassrooms.paymybuddy.service.mapper.ITransactionMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,7 +19,7 @@ public class TransactionServiceImpl implements ITransactionService {
     private final ITransactionRepository repository;
 
     private final IAccountService accountService;
-
+    
     public TransactionServiceImpl(ITransactionRepository repository, IAccountService accountService) {
         this.repository = repository;
         this.accountService = accountService;
@@ -29,16 +30,14 @@ public class TransactionServiceImpl implements ITransactionService {
         return ITransactionMapper.INSTANCE.transactionsToTransactionsDtos(this.repository.findAllBySenderIdOrReceiverId(accountId, accountId));
     }
 
-    @Override
+    @Transactional
     public TransactionDTO payMyBuddy(Integer pSender, String emailReceiver, Float amount) {
         AccountDTO sender = this.accountService.findById(pSender);
         AccountDTO receiver = this.accountService.findByEmail(emailReceiver);
-        Float balanceSender = sender.getBalance() - amount;
-        Float balanceReceiver = receiver.getBalance() + amount;
-        sender.setBalance(balanceSender);
-        receiver.setBalance(balanceReceiver);
-        this.accountService.save(sender);
-        this.accountService.save(receiver);
-        return ITransactionMapper.INSTANCE.transactionToTransactionDto(this.repository.save(new Transaction(amount, sender.getIdentifier(), receiver.getIdentifier(), LocalDateTime.now())));
+        sender.setBalance(sender.getBalance() - amount);
+        receiver.setBalance(receiver.getBalance() + amount);
+        Transaction transaction = new Transaction(amount, sender.getIdentifier(), receiver.getIdentifier(), LocalDateTime.now());
+        return ITransactionMapper.INSTANCE.transactionToTransactionDto(
+                this.repository.save(transaction));
     }
 }
