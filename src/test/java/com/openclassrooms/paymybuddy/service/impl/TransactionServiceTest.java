@@ -1,6 +1,5 @@
 package com.openclassrooms.paymybuddy.service.impl;
 
-import com.openclassrooms.paymybuddy.model.Account;
 import com.openclassrooms.paymybuddy.model.Transaction;
 import com.openclassrooms.paymybuddy.repository.ITransactionRepository;
 import com.openclassrooms.paymybuddy.service.IAccountService;
@@ -66,14 +65,9 @@ public class TransactionServiceTest {
     public void payMyBuddyShouldReturnATransactionDto() {
         String emailReceiver = "test@test.com";
         Integer identfierSender = 1;
-        Account sender = new Account(1, null, null, null, null, null, 50.0F, null);
-        Account receiver = new Account(2, null, null, null, null, null, 150.0F, null);
-        AccountDTO senderDto = new AccountDTO(1, null, null, null, null, null, 100.0F, null);
-        AccountDTO recipientDto = new AccountDTO(2, null, null, null, null, null, 100.0F, null);
 
-        Mockito.when(this.accountService.findById(identifier)).thenReturn(this.sender);
+        Mockito.when(this.accountService.findById(identfierSender)).thenReturn(this.sender);
         Mockito.when(this.accountService.findByEmail(emailReceiver)).thenReturn(this.recipient);
-        Mockito.when(this.accountService.save(senderToSave)).thenReturn(senderToSave);
         Mockito.when(this.repository.save(Mockito.any(Transaction.class))).thenReturn(transaction);
         TransactionDTO transactionToCompare = this.service.payMyBuddy(this.transaction.getSenderId(), emailReceiver, this.transaction.getAmount());
 
