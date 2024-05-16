@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ITransactionService {
     List<TransactionDTO> findAllByAccountId(Integer accountId);
+
+    TransactionDTO payMyBuddy(Integer pSender, String emailReceiver, Float amount);
 }

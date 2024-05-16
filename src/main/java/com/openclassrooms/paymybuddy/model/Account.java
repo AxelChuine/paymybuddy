@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -36,5 +36,5 @@ public class Account {
     private Float balance;
 
     @ManyToMany
-    private List<Account> connections;
+    private Set<Account> connections;
 }
