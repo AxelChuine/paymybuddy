@@ -26,7 +26,7 @@ public class TransactionServiceImpl implements ITransactionService {
 
     @Override
     public List<TransactionDTO> findAllByAccountId(Integer accountId) {
-        return ITransactionMapper.INSTANCE.transactionsToTransactionsDtos(this.repository.findAllByAccountId(accountId));
+        return ITransactionMapper.INSTANCE.transactionsToTransactionsDtos(this.repository.findAllBySenderIdOrReceiverId(accountId, accountId));
     }
 
     @Override

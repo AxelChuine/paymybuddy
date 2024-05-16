@@ -55,7 +55,7 @@ public class TransactionServiceTest {
         List<TransactionDTO> transactionDtoList = List.of(new TransactionDTO(), new TransactionDTO());
         Integer accountId = 1;
 
-        when(this.repository.findAllByAccountId(1)).thenReturn(transactions);
+        when(this.repository.findAllBySenderIdOrReceiverId(1, 1)).thenReturn(transactions);
         List<TransactionDTO> transactionDtoToCompare = this.service.findAllByAccountId(accountId);
 
         assertEquals(transactionDtoList, transactionDtoToCompare);
@@ -71,8 +71,7 @@ public class TransactionServiceTest {
         Mockito.when(this.accountService.findById(identifier)).thenReturn(this.sender);
         Mockito.when(this.accountService.findByEmail(emailReceiver)).thenReturn(this.recipient);
         Mockito.when(this.accountService.save(senderToSave)).thenReturn(senderToSave);
-        Mockito.when(this.accountService.save(recipientToSave)).thenReturn(recipientToSave);
-        Mockito.when(this.repository.save(this.transaction)).thenReturn(transaction);
+        Mockito.when(this.repository.save(Mockito.any(Transaction.class))).thenReturn(transaction);
         TransactionDTO transactionToCompare = this.service.payMyBuddy(this.transaction.getSenderId(), emailReceiver, this.transaction.getAmount());
 
         Assertions.assertEquals(this.transactionDTO, transactionToCompare);
