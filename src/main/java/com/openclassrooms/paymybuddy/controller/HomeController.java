@@ -24,7 +24,7 @@ public class HomeController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String login(@ModelAttribute("email") String email, @ModelAttribute("password") String password, Model model) {
+    public String login(@ModelAttribute("email") String email, @ModelAttribute("password") String password) {
         AccountDTO accountDTO = this.accountService.findAccountByEmailAndPassword(email, password);
         return "redirect:/home";
     }
