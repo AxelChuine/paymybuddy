@@ -3,6 +3,8 @@ package com.paymybuddy.paymybuddy.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "account")
 @Data
@@ -12,7 +14,7 @@ import lombok.*;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -31,4 +33,7 @@ public class Account {
 
     @Column(name = "balance")
     private double balance;
+
+    @ManyToMany(mappedBy = "connection")
+    private List<Account> connections;
 }
