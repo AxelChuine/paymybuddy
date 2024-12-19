@@ -3,7 +3,7 @@ package com.paymybuddy.paymybuddy.models;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "account")
@@ -14,7 +14,7 @@ import java.util.List;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long identifier;
 
     @Column(name = "first_name")
     private String firstName;
@@ -32,8 +32,15 @@ public class Account {
     private String name;
 
     @Column(name = "balance")
-    private double balance;
+    private Float balance;
 
-    @ManyToMany(mappedBy = "connection")
-    private List<Account> connections;
+    
+    @ManyToMany
+    @JoinTable(
+            name = "connection",
+            joinColumns = @JoinColumn(name = "account"),
+            inverseJoinColumns = @JoinColumn(name = "connection")
+    )
+    private Set<Account> connections;
+
 }

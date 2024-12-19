@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -15,7 +16,7 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "identifier", nullable = false)
-    private Long id;
+    private Long identifier;
 
     @Column(name = "name")
     private String name;
@@ -32,6 +33,6 @@ public class Transaction {
     private Account receiver;
 
     @Column(name = "transaction_date")
-    private Instant transactionDate;
+    private LocalDateTime transactionDate;
 
 }
