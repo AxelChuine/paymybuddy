@@ -3,6 +3,7 @@ package com.paymybuddy.paymybuddy.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 @Entity
@@ -32,7 +33,7 @@ public class Account {
     private String name;
 
     @Column(name = "balance")
-    private Float balance;
+    private BigDecimal balance;
 
     
     @ManyToMany
