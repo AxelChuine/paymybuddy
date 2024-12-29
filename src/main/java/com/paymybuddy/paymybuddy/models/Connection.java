@@ -16,11 +16,11 @@ public class Connection {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "account")
     private Account account;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "account_connection_id")
+    @JoinColumn(name = "connection")
     private Account connection;
 }

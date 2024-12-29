@@ -1,7 +1,6 @@
 package com.paymybuddy.paymybuddy.repository;
 
-import com.paymybuddy.paymybuddy.models.Account;
-import org.junit.jupiter.api.Assertions;
+import com.paymybuddy.paymybuddy.models.Connection;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +10,20 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class AccountRepositoryTest {
+public class ConnectionRepositoryTest {
 
     @Autowired
-    private IAccountRepository repository;
+    private IConnectionRepository repository;
 
     @Test
-    public void findAllShouldReturnAListOfAccounts() {
-        List<Account> accounts = repository.findAll();
+    public void findAllShouldReturnAListOfConnections() {
+        List<Connection> connections = repository.findAll();
 
-        Assertions.assertNotNull(accounts);
-        Assertions.assertNotNull(accounts.getFirst());
+        assertThat(connections).isNotNull();
     }
 }
