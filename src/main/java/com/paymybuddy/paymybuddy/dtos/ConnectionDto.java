@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class AccountDto {
-    private Long identifier;
-    private String firstName;
-    private String lastName;
-    private String email;
+public class ConnectionDto {
+    private AccountDto accountDto;
+    private AccountDto connectionDto;
 }
