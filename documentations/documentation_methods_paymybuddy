@@ -1,0 +1,25 @@
+Documentation des méthodes nécessaires pour paymybuddy
+
+Les méthodes SCRUD pour account:
+ 1 - Search pour pouvoir ajouter un nouvel utilisateur dans ses connexions
+ 2 - Create est nécessaire pour pouvoir créer un compte; l'email doit être unique.
+ 3 - Read doit permettre uniquement la lecture des données suivantes: 
+firstName,
+lastName,
+email,
+pour un autre utilisateur que celui qui lit les informations; et toutes les informations liées à son profil pour l'utilisateur qui se sert de l'application.
+ 4 - Update permet de mettre à jour les données du compte de l'utilisateur; aucune autre modification n'est possible.
+ 5 - Delete permet de supprimer seulement le compte de l'utilisateur
+Des questions sont en suspens vis-à-vis de la suppression des transactions
+
+Les méthodes SCRD pour connexion:
+ 1 - Créer une nouvelle connexion appelle la méthode qui ajoute le compte au set de l'utilisateur.
+ 2 - Search est nécessaire pour trouver la personne via email que l'on souhaite payer.
+ 3 - Read permet de lire toutes les connexions dont on dispose.
+ 4 - Delete supprime la personne du set de nos connexions, pas le compte lui-même.
+
+Les méthodes pour les transactions:
+ 1 - Create permet d'envoyer de l'argent à quelqu'un via son email. Cela déclenche l'ajout aux connexions par défaut.
+ 2 - Search permet de trouver toutes les transactions faites avec le même montant de l'utilisateur.(historique nécessaire ???)
+ 3 - Read permet de lire toutes les transactions faites par l'utilisateur; un autre utilisateur n'a accès qu'à ses propres transactions.
+ 4 - Delete est une question en suspens: doit-on prévoir une possibilité de rollback pour un utilisateur ?

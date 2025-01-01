@@ -1,0 +1,5 @@
+Les "accounts" ne peuvent pas être supprimés par un autre utilisateur; la seule chose qu'un autre utilisateur puisse faire est de retirer l'"account" de ses "connections".
+
+La suppression de l'"account" d'un utilisateur par l'"utilisateur" entraîne la suppression de toutes les transactions effectuées, ainsi que de la suppression de sa présence dans tous les "accounts" avec lesquels il a intéragi.
+
+La suppression d'une "transaction" n'est pas possible (???)

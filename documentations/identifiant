@@ -1,0 +1,8 @@
+Data à présenter dans le front avec thymeleaf.
+
+AccountDto => firstName, lastName, identifiant, email.
+
+TransactionDto => identifiant, name, amount, identifiantSender, firstNameSender, lastNameSender, 
+	identifiantReceiver, firstNameReceiver, lastNameReceiver
+
+ConnectionDto => identifiant, firstName, lastName 
