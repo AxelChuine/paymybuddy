@@ -19,8 +19,8 @@ public class TransactionMapper {
                 transaction.getIdentifier(),
                 transaction.getName(),
                 transaction.getAmount(),
-                Objects.nonNull(transaction.getSender()) ? accountMapper.toDto(transaction.getSender()) : null,
-                Objects.nonNull(transaction.getReceiver()) ? accountMapper.toDto(transaction.getReceiver()) : null
+                Objects.nonNull(transaction.getSender()) ? accountMapper.toAccountVM(transaction.getSender()) : null,
+                Objects.nonNull(transaction.getReceiver()) ? accountMapper.toAccountVM(transaction.getReceiver()) : null
         );
     }
 }
