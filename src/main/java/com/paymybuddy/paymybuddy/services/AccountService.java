@@ -57,4 +57,14 @@ public class AccountService {
         accountToTransformBeforeReturn.setConnections(oldAccount.getConnections());
         return this.mapper.toAccountVM(this.repository.save(accountToTransformBeforeReturn));
     }
+
+    public void deleteAccount(Long accountId) throws AccountNotFoundException, ParameterNotProvidedException {
+        if (Objects.isNull(accountId)) {
+            throw new ParameterNotProvidedException();
+        }
+        if (Objects.isNull(this.repository.findByIdentifier(accountId))) {
+            throw new AccountNotFoundException();
+        }
+        this.repository.deleteById(accountId);
+    }
 }
