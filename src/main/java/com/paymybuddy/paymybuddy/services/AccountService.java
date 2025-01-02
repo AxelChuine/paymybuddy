@@ -32,4 +32,14 @@ public class AccountService {
       }
       return this.mapper.toDto(this.repository.save(account));
     }
+
+    public AccountVM findAccount(Long accountId) throws AccountNotFoundException {
+        if (Objects.isNull(accountId)) {
+            throw new AccountNotFoundException();
+        }
+        Account account = this.repository.findByIdentifier(accountId);
+        if (Objects.isNull(account)) {
+            throw new AccountNotFoundException();
+        }
+    }
 }
