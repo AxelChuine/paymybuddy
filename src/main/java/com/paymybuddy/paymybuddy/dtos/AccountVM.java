@@ -5,16 +5,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class TransactionDto {
+public class AccountVM {
     private Long identifier;
-    private String name;
-    private BigDecimal amount;
-    private AccountVM sender;
-    private AccountVM recipient;
+    private String firstName;
+    private String lastName;
+    private String email;
 }

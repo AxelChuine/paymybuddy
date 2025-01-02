@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class ConnectionDto {
-    private AccountDto accountDto;
-    private AccountDto connectionDto;
+    private AccountVM accountVM;
+    private AccountVM connectionDto;
 }
