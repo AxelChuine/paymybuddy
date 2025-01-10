@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -17,4 +18,5 @@ public class TransactionDto {
     private BigDecimal amount;
     private AccountVM sender;
     private AccountVM recipient;
+    private LocalDateTime transactionDate;
 }
