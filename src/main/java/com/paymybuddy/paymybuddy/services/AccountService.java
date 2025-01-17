@@ -67,4 +67,18 @@ public class AccountService {
         }
         this.repository.deleteById(accountId);
     }
+
+    public AccountVM findByName(String accountName) throws AccountNotFoundException {
+        if (Objects.isNull(accountName)) {
+            throw new AccountNotFoundException();
+        }
+        return this.mapper.toAccountVM(this.repository.findByName(accountName));
+    }
+
+    public AccountVM save(AccountVM account) throws AccountAlreadyExistsException, ParameterNotProvidedException {
+        if (Objects.isNull(account)) {
+            throw new ParameterNotProvidedException();
+        }
+        return this.mapper.toAccountVM(this.repository.save(this.mapper.accountVMToModel(account)));
+    }
 }

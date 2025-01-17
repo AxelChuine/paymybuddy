@@ -28,9 +28,13 @@ public class ConnectionService {
         this.accountMapper = accountMapper;
     }
 
-    public ConnectionVM create(ConnectionVM connectionVM) throws ParameterNotProvidedException, AccountNotFoundException {
-        AccountVM accountVM = this.accountService.findAccount(connectionVM.getAccountId());
-        AccountVM aConnectionVM = this.accountService.findAccount(connectionVM.getConnectionId());
-        return this.mapper.toVM(this.repository.save(new Connection(this.accountMapper.accountVMToModel(accountVM), this.accountMapper.accountVMToModel(aConnectionVM))));
+    public ConnectionVM create(AccountVM accountVM, AccountVM connection) throws ParameterNotProvidedException, AccountNotFoundException {
+        AccountVM account = this.accountService.findAccount(accountVM.getIdentifier());
+        AccountVM connectionVM = this.accountService.findAccount(connection.getIdentifier());
+        Connection connectionToSave = new Connection(
+                this.accountMapper.accountVMToModel(account),
+                this.accountMapper.accountVMToModel(connectionVM)
+        );
+        return this.mapper.toVM(this.repository.save(connectionToSave));
     }
 }
