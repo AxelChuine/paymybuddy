@@ -81,4 +81,15 @@ public class AccountService {
         }
         return this.mapper.toAccountVM(this.repository.save(this.mapper.accountVMToModel(account)));
     }
+
+    public AccountVM findByEmail(String accountEmail) throws AccountNotFoundException, ParameterNotProvidedException {
+        if (Objects.isNull(accountEmail)) {
+            throw new ParameterNotProvidedException();
+        }
+        AccountVM accountVM = this.mapper.toAccountVM(this.repository.findByEmail(accountEmail));
+        if (Objects.isNull(accountVM)) {
+            throw new AccountNotFoundException();
+        }
+        return accountVM;
+    }
 }
