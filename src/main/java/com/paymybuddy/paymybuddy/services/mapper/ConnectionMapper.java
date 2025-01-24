@@ -5,6 +5,8 @@ import com.paymybuddy.paymybuddy.dtos.ConnectionVM;
 import com.paymybuddy.paymybuddy.models.Connection;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -24,5 +26,14 @@ public class ConnectionMapper {
 
     public ConnectionVM toVM(Connection connection) {
         return new ConnectionVM(connection.getAccount().getIdentifier(), connection.getConnection().getIdentifier());
+    }
+
+    public List<ConnectionVM> toVMList(List<Connection> accountList) {
+        List<ConnectionVM> connectionVMList = new ArrayList<>();
+        for (Connection connection : accountList) {
+            ConnectionVM connectionVM = toVM(connection);
+            connectionVMList.add(connectionVM);
+        }
+        return connectionVMList;
     }
 }
