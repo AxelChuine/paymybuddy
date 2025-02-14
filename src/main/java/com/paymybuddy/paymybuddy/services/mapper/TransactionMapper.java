@@ -4,6 +4,8 @@ import com.paymybuddy.paymybuddy.dtos.TransactionDto;
 import com.paymybuddy.paymybuddy.models.Transaction;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -34,5 +36,14 @@ public class TransactionMapper {
                 Objects.nonNull(transactionDto.getRecipient()) ? this.accountMapper.accountVMToModel(transactionDto.getRecipient()) : null,
                 transactionDto.getTransactionDate()
         );
+    }
+
+    public List<TransactionDto> toTransactionDtoList(List<Transaction> transactionList) {
+        List<TransactionDto> transactionDtoList = new ArrayList<>();
+        for (Transaction transaction : transactionList) {
+            TransactionDto transactionDto = toTransactionDto(transaction);
+            transactionDtoList.add(toTransactionDto(transaction));
+        }
+        return transactionDtoList;
     }
 }

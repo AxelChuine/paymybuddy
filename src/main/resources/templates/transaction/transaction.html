@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>transaction</title>
+</head>
+<body>
+    <h1>transaction</h1>
+    <form>
+        <select name="connectionList" id="connections">
+            <option value="">--</option>
+        </select>
+        <input type="text" name="name" id="name" placeholder="Description">
+        <input type="number" name="amount" id="amount" placeholder="0€">
+        <button name="submit">Payer</button>
+    </form>
+
+    <table>
+        <thead>
+            <caption><strong>Mes transactions</strong></caption>
+            <tr>
+                <th>Relations</th>
+                <th>Description</th>
+                <th>Montant</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="transaction : ${transactions}">
+                <td th:text="@{${transaction.sender.firstName}}"></td>
+                <td th:text="${transaction.name}"></td>
+                <td th:float="${transaction.amount}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

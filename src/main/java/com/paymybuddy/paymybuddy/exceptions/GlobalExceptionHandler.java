@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccountNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleResourceNotFound(AccountNotFoundException ex) {
-        ErrorResponse errorResponse = new ErrorResponse("Not Found", ex.getMessage());
+    public ResponseEntity<String> handleResourceNotFound(AccountNotFoundException ex) {
+        /*ErrorResponse errorResponse = new ErrorResponse("Not Found", ex.getMessage());*/
+        String errorResponse = ex.getMessage();
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }

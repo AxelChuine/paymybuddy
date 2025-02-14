@@ -18,7 +18,6 @@ public class AccountMapper {
 
     public Account toModel(AccountDto accountDto) {
         Account account = new Account();
-        account.setIdentifier(accountDto.getIdentifier());
         account.setFirstName(accountDto.getFirstName());
         account.setLastName(accountDto.getLastName());
         account.setEmail(accountDto.getEmail());
@@ -30,7 +29,6 @@ public class AccountMapper {
 
     public Account accountVMToModel(AccountVM accountVM) {
         Account account = new Account();
-        account.setIdentifier(accountVM.getIdentifier());
         account.setFirstName(accountVM.getFirstName());
         account.setLastName(accountVM.getLastName());
         account.setEmail(accountVM.getEmail());

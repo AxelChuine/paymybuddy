@@ -27,22 +27,22 @@ public class Transaction {
     @Column(name = "amount", precision = 38, scale = 2)
     private BigDecimal amount;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sender", nullable = false)
     private Account sender;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "receiver", nullable = false)
     private Account receiver;
 
     @Column(name = "transaction_date")
     private LocalDateTime transactionDate;
 
-    public Transaction(BigDecimal amount, String name, Account sender, Account receiver, LocalDateTime now) {
-        this.amount = amount;
+    public Transaction(String name, BigDecimal amount, Account sender, Account receiver, LocalDateTime transactionDate) {
         this.name = name;
+        this.amount = amount;
         this.sender = sender;
         this.receiver = receiver;
-        this.transactionDate = now;
+        this.transactionDate = transactionDate;
     }
 }

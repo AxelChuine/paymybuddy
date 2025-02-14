@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -53,8 +55,8 @@ public class TransactionService {
         receiverVM.setBalance(receiverVM.getBalance().add(amount));
         this.accountService.updateAccount(receiverVM);
         Transaction transaction = new Transaction(
-                amount,
                 name,
+                amount,
                 this.accountMapper.accountVMToModel(senderVM),
                 this.accountMapper.accountVMToModel(receiverVM),
                 LocalDateTime.now());
@@ -62,5 +64,11 @@ public class TransactionService {
         this.connectionService.create(payMyBuddy, receiverVM);
         this.connectionService.create(senderVM, receiverVM);
         return this.mapper.toTransactionDto(repository.save(transaction));
+    }
+
+    public List<TransactionDto> findAllByAccountId(long l) throws ParameterNotProvidedException, AccountNotFoundException {
+        AccountVM accountVM = this.accountService.findAccount(l);
+        List<Transaction> transactionList = this.repository.findAllBySender(this.accountMapper.accountVMToModel(accountVM));
+        return this.mapper.toTransactionDtoList(transactionList);
     }
 }

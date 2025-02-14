@@ -50,6 +50,8 @@ public class ConnectionService {
         return this.mapper.toVM(this.repository.save(connectionToSave));
     }
 
+
+    //FIXME: tester si la connexion existe
     public ConnectionVM create(AccountVM accountVM, String email) throws ParameterNotProvidedException, AccountNotFoundException {
         if (Objects.isNull(accountVM) || Objects.isNull(email)) {
             throw new ParameterNotProvidedException();
@@ -58,9 +60,6 @@ public class ConnectionService {
         AccountVM connectionVM = this.accountService.findByEmail(email);
         if (Objects.isNull(account) || Objects.isNull(connectionVM)) {
             throw new AccountNotFoundException();
-        }
-        if (this.repository.findAllByAccount(this.accountMapper.accountVMToModel(account)).stream().anyMatch(a -> Objects.equals(a.getConnection().getEmail()), email)) {
-
         }
         return new ConnectionVM(account.getIdentifier(), connectionVM.getIdentifier());
     }

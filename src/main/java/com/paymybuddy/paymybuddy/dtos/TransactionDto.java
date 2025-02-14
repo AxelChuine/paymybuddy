@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 public class TransactionDto {
     private Long identifier;
     private String name;
