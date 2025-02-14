@@ -5,7 +5,9 @@ import com.paymybuddy.paymybuddy.dtos.TransactionDto;
 import com.paymybuddy.paymybuddy.exceptions.AccountAlreadyExistsException;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
 import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
+import com.paymybuddy.paymybuddy.models.Account;
 import com.paymybuddy.paymybuddy.models.Transaction;
+import com.paymybuddy.paymybuddy.repository.IAccountRepository;
 import com.paymybuddy.paymybuddy.repository.ITransactionRepository;
 import com.paymybuddy.paymybuddy.services.mapper.AccountMapper;
 import com.paymybuddy.paymybuddy.services.mapper.TransactionMapper;
@@ -15,7 +17,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class TransactionService {
@@ -23,15 +25,18 @@ public class TransactionService {
 
     private final AccountService accountService;
 
+    private final IAccountRepository accountRepository;
+
     private final TransactionMapper mapper;
 
     private final AccountMapper accountMapper;
 
     private final ConnectionService connectionService;
 
-    public TransactionService(ITransactionRepository repository, AccountService accountService, TransactionMapper mapper, AccountMapper accountMapper, ConnectionService connectionService) {
+    public TransactionService(ITransactionRepository repository, AccountService accountService, IAccountRepository accountRepository, TransactionMapper mapper, AccountMapper accountMapper, ConnectionService connectionService) {
         this.repository = repository;
         this.accountService = accountService;
+        this.accountRepository = accountRepository;
         this.mapper = mapper;
         this.accountMapper = accountMapper;
         this.connectionService = connectionService;
@@ -67,8 +72,12 @@ public class TransactionService {
     }
 
     public List<TransactionDto> findAllByAccountId(long l) throws ParameterNotProvidedException, AccountNotFoundException {
-        AccountVM accountVM = this.accountService.findAccount(l);
-        List<Transaction> transactionList = this.repository.findAllBySender(this.accountMapper.accountVMToModel(accountVM));
+        Optional<Account> optionalAccount = this.accountRepository.findById(l);
+        List<Transaction> transactionList = new ArrayList<>() {
+        };
+        if (optionalAccount.isPresent()) {
+            transactionList = this.repository.findAllBySender(optionalAccount.get());
+        }
         return this.mapper.toTransactionDtoList(transactionList);
     }
 }

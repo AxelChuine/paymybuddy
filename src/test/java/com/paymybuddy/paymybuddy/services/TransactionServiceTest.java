@@ -22,8 +22,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 @ExtendWith(MockitoExtension.class)
 public class TransactionServiceTest {
     @InjectMocks
@@ -83,10 +81,14 @@ public class TransactionServiceTest {
                 this.receiver,
                 this.transactionDate
         );
-        this.senderVM = new AccountVM(1L);
-        this.receiverVM = new AccountVM(2L);
-        this.sender = new Account(1L);
-        this.receiver = new Account(2L);
+        this.senderVM = new AccountVM();
+        this.senderVM.setIdentifier(1L);
+        this.sender.setIdentifier(1L);
+        this.receiverVM.setIdentifier(2L);
+        this.receiver.setIdentifier(2L);
+        this.receiverVM = new AccountVM();
+        this.sender = new Account();
+        this.receiver = new Account();
         this.transactionDtoList = List.of(this.transactionDto);
         this.transactionList = List.of(this.transaction);
     }
