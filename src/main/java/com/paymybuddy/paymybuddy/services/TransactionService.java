@@ -76,7 +76,7 @@ public class TransactionService {
         List<Transaction> transactionList = new ArrayList<>() {
         };
         if (optionalAccount.isPresent()) {
-            transactionList = this.repository.findAllBySender(optionalAccount.get());
+            transactionList = this.repository.findAllByAccountId(optionalAccount.get().getIdentifier());
         }
         return this.mapper.toTransactionDtoList(transactionList);
     }
