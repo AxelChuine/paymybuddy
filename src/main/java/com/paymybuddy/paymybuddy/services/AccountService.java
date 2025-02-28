@@ -1,5 +1,6 @@
 package com.paymybuddy.paymybuddy.services;
 
+import com.paymybuddy.paymybuddy.dtos.AccountDto;
 import com.paymybuddy.paymybuddy.dtos.AccountVM;
 import com.paymybuddy.paymybuddy.exceptions.AccountAlreadyExistsException;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class AccountService {
@@ -34,7 +36,7 @@ public class AccountService {
       return this.mapper.toAccountVM(this.repository.save(account));
     }
 
-    public AccountVM findAccount(Long accountId) throws AccountNotFoundException, ParameterNotProvidedException {
+    public AccountDto findAccount(Long accountId) throws AccountNotFoundException, ParameterNotProvidedException {
         if (Objects.isNull(accountId)) {
             throw new ParameterNotProvidedException();
         }
@@ -42,10 +44,10 @@ public class AccountService {
         if (Objects.isNull(account)) {
             throw new AccountNotFoundException();
         }
-        return this.mapper.toAccountVM(account);
+        return this.mapper.toAccountDto(account);
     }
 
-    public AccountVM updateAccount(AccountVM account) throws AccountNotFoundException, ParameterNotProvidedException {
+    public AccountVM updateAccount(AccountDto account) throws AccountNotFoundException, ParameterNotProvidedException {
         if (Objects.isNull(account)) {
             throw new ParameterNotProvidedException();
         }
@@ -53,7 +55,7 @@ public class AccountService {
         if (Objects.isNull(oldAccount)) {
             throw new AccountNotFoundException();
         }
-        Account accountToTransformBeforeReturn = this.mapper.accountVMToModel(account);
+        Account accountToTransformBeforeReturn = this.repository.findByIdentifier(account.getIdentifier());
         accountToTransformBeforeReturn.setConnections(oldAccount.getConnections());
         return this.mapper.toAccountVM(this.repository.save(accountToTransformBeforeReturn));
     }
@@ -68,18 +70,18 @@ public class AccountService {
         this.repository.deleteById(accountId);
     }
 
-    public AccountVM findByName(String accountName) throws AccountNotFoundException {
+    public AccountDto findByName(String accountName) throws AccountNotFoundException {
         if (Objects.isNull(accountName)) {
             throw new AccountNotFoundException();
         }
-        return this.mapper.toAccountVM(this.repository.findByName(accountName));
+        return this.mapper.toAccountDto(this.repository.findByName(accountName));
     }
 
-    public AccountVM save(AccountVM account) throws AccountAlreadyExistsException, ParameterNotProvidedException {
+    public AccountVM save(AccountDto account) throws AccountAlreadyExistsException, ParameterNotProvidedException {
         if (Objects.isNull(account)) {
             throw new ParameterNotProvidedException();
         }
-        return this.mapper.toAccountVM(this.repository.save(this.mapper.accountVMToModel(account)));
+        return this.mapper.toAccountVM(this.repository.save(this.repository.findByIdentifier(account.getIdentifier())));
     }
 
     public AccountVM findByEmail(String accountEmail) throws AccountNotFoundException, ParameterNotProvidedException {
@@ -91,5 +93,10 @@ public class AccountService {
             throw new AccountNotFoundException();
         }
         return accountVM;
+    }
+
+    public AccountVM findById(long l) {
+        Optional<Account> optionalAccount = this.repository.findById(l);
+        return optionalAccount.map(this.mapper::toAccountVM).orElse(null);
     }
 }

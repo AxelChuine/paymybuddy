@@ -25,7 +25,12 @@ public class ConnectionMapper {
     }
 
     public ConnectionVM toVM(Connection connection) {
-        return new ConnectionVM(connection.getAccount().getIdentifier(), connection.getConnection().getIdentifier());
+        return new ConnectionVM(
+                connection.getAccount().getIdentifier(),
+                connection.getConnection().getIdentifier(),
+                Objects.nonNull(connection.getConnection()) ? connection.getConnection().getFirstName() : null,
+                Objects.nonNull(connection.getConnection()) ? connection.getConnection().getLastName() : null
+        );
     }
 
     public List<ConnectionVM> toVMList(List<Connection> accountList) {

@@ -1,6 +1,6 @@
 package com.paymybuddy.paymybuddy.services;
 
-import com.paymybuddy.paymybuddy.dtos.AccountVM;
+import com.paymybuddy.paymybuddy.dtos.AccountDto;
 import com.paymybuddy.paymybuddy.dtos.TransactionDto;
 import com.paymybuddy.paymybuddy.exceptions.AccountAlreadyExistsException;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
@@ -49,25 +49,25 @@ public class TransactionService {
      */
 
     public TransactionDto create(BigDecimal amount, String name, Long senderId, Long recipientId) throws ParameterNotProvidedException, AccountNotFoundException, AccountAlreadyExistsException {
-        AccountVM senderVM = this.accountService.findAccount(senderId);
+        AccountDto account = this.accountService.findAccount(senderId);
         BigDecimal fee = amount.multiply(BigDecimal.valueOf(0.005));
-        AccountVM payMyBuddy = this.accountService.findAccount(recipientId);
+        AccountDto payMyBuddy = this.accountService.findByName("pay-my-buddy");
         payMyBuddy.setBalance(fee);
         this.accountService.save(payMyBuddy);
-        senderVM.setBalance(senderVM.getBalance().subtract(amount.add(fee)));
-        this.accountService.updateAccount(senderVM);
-        AccountVM receiverVM = this.accountService.findAccount(recipientId);
-        receiverVM.setBalance(receiverVM.getBalance().add(amount));
-        this.accountService.updateAccount(receiverVM);
+        account.setBalance(account.getBalance().subtract(amount.add(fee)));
+        this.accountService.updateAccount(account);
+        AccountDto receiverDto = this.accountService.findAccount(recipientId);
+        receiverDto.setBalance(receiverDto.getBalance().add(amount));
+        this.accountService.updateAccount(receiverDto);
         Transaction transaction = new Transaction(
                 name,
                 amount,
-                this.accountMapper.accountVMToModel(senderVM),
-                this.accountMapper.accountVMToModel(receiverVM),
+                this.accountMapper.toModel(account),
+                this.accountMapper.toModel(receiverDto),
                 LocalDateTime.now());
-        this.connectionService.create(payMyBuddy, senderVM);
-        this.connectionService.create(payMyBuddy, receiverVM);
-        this.connectionService.create(senderVM, receiverVM);
+        this.connectionService.create(payMyBuddy, account);
+        this.connectionService.create(payMyBuddy, receiverDto);
+        this.connectionService.create(account, receiverDto);
         return this.mapper.toTransactionDto(repository.save(transaction));
     }
 

@@ -1,6 +1,6 @@
 package com.paymybuddy.paymybuddy.services;
 
-import com.paymybuddy.paymybuddy.dtos.AccountVM;
+import com.paymybuddy.paymybuddy.dtos.AccountDto;
 import com.paymybuddy.paymybuddy.dtos.TransactionDto;
 import com.paymybuddy.paymybuddy.models.Account;
 import com.paymybuddy.paymybuddy.models.Transaction;
@@ -34,9 +34,9 @@ public class TransactionServiceTest {
     @Mock
     private TransactionMapper mapper;
 
-    private AccountVM senderVM;
+    private AccountDto senderDto;
 
-    private AccountVM receiverVM = new AccountVM();
+    private AccountDto receiverDto = new AccountDto();
 
     private Account sender = new Account();
 
@@ -64,8 +64,8 @@ public class TransactionServiceTest {
                 this.id,
                 this.name,
                 this.amount,
-                this.senderVM,
-                this.receiverVM,
+                this.senderDto,
+                this.receiverDto,
                 this.transactionDate
         );
         this.transaction = new Transaction(
@@ -76,12 +76,12 @@ public class TransactionServiceTest {
                 this.receiver,
                 this.transactionDate
         );
-        this.senderVM = new AccountVM();
-        this.senderVM.setIdentifier(1L);
+        this.senderDto = new AccountDto();
+        this.senderDto.setIdentifier(1L);
         this.sender.setIdentifier(1L);
-        this.receiverVM.setIdentifier(2L);
+        this.receiverDto.setIdentifier(2L);
         this.receiver.setIdentifier(2L);
-        this.receiverVM = new AccountVM();
+        this.receiverDto = new AccountDto();
         this.sender = new Account();
         this.receiver = new Account();
         this.transactionDtoList = List.of(this.transactionDto);
