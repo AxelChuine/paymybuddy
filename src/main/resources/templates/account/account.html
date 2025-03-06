@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Account</title>
+</head>
+<body>
+  <form action="#" th:action="@{/account}" th:object="${account}" method="get">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" autofocus="autofocus">
+    <label for="email">email</label>
+    <input type="text" id="email" name="email">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password">
+    <button type="submit">Modifier</button>
+  </form>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>new connection</title>
+</head>
+<body>
+    <form action="#" th:action="@{/connection/new-connection.html}" method="post" th:object="${connection}">
+        <label>Chercher une relation</label>
+        <select name="connections" id="connectionId" th:field="*{connectionId}">
+            <option disabled selected>Saisir une adresse email</option>
+            <option th:each="account: ${connections}"
+                    th:value="${account.getIdentifier()}"
+                    th:text="${account.getFirstName()} + ' ' + ${account.getLastName()}">
+
+            </option>
+        </select>
+        <div th:if="${connections.isEmpty()}">
+            <h2 style="color: red">Aucune personne n'a cette adresse email</h2>
+        </div>
+        <div th:if="${!connections.isEmpty()}">
+            <h2 style="color: green">Nouvelle connexion créée</h2>
+        </div>
+            <button type="submit">Ajouter</button>
+
+    </form>
+</body>
+</html>

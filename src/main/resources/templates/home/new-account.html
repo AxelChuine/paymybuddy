@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Account</title>
+</head>
+<body>
+  <form action="#" th:action="@{/home/new-account}" th:object="${account}" method="post">
+    <input type="text" name="username" placeholder="Username" th:field="*{username}">
+    <input type="text" name="email" placeholder="email" th:field="*{email}">
+    <input type="password" name="password" placeholder="Password" th:field="*{password}">
+    <button type="submit">Se connecter</button>
+  </form>
+</body>
+</html>
