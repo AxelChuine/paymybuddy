@@ -84,19 +84,19 @@ public class AccountService {
         return this.mapper.toAccountVM(this.repository.save(this.repository.findByIdentifier(account.getIdentifier())));
     }
 
-    public AccountVM findByEmail(String accountEmail) throws AccountNotFoundException, ParameterNotProvidedException {
+    public AccountDto findByEmail(String accountEmail) throws AccountNotFoundException, ParameterNotProvidedException {
         if (Objects.isNull(accountEmail)) {
             throw new ParameterNotProvidedException();
         }
-        AccountVM accountVM = this.mapper.toAccountVM(this.repository.findByEmail(accountEmail));
-        if (Objects.isNull(accountVM)) {
+        AccountDto accountDto = this.mapper.toAccountDto(this.repository.findByEmail(accountEmail));
+        if (Objects.isNull(accountDto)) {
             throw new AccountNotFoundException();
         }
-        return accountVM;
+        return accountDto;
     }
 
-    public AccountVM findById(long l) {
+    public AccountDto findById(final long l) {
         Optional<Account> optionalAccount = this.repository.findById(l);
-        return optionalAccount.map(this.mapper::toAccountVM).orElse(null);
+        return optionalAccount.map(this.mapper::toAccountDto).orElse(null);
     }
 }

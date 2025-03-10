@@ -1,7 +1,6 @@
 package com.paymybuddy.paymybuddy.controller;
 
 import com.paymybuddy.paymybuddy.dtos.AccountDto;
-import com.paymybuddy.paymybuddy.dtos.AccountVM;
 import com.paymybuddy.paymybuddy.dtos.ConnectionVM;
 import com.paymybuddy.paymybuddy.dtos.TransactionDto;
 import com.paymybuddy.paymybuddy.exceptions.AccountAlreadyExistsException;
@@ -39,8 +38,8 @@ public class TransactionController {
     @GetMapping("/transaction")
     public String findAllTransactions(Model model) throws ParameterNotProvidedException, AccountNotFoundException, ConnectionNotFoundException {
         // FIXME: à enlever lorsque la couche sécurité sera mise en place.
-        AccountVM accountVM = this.accountService.findById(2L);
-        List<ConnectionVM> connections = this.connectionService.findAllByAccount(accountVM);
+        AccountDto accountDto = this.accountService.findById(2L);
+        List<ConnectionVM> connections = this.connectionService.findAllByAccount(accountDto);
         List<AccountDto> accountDtoList = new ArrayList<>();
         for (ConnectionVM connection : connections) {
             accountDtoList.add(this.accountService.findAccount(connection.getConnectionId()));
@@ -53,8 +52,9 @@ public class TransactionController {
     }
 
     @PostMapping("/new-transaction")
-    public String createTransaction(@ModelAttribute TransactionDto transactionDto) throws AccountAlreadyExistsException, ParameterNotProvidedException, AccountNotFoundException {
+    public String createTransaction(@ModelAttribute TransactionDto transactionDto, Model model) throws AccountAlreadyExistsException, ParameterNotProvidedException, AccountNotFoundException {
         TransactionDto transactionDto1 = this.service.create(transactionDto.getAmount(), transactionDto.getName(), 2L, transactionDto.getRecipient().getIdentifier());
-        return "transaction/new-transaction";
+        model.addAttribute("transaction", transactionDto1);
+        return "transaction/transaction";
     }
 }

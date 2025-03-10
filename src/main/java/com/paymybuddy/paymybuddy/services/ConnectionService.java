@@ -1,7 +1,7 @@
 package com.paymybuddy.paymybuddy.services;
 
 import com.paymybuddy.paymybuddy.dtos.AccountDto;
-import com.paymybuddy.paymybuddy.dtos.AccountVM;
+import com.paymybuddy.paymybuddy.dtos.ConnectionDto;
 import com.paymybuddy.paymybuddy.dtos.ConnectionVM;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
 import com.paymybuddy.paymybuddy.exceptions.ConnectionNotFoundException;
@@ -40,39 +40,25 @@ public class ConnectionService {
         this.accountMapper = accountMapper;
     }
 
-    public ConnectionVM create(AccountDto accountDto, AccountDto connection) throws ParameterNotProvidedException, AccountNotFoundException {
+    public ConnectionDto create(AccountDto accountDto, AccountDto connection) throws ParameterNotProvidedException, AccountNotFoundException {
         if (Objects.isNull(accountDto) || Objects.isNull(connection)) {
             throw new ParameterNotProvidedException();
         }
-        AccountVM account = this.accountService.findById(accountDto.getIdentifier());
-        AccountVM connectionVM = this.accountService.findById(connection.getIdentifier());
+        AccountDto account = this.accountService.findById(accountDto.getIdentifier());
+        AccountDto connectionVM = this.accountService.findById(connection.getIdentifier());
         if (Objects.isNull(account) || Objects.isNull(connectionVM)) {
             throw new AccountNotFoundException();
         }
         Connection connectionToSave = new Connection(
-                this.accountMapper.accountVMToModel(account),
-                this.accountMapper.accountVMToModel(connectionVM)
+                this.accountMapper.toModel(account),
+                this.accountMapper.toModel(connectionVM)
         );
         Connection ConnectionWithSender = new Connection(this.accountMapper.accountVMToModel(connectionVM), this.accountMapper.toModel(accountDto));
         this.repository.save(ConnectionWithSender);
-        return this.mapper.toVM(this.repository.save(connectionToSave));
+        return this.mapper.toDto(this.repository.save(connectionToSave));
     }
 
-
-    //FIXME: tester si la connexion existe
-    public ConnectionVM create(AccountVM accountVM, String email) throws ParameterNotProvidedException, AccountNotFoundException {
-        if (Objects.isNull(accountVM) || Objects.isNull(email)) {
-            throw new ParameterNotProvidedException();
-        }
-        AccountVM account = this.accountService.findById(accountVM.getIdentifier());
-        AccountVM connectionVM = this.accountService.findByEmail(email);
-        if (Objects.isNull(account) || Objects.isNull(connectionVM)) {
-            throw new AccountNotFoundException();
-        }
-        return new ConnectionVM(account.getIdentifier(), connectionVM.getIdentifier(), connectionVM.getFirstName(), connectionVM.getLastName());
-    }
-
-    public List<ConnectionVM> findAllByAccount(AccountVM account) throws ParameterNotProvidedException, ConnectionNotFoundException {
+    public List<ConnectionVM> findAllByAccount(AccountDto account) throws ParameterNotProvidedException, ConnectionNotFoundException {
         if (Objects.isNull(account)) {
             throw new ParameterNotProvidedException();
         }
@@ -91,6 +77,12 @@ public class ConnectionService {
         if (Objects.isNull(accountId) || Objects.isNull(connectionId)) {
             throw new ParameterNotProvidedException();
         }
-        this.repository.delete(this.repository.findByConnection(this.accountMapper.accountVMToModel(this.accountService.findById(connectionId))));
+        this.repository.delete(this.repository.findByConnection(this.accountMapper.toModel(this.accountService.findById(connectionId))));
+    }
+
+    public ConnectionDto create(long l, String email) throws ParameterNotProvidedException, AccountNotFoundException {
+        AccountDto account = this.accountService.findById(l);
+        AccountDto connection = this.accountService.findByEmail(email);
+        return this.create(account, connection);
     }
 }

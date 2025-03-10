@@ -31,7 +31,7 @@ public class AccountMapper {
         return optionalAccount.orElse(null);
     }
 
-    public Account accountVMToModel(AccountVM accountVM) {
+    public Account accountVMToModel(AccountDto accountVM) {
         Optional<Account> optionalAccount = this.repository.findById(accountVM.getIdentifier());
         if (optionalAccount.isPresent()) {
             return optionalAccount.get();
