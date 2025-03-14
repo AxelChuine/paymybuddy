@@ -14,7 +14,6 @@ import com.paymybuddy.paymybuddy.services.mapper.TransactionMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -48,27 +47,19 @@ public class TransactionService {
      * les frais de gestion sont payés
      */
 
-    public TransactionDto create(BigDecimal amount, String name, Long senderId, Long recipientId) throws ParameterNotProvidedException, AccountNotFoundException, AccountAlreadyExistsException {
-        AccountDto account = this.accountService.findAccount(senderId);
-        BigDecimal fee = amount.multiply(BigDecimal.valueOf(0.005));
+    public TransactionDto create(final TransactionDto transactionDto) throws ParameterNotProvidedException, AccountNotFoundException, AccountAlreadyExistsException {
+        BigDecimal fee = transactionDto.getAmount().multiply(BigDecimal.valueOf(0.005));
         AccountDto payMyBuddy = this.accountService.findByName("pay-my-buddy");
         payMyBuddy.setBalance(fee);
         this.accountService.save(payMyBuddy);
-        account.setBalance(account.getBalance().subtract(amount.add(fee)));
-        this.accountService.updateAccount(account);
-        AccountDto receiverDto = this.accountService.findAccount(recipientId);
-        receiverDto.setBalance(receiverDto.getBalance().add(amount));
-        this.accountService.updateAccount(receiverDto);
-        Transaction transaction = new Transaction(
-                name,
-                amount,
-                this.accountMapper.toModel(account),
-                this.accountMapper.toModel(receiverDto),
-                LocalDateTime.now());
-        this.connectionService.create(payMyBuddy, account);
-        this.connectionService.create(payMyBuddy, receiverDto);
-        this.connectionService.create(account, receiverDto);
-        return this.mapper.toTransactionDto(repository.save(transaction));
+        transactionDto.getSender().setBalance(transactionDto.getSender().getBalance().subtract(transactionDto.getAmount().add(fee)));
+        this.accountService.updateAccount(transactionDto.getSender());
+        transactionDto.getRecipient().setBalance(transactionDto.getRecipient().getBalance().add(transactionDto.getAmount()));
+        this.accountService.updateAccount(transactionDto.getRecipient());
+        this.connectionService.create(payMyBuddy, transactionDto.getSender());
+        this.connectionService.create(payMyBuddy, transactionDto.getRecipient());
+        this.connectionService.create(transactionDto.getSender(), transactionDto.getRecipient());
+        return this.mapper.toTransactionDto(repository.save(this.mapper.transactionDtoToTransaction(transactionDto)));
     }
 
     public List<TransactionDto> findAllByAccountId(long l) throws ParameterNotProvidedException, AccountNotFoundException {

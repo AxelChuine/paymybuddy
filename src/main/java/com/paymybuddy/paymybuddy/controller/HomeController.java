@@ -33,12 +33,12 @@ public class HomeController {
         return "/home/settings";
     }
 
-    @PostMapping("/new-settings")
+    @PostMapping("/settings")
     public String createAccount(Model model, @ModelAttribute AccountDto accountDto) throws AccountAlreadyExistsException, ParameterNotProvidedException, AccountNotFoundException {
         AccountDto account = accountDto;
         account.setIdentifier(3L);
         account = this.accountService.save(accountDto);
         model.addAttribute("account", account);
-        return "/home/new-settings";
+        return "/home/settings";
     }
 }

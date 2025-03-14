@@ -4,6 +4,7 @@ import com.paymybuddy.paymybuddy.dtos.TransactionDto;
 import com.paymybuddy.paymybuddy.models.Transaction;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -45,5 +46,16 @@ public class TransactionMapper {
             transactionDtoList.add(toTransactionDto(transaction));
         }
         return transactionDtoList;
+    }
+
+    public Transaction transactionDtoToTransaction(TransactionDto transactionDto) {
+        Transaction transaction = new Transaction();
+        transaction.setIdentifier(Objects.nonNull(transactionDto.getIdentifier()) ? transactionDto.getIdentifier() : null);
+        transaction.setName(transactionDto.getName());
+        transaction.setAmount(transactionDto.getAmount());
+        transaction.setSender(Objects.nonNull(transactionDto.getSender()) ? this.accountMapper.toModel(transactionDto.getSender()) : null);
+        transaction.setReceiver(Objects.nonNull(transactionDto.getRecipient()) ? this.accountMapper.toModel(transactionDto.getRecipient()) : null);
+        transaction.setTransactionDate(Objects.nonNull(transactionDto.getTransactionDate()) ? transactionDto.getTransactionDate() : LocalDateTime.now());
+        return transaction;
     }
 }

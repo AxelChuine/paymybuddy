@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>transaction</h1>
-    <form th:action="@{/transaction/new-transaction}" th:object="${transaction}" method="post">
+    <form th:action="@{/transaction/transaction}" th:object="${transaction}" method="post">
         <select name="connectionList" id="receiverId" th:field="*{recipient.identifier}">
             <option value="" disabled selected>Choisissez une connexion</option>
             <option th:each="account : ${accountDtoList}"
