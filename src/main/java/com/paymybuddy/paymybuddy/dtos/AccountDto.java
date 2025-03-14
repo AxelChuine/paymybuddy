@@ -16,6 +16,7 @@ public class AccountDto {
     private Long identifier;
     private String firstName;
     private String lastName;
+    private String username;
     private String password;
     @NotEmpty(message = "The email is required")
     @Email

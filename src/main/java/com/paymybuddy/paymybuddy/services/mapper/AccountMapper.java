@@ -46,6 +46,7 @@ public class AccountMapper {
                 account.getIdentifier(),
                 account.getFirstName(),
                 account.getLastName(),
+                account.getUsername(),
                 account.getPassword(),
                 account.getEmail(),
                 account.getName(),

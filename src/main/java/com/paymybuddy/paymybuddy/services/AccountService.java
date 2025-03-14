@@ -81,11 +81,23 @@ public class AccountService {
         return this.mapper.toAccountDto(this.repository.findByName(accountName));
     }
 
-    public AccountVM save(AccountDto account) throws AccountAlreadyExistsException, ParameterNotProvidedException {
+    public AccountDto save(AccountDto account) throws AccountAlreadyExistsException, ParameterNotProvidedException, AccountNotFoundException {
         if (Objects.isNull(account)) {
             throw new ParameterNotProvidedException();
         }
-        return this.mapper.toAccountVM(this.repository.save(this.repository.findByIdentifier(account.getIdentifier())));
+        Account accountToUpdate = this.repository.findByIdentifier(account.getIdentifier());
+        Account accountToSave = new Account();
+        accountToSave.setIdentifier(accountToUpdate.getIdentifier());
+        accountToSave.setFirstName(accountToUpdate.getFirstName());
+        accountToSave.setLastName(accountToUpdate.getLastName());
+        accountToSave.setUsername(Objects.nonNull(account.getUsername()) ? account.getUsername() : accountToUpdate.getUsername());
+        accountToSave.setPassword(Objects.nonNull(account.getPassword()) ? account.getPassword() : accountToUpdate.getPassword());
+        accountToSave.setEmail(Objects.nonNull(account.getEmail()) ? account.getEmail() : accountToUpdate.getEmail());
+        accountToSave.setName(accountToUpdate.getName());
+        accountToSave.setBalance(accountToUpdate.getBalance());
+        accountToSave.setConnections(accountToUpdate.getConnections());
+
+        return this.mapper.toAccountDto(this.repository.save(accountToSave));
     }
 
     public AccountDto findByEmail(String accountEmail) throws AccountNotFoundException, ParameterNotProvidedException {
