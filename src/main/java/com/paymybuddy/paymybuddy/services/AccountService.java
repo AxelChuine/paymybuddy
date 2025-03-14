@@ -29,6 +29,10 @@ public class AccountService {
         return repository.findAll();
     }
 
+    public List<AccountDto> findAllDto() throws AccountNotFoundException {
+        return this.mapper.toDtoList(this.repository.findAll());
+    }
+
     public AccountVM createAccount(Account account) throws AccountAlreadyExistsException, AccountNotFoundException {
       if (this.findAll().stream().anyMatch(a -> Objects.equals(account.getFirstName(), a.getFirstName()) && Objects.equals(account.getLastName(), a.getLastName()))) {
         throw new AccountAlreadyExistsException();

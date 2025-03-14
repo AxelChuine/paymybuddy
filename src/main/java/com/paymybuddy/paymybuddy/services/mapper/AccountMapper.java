@@ -6,6 +6,8 @@ import com.paymybuddy.paymybuddy.models.Account;
 import com.paymybuddy.paymybuddy.repository.IAccountRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,5 +52,13 @@ public class AccountMapper {
                 account.getBalance(),
                 null
         );
+    }
+
+    public List<AccountDto> toDtoList(List<Account> accountList) {
+        List<AccountDto> list = new ArrayList<>();
+        for (Account account : accountList) {
+            list.add(toAccountDto(account));
+        }
+        return list;
     }
 }

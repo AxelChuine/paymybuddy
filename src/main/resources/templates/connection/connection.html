@@ -5,13 +5,12 @@
     <title>new connection</title>
 </head>
 <body>
-    <form action="#" th:action="@{/connection/new-connection.html}" th:object="connection" method="post">
-        <label>Chercher une relation</label>
-        <input type="text" th:field="*{connection.connectionEmail()}" placeholder="Saisir une adresse email"/>
-        <button type="submit">Ajouter</button>
-        <!--<div th:if="${!connections.isEmpty()}">
-            <h2 style="color: green">Nouvelle connexion créée</h2>
-        </div>-->
+
+    <form th:action="@{/connection/new-connection}" th:object="${account}" method="post">
+        <label for="customOption">Choisissez une adresse email :</label>
+        <input type="text" id="customOption" th:field="*{email}" placeholder="Choisissez une adresse email" />
+        <button type="submit">Chercher</button>
     </form>
+
 </body>
 </html>

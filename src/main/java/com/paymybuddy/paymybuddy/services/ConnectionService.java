@@ -44,17 +44,10 @@ public class ConnectionService {
         if (Objects.isNull(accountDto) || Objects.isNull(connection)) {
             throw new ParameterNotProvidedException();
         }
-        AccountDto account = this.accountService.findById(accountDto.getIdentifier());
-        AccountDto connectionVM = this.accountService.findById(connection.getIdentifier());
-        if (Objects.isNull(account) || Objects.isNull(connectionVM)) {
-            throw new AccountNotFoundException();
-        }
         Connection connectionToSave = new Connection(
-                this.accountMapper.toModel(account),
-                this.accountMapper.toModel(connectionVM)
+                this.accountMapper.toModel(accountDto),
+                this.accountMapper.toModel(connection)
         );
-        Connection ConnectionWithSender = new Connection(this.accountMapper.accountVMToModel(connectionVM), this.accountMapper.toModel(accountDto));
-        this.repository.save(ConnectionWithSender);
         return this.mapper.toDto(this.repository.save(connectionToSave));
     }
 
