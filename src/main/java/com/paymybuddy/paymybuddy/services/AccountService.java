@@ -8,6 +8,7 @@ import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
 import com.paymybuddy.paymybuddy.models.Account;
 import com.paymybuddy.paymybuddy.repository.IAccountRepository;
 import com.paymybuddy.paymybuddy.services.mapper.AccountMapper;
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -114,5 +115,17 @@ public class AccountService {
     public AccountDto findById(final long l) {
         Optional<Account> optionalAccount = this.repository.findById(l);
         return optionalAccount.map(this.mapper::toAccountDto).orElse(null);
+    }
+
+    public AccountDto findByUsernameAndPassword(String username, String password) throws BadRequestException {
+        if (Objects.isNull(username) || Objects.isNull(password)) {
+            throw new BadRequestException("Aucun username ou mot de passe renseigné");
+        }
+        Optional<Account> optionalAccount = this.repository.findByUsernameAndPassword(username, password);
+        if (optionalAccount.isPresent()) {
+            return this.mapper.toAccountDto(optionalAccount.get());
+        } else {
+            throw new BadRequestException("Il semble que le compte ne soit pas créé. Veuillez créer le compte");
+        }
     }
 }

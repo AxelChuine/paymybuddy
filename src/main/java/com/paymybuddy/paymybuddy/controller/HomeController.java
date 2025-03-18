@@ -5,6 +5,7 @@ import com.paymybuddy.paymybuddy.exceptions.AccountAlreadyExistsException;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
 import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
 import com.paymybuddy.paymybuddy.services.AccountService;
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,5 +41,18 @@ public class HomeController {
         account = this.accountService.save(accountDto);
         model.addAttribute("account", account);
         return "/home/settings";
+    }
+
+    @GetMapping("/login")
+    public String logging(Model model) {
+        model.addAttribute("account", new AccountDto());
+        return "/home/login";
+    }
+
+    @PostMapping("/transaction/transaction")
+    public String newConnection(Model model, @ModelAttribute AccountDto accountDto) throws BadRequestException {
+        AccountDto account = this.accountService.findByUsernameAndPassword(accountDto.getUsername(), accountDto.getPassword());
+        model.addAttribute("account", account);
+        return "/transaction/transaction";
     }
 }
