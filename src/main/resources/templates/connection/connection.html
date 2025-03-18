@@ -6,11 +6,10 @@
 </head>
 <body>
 
-    <form th:action="@{/connection/new-connection}" th:object="${account}" method="post">
-        <label for="customOption">Choisissez une adresse email :</label>
-        <input type="text" id="customOption" th:field="*{email}" placeholder="Choisissez une adresse email" />
+    <form th:action="@{/connection/connection}" th:object="${account}" method="post">
+        <label for="email">Choisissez une adresse email :</label>
+        <input type="text" id="email" th:field="*{email}" placeholder="Choisissez une adresse email" />
         <button type="submit">Chercher</button>
     </form>
-
 </body>
 </html>

@@ -2,7 +2,6 @@ package com.paymybuddy.paymybuddy.controller;
 
 import com.paymybuddy.paymybuddy.dtos.AccountDto;
 import com.paymybuddy.paymybuddy.dtos.AccountVM;
-import com.paymybuddy.paymybuddy.dtos.ConnectionDto;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
 import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
 import com.paymybuddy.paymybuddy.services.AccountService;
@@ -33,16 +32,14 @@ public class ConnectionController {
 
     @GetMapping("/connection")
     public String connection(Model model) throws ParameterNotProvidedException, AccountNotFoundException {
-        List<AccountDto> accounts = this.accountService.findAllDto();
         model.addAttribute("account", new AccountDto());
-        model.addAttribute("accounts", accounts);
-        return "/connection/connection";
+        return "connection/connection";
     }
 
-    @PostMapping("/new-connection")
-    public String createConnection(Model model, @ModelAttribute AccountDto accountDto) throws ParameterNotProvidedException, AccountNotFoundException {
-        ConnectionDto connection = this.service.create(2L, accountDto.getEmail());
-        model.addAttribute("connection", connection);
-        return "/connection/new-connection";
+    @PostMapping("/connection")
+    public String createConnection(@ModelAttribute AccountDto accountDto, Model model) throws ParameterNotProvidedException, AccountNotFoundException {
+        this.service.create(2L, accountDto.getEmail());
+        model.addAttribute("account", new AccountDto());
+        return "connection/connection";
     }
 }

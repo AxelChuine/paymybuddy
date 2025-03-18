@@ -37,7 +37,6 @@ public class TransactionController {
 
     @GetMapping("/transaction")
     public String findAllTransactions(Model model) throws ParameterNotProvidedException, AccountNotFoundException, ConnectionNotFoundException {
-        // FIXME: à enlever lorsque la couche sécurité sera mise en place.
         AccountDto accountDto = this.accountService.findById(2L);
         List<ConnectionVM> connections = this.connectionService.findAllByAccount(accountDto);
         List<AccountDto> accountDtoList = new ArrayList<>();
