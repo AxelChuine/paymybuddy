@@ -5,7 +5,7 @@
     <title>login</title>
 </head>
 <body>
-  <form th:action="@{/transaction/transaction}" th:object="${account}" method="post">
+  <form th:action="@{/transaction/transaction}" th:object="${account}" method="get">
     <input type="text" name="username" th:field="*{email}" placeholder="mail"/>
     <input type="password" name="password" th:field="${account.password}" placeholder="Mot de passe"/>
     <button type="submit">Se connecter</button>

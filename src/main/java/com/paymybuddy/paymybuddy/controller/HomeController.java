@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Objects;
+
 @Controller
 @RequestMapping("/home")
 public class HomeController {
@@ -52,6 +54,9 @@ public class HomeController {
     @PostMapping("/transaction/transaction")
     public String newConnection(Model model, @ModelAttribute AccountDto accountDto) throws BadRequestException {
         AccountDto account = this.accountService.findByUsernameAndPassword(accountDto.getUsername(), accountDto.getPassword());
+        if (Objects.nonNull(account.getIdentifier())) {
+            this.accountService.setAccountDto(account);
+        }
         model.addAttribute("account", account);
         return "/transaction/transaction";
     }

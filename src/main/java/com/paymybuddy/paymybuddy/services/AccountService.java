@@ -8,6 +8,8 @@ import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
 import com.paymybuddy.paymybuddy.models.Account;
 import com.paymybuddy.paymybuddy.repository.IAccountRepository;
 import com.paymybuddy.paymybuddy.services.mapper.AccountMapper;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +23,14 @@ public class AccountService {
 
     private final AccountMapper mapper;
 
+    @Getter
+    @Setter
+    private AccountDto accountDto;
+
     public AccountService(IAccountRepository repository, AccountMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
+        this.accountDto = new AccountDto();
     }
 
     public List<Account> findAll() throws AccountNotFoundException {
@@ -128,4 +135,5 @@ public class AccountService {
             throw new BadRequestException("Il semble que le compte ne soit pas créé. Veuillez créer le compte");
         }
     }
+
 }

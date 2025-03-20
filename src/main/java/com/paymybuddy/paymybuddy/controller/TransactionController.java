@@ -52,7 +52,7 @@ public class TransactionController {
 
     @PostMapping("/transaction")
     public String createTransaction(@ModelAttribute TransactionDto transactionDto, Model model) throws AccountAlreadyExistsException, ParameterNotProvidedException, AccountNotFoundException {
-        AccountDto accountDto = this.accountService.findById(2L);
+        AccountDto accountDto = this.accountService.findById(this.accountService.getAccountDto().getIdentifier());
         AccountDto recipient = this.accountService.findById(transactionDto.getRecipient().getIdentifier());
         transactionDto.setSender(accountDto);
         transactionDto.setRecipient(recipient);
