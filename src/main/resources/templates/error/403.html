@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Forbidden</title>
+</head>
+<body>
+  <h1 style="color: red">Forbidden</h1>
+  <form action="#" th:action="@{/error/403}" th:object="${exception}" method="get">
+      <h1 style="color: red">403: Forbidden</h1>
+      <input type="text" th:field="*{exception.message}"/>
+  </form>
+</body>
+</html>

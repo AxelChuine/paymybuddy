@@ -75,7 +75,10 @@ public class ConnectionService {
 
     public ConnectionDto create(long l, String email) throws ParameterNotProvidedException, AccountNotFoundException {
         AccountDto account = this.accountService.findById(l);
-        AccountDto connection = this.accountService.findByEmail(email);
-        return this.create(account, connection);
+        Optional<Account> optionalConnection = this.accountService.findByEmail(email);
+        if (optionalConnection.isPresent()) {
+            return this.create(account, this.accountMapper.toAccountDto(optionalConnection.get()));
+        }
+        return null;
     }
 }

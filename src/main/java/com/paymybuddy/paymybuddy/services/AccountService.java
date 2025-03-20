@@ -8,6 +8,8 @@ import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
 import com.paymybuddy.paymybuddy.models.Account;
 import com.paymybuddy.paymybuddy.repository.IAccountRepository;
 import com.paymybuddy.paymybuddy.services.mapper.AccountMapper;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.coyote.BadRequestException;
@@ -108,15 +110,16 @@ public class AccountService {
         return this.mapper.toAccountDto(this.repository.save(accountToSave));
     }
 
-    public AccountDto findByEmail(String accountEmail) throws AccountNotFoundException, ParameterNotProvidedException {
+
+    public Optional<Account> findByEmail(String accountEmail) throws AccountNotFoundException, ParameterNotProvidedException {
         if (Objects.isNull(accountEmail)) {
             throw new ParameterNotProvidedException();
         }
-        AccountDto accountDto = this.mapper.toAccountDto(this.repository.findByEmail(accountEmail));
-        if (Objects.isNull(accountDto)) {
+        Optional<Account> optionalAccount = this.repository.findByEmail(accountEmail);
+        if (optionalAccount.isEmpty()) {
             throw new AccountNotFoundException();
         }
-        return accountDto;
+        return optionalAccount;
     }
 
     public AccountDto findById(final long l) {
@@ -136,4 +139,16 @@ public class AccountService {
         }
     }
 
+    public AccountDto createAccount(@NotEmpty(message = "The email is required") @Email String email, String username, String password) {
+        Account account = new Account();
+        account.setEmail(email);
+        account.setUsername(username);
+        account.setPassword(password);
+        return this.mapper.toAccountDto(this.repository.save(account));
+    }
+
+    public Boolean checkIfExists(String email) {
+        Optional<Account> optionalAccount = this.repository.findByEmail(email);
+        return optionalAccount.isPresent();
+    }
 }

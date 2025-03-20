@@ -1,7 +1,5 @@
 package com.paymybuddy.paymybuddy.dtos;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +16,6 @@ public class AccountDto {
     private String lastName;
     private String username;
     private String password;
-    @NotEmpty(message = "The email is required")
-    @Email
     private String email;
     private String name;
     private BigDecimal balance;

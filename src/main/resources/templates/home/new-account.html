@@ -5,7 +5,7 @@
     <title>New Account</title>
 </head>
 <body>
-  <form action="#" th:action="@{/home/new-account}" th:object="${account}" method="post">
+  <form action="#" th:action="@{/home/new-account}" method="post" th:object="${account}">
     <input type="text" name="username" placeholder="Username" th:field="*{username}">
     <input type="text" name="email" placeholder="email" th:field="*{email}">
     <input type="password" name="password" placeholder="Password" th:field="*{password}">

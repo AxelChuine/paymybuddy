@@ -12,7 +12,7 @@ public interface IAccountRepository extends JpaRepository<Account, Long> {
 
     Account findByName(String accountName);
 
-    Account findByEmail(String accountEmail);
+    Optional<Account> findByEmail(String accountEmail);
 
     Optional<Account> findByUsernameAndPassword(String username, String password);
 }
