@@ -21,10 +21,6 @@ public class HomeController {
         this.accountService = accountService;
     }
 
-    @GetMapping({"", "/"})
-    public String index() {
-        return "index";
-    }
 
     @GetMapping("/settings")
     public String findAccount(Model model) {

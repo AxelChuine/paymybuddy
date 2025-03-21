@@ -1,0 +1,53 @@
+body {
+    display: flex;
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    height: 100vh; /* Prend toute la hauteur de la fenêtre */
+    margin: 0; /* Enlève les marges par défaut */
+}
+
+#login-box {
+    display: grid;
+    padding: 5.5em 3.5em 5.75em;
+    border: 1px solid black;
+    margin: 2em;
+    border-radius: 6px;
+    align-content: center;
+}
+
+.application-name {
+    background-color: #f69f1d;
+    font-weight: bold;
+    display: flex;
+    align-content: center;
+    color: white;
+    padding: 0.5em;
+    width: fit-content;
+    border-radius: 6px;
+}
+
+.button-login {
+    background-color: #207fee;
+    color: white;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin: 2em;
+}
+
+.form-group input {
+    margin: 6px;
+}
+
+.login-container {
+
+}
