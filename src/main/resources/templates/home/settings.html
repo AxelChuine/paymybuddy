@@ -9,13 +9,21 @@
 <body>
 <nav th:replace="header :: navigation"></nav>
     <form th:action="@{/home/settings}" th:object="${account}" method="post">
-        <label>Username</label>
-        <input type="text" th:field="*{username}"/>
-        <label>Email</label>
-        <input type="text" th:field="*{email}"/>
-        <label>Password</label>
-        <input type="password" th:field="*{password}"/>
-        <input type="submit" value="Modifier"/>
+        <div class="container form-profil">
+            <div class="username">
+                <label>Username</label>
+                <input class="form-control" type="text" th:field="*{username}"/>
+            </div>
+            <div class="mail">
+                <label>Email</label>
+                <input class="form-control" type="text" th:field="*{email}"/>
+            </div>
+            <div class="password">
+                <label>Password</label>
+                <input class="form-control" type="password" th:field="*{password}"/>
+            </div>
+        </div>
+        <button class="button-new-relation" type="submit" value="Modifier">Modifier</button>
     </form>
 
 </body>

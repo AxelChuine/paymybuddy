@@ -86,3 +86,34 @@ nav a {
     height: 100vh; /* Prend toute la hauteur de la fenêtre */
     margin: 0; /* Enlève les marges par défaut */
 }
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    height: 100vh; /* Prend toute la hauteur de la fenêtre */
+    margin: 0; /* Enlève les marges par défaut */
+}
+
+.form-profil {
+    display: flex;
+    flex-direction: column;
+    margin: 0 1em;
+}
+
+div label {
+    font-weight: bold;
+}
+
+div.username {
+    flex-direction: row;
+}
+
+div.mail {
+    flex-direction: row;
+}
+
+div.password {
+    flex-direction: row;
+}
