@@ -14,9 +14,9 @@
         </div>
 
         <div class="navbar-links">
-            <a class="navbar-brand" th:href="@{/transaction/transaction}">Transférer</a>
-            <a class="navbar-brand" th:href="@{/home/settings}">Profil</a>
-            <a class="navbar-brand" th:class="${currentPage == 'page2'} ? 'active-link'" th:href="@{/connection/connection}">Ajouter relation</a>
+            <a class="navbar-brand" th:class="${currentPage == 'page1'} ? 'active-link'" th:href="@{/transaction/transaction}">Transférer</a>
+            <a class="navbar-brand" th:class="${currentPage == 'page2'} ? 'active-link'" th:href="@{/home/settings}">Profil</a>
+            <a class="navbar-brand" th:class="${currentPage == 'page3'} ? 'active-link'" th:href="@{/connection/connection}">Ajouter relation</a>
             <a class="navbar-brand" th:href="@{/home/login}">Se déconnecter</a>
         </div>
     </div>

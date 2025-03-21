@@ -47,6 +47,7 @@ public class TransactionController {
         model.addAttribute("transaction", new TransactionDto());
         model.addAttribute("accountDtoList", accountDtoList);
         model.addAttribute("transactions", transactionDtoList);
+        model.addAttribute("currentPage", "page1");
         return "transaction/transaction";
     }
 

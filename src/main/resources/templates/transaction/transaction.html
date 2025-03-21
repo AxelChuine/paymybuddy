@@ -3,39 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>transaction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link th:href="@{/assets/style_pages.css}" rel="stylesheet" />
 </head>
 <body>
-    <h1>transaction</h1>
-    <form th:action="@{/transaction/transaction}" th:object="${transaction}" method="post">
-        <select name="connectionList" id="receiverId" th:field="*{recipient.identifier}">
-            <option value="" disabled selected>Choisissez une connexion</option>
-            <option th:each="account : ${accountDtoList}"
-                    th:value="${account.getIdentifier()}"
-                    th:text="${account.getFirstName()} + ' ' + ${account.getLastName()}">
+    <div id="transaction">
+        <form th:action="@{/transaction/transaction}" th:object="${transaction}" method="post">
+            <div class="mb-3 form-new-transaction">
+                <select class="form-select" name="connectionList" id="receiverId" th:field="*{recipient.identifier}">
+                    <option value="" disabled selected>Choisissez une connexion</option>
+                    <option th:each="account : ${accountDtoList}"
+                            th:value="${account.getIdentifier()}"
+                            th:text="${account.getFirstName()} + ' ' + ${account.getLastName()}">
 
-            </option>
-        </select>
-        <input type="text" name="name" id="name" placeholder="Description" th:field="*{name}">
-        <input type="number" name="amount" id="amount" placeholder="0€" th:field="*{amount}">
-        <button type="submit">Payer</button>
-    </form>
+                    </option>
+                </select>
+                <input type="text" class="form-control" name="name" id="name" placeholder="Description" th:field="*{name}">
+                <input type="number" class="form-control" name="amount" id="amount" placeholder="0€" th:field="*{amount}">
+                <button class="btn btn-primary" type="submit">Payer</button>
+            </div>
+        </form>
 
-    <table>
-        <thead>
-            <caption><strong>Mes transactions</strong></caption>
-            <tr>
-                <th>Relations</th>
-                <th>Description</th>
-                <th>Montant</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="transaction : ${transactions}">
-                <td th:text="@{${transaction.sender.firstName}}"></td>
-                <td th:text="${transaction.name}"></td>
-                <td th:text="${#numbers.formatCurrency(transaction.amount)}"></td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="table-previous-transaction">
+
+            <label id="table-transactions">Mes transactions</label>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Relations</th>
+                    <th>Description</th>
+                    <th>Montant</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="transaction : ${transactions}">
+                    <td th:text="@{${transaction.sender.firstName}}"></td>
+                    <td th:text="${transaction.name}"></td>
+                    <td th:text="${#numbers.formatCurrency(transaction.amount)}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -33,7 +33,7 @@ public class ConnectionController {
     @GetMapping("/connection")
     public String connection(Model model) throws ParameterNotProvidedException, AccountNotFoundException {
         model.addAttribute("account", new AccountDto());
-        model.addAttribute("currentPage", "page2");
+        model.addAttribute("currentPage", "page3");
         return "connection/connection";
     }
 

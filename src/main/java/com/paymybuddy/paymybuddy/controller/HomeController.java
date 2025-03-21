@@ -26,6 +26,7 @@ public class HomeController {
     public String findAccount(Model model) {
         AccountDto accountDto = this.accountService.findById(3L);
         model.addAttribute("account", accountDto);
+        model.addAttribute("currentPage", "page2");
         return "/home/settings";
     }
 
