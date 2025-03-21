@@ -1,0 +1,40 @@
+body {
+    display: flex;
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    height: 100vh; /* Prend toute la hauteur de la fenêtre */
+    margin: 0; /* Enlève les marges par défaut */
+}
+
+.button-new-relation {
+    background-color: #f69f1d;
+    display: flex;
+    align-content: center;
+    color: white;
+    padding: 0.5em;
+    width: fit-content;
+    border-radius: 6px;
+    box-shadow: none;
+}
+
+.login-box {
+    display: flex;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    width: 430px;
+}
+
+#form-new-relation {
+    display: flex;
+    flex-direction: row;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 0.85vw;
+}
