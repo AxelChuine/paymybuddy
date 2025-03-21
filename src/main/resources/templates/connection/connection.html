@@ -7,6 +7,20 @@
     <link th:href="@{/assets/style_pages.css}" rel="stylesheet" />
 </head>
 <body>
+<nav class="navbar">
+    <div class="container-fluid">
+        <div class="paymybuddy">
+            <a class="navbar-brand" th:href="@{/transaction/transaction}">Pay My Buddy</a>
+        </div>
+
+        <div class="navbar-links">
+            <a class="navbar-brand" th:href="@{/transaction/transaction}">Transférer</a>
+            <a class="navbar-brand" th:href="@{/home/settings}">Profil</a>
+            <a class="navbar-brand" th:class="${currentPage == 'page2'} ? 'active-link'" th:href="@{/connection/connection}">Ajouter relation</a>
+            <a class="navbar-brand" th:href="@{/home/login}">Se déconnecter</a>
+        </div>
+    </div>
+</nav>
     <div class="login-box">
         <form th:action="@{/connection/connection}" th:object="${account}" method="post">
             <label for="email">Chercher une relation :</label>
