@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>header</title>
+</head>
+<body>
+<nav th:fragment="navigation" class="navbar">
+  <div class="container-fluid">
+    <div class="paymybuddy">
+      <a class="navbar-brand" th:href="@{/transaction/transaction}">Pay My Buddy</a>
+    </div>
+
+    <div class="navbar-links">
+      <a class="navbar-brand" th:class="${currentPage == 'page1'} ? 'active-link'" th:href="@{/transaction/transaction}">Transférer</a>
+      <a class="navbar-brand" th:class="${currentPage == 'page2'} ? 'active-link'" th:href="@{/home/settings}">Profil</a>
+      <a class="navbar-brand" th:class="${currentPage == 'page3'} ? 'active-link'" th:href="@{/connection/connection}">Ajouter relation</a>
+      <a class="navbar-brand" th:href="@{/home/login}">Se déconnecter</a>
+    </div>
+  </div>
+</nav>
+</body>
+</html>
