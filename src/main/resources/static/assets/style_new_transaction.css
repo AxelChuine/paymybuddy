@@ -1,0 +1,14 @@
+.form-transaction {
+    display: flex;
+    flex-direction: row;
+    margin-right: 1vw;
+    gap: 1vw;
+}
+
+form {
+    margin-bottom: 2vw;
+}
+
+.table-previous-transaction {
+    width: 45%;
+}

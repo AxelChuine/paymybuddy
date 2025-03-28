@@ -5,12 +5,13 @@
     <title>transaction</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link th:href="@{/assets/style_pages.css}" rel="stylesheet" />
+    <link th:href="@{/assets/style_new_transaction.css}" rel="stylesheet" />
 </head>
 <body>
 <nav th:replace="header :: navigation"></nav>
-    <div id="transaction">
+    <div id="transaction" class="center-element">
         <form th:action="@{/transaction/transaction}" th:object="${transaction}" method="post">
-            <div class="mb-3 form-new-transaction">
+            <div class="form-transaction">
                 <select class="form-select" name="connectionList" id="receiverId" th:field="*{recipient.identifier}">
                     <option value="" disabled selected>Choisissez une connexion</option>
                     <option th:each="account : ${accountDtoList}"

@@ -71,14 +71,7 @@ nav a {
     gap: 0.85vw;
 }
 
-.form-new-transaction {
-    display: flex;
-    flex-direction: row;
-    margin: 0 1.5em;
-    gap: 2vw;
-}
-
-#transaction {
+.center-element {
     display: flex;
     flex-direction: column;
     justify-content: center; /* Centre horizontalement */
@@ -87,7 +80,7 @@ nav a {
     margin: 0; /* Enlève les marges par défaut */
 }
 
-form {
+#transaction {
     display: flex;
     flex-direction: column;
     justify-content: center; /* Centre horizontalement */
