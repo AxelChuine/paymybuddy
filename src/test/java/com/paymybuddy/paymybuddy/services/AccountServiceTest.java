@@ -63,4 +63,20 @@ public class AccountServiceTest {
 
         org.junit.jupiter.api.Assertions.assertTrue(optional.isPresent());
     }
+
+    @Test
+    public void findByIdShouldReturnAnAccount() throws AccountNotFoundException, ParameterNotProvidedException {
+        Account account = new Account();
+        account.setIdentifier(32L);
+        AccountDto accountDto = new AccountDto();
+        accountDto.setIdentifier(32L);
+
+        Mockito.when(this.repository.findById(account.getIdentifier())).thenReturn(Optional.of(account));
+        Mockito.when(this.mapper.toAccountDto(account)).thenReturn(accountDto);
+        AccountDto accountToCompare = this.service.findById(account.getIdentifier());
+
+        Assertions.assertThat(accountToCompare).isEqualTo(accountDto);
+        Assertions.assertThat(accountToCompare.toString()).isEqualTo(accountDto.toString());
+        Assertions.assertThat(accountToCompare.hashCode()).isEqualTo(accountDto.hashCode());
+    }
 }
