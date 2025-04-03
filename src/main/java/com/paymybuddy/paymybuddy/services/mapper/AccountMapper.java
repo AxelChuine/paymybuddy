@@ -107,8 +107,4 @@ public class AccountMapper {
         }
         return list;
     }
-
-    public Optional<AccountDto> toOptionalAccountDto(Optional<Account> optionalAccount) {
-        return null;
-    }
 }

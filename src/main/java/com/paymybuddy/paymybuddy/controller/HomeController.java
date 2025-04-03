@@ -80,7 +80,8 @@ public class HomeController {
         }
 
         model.addAttribute("account", new AccountDto());
-        Boolean accountExists = this.accountService.checkIfExists(email);
+        /*Boolean accountExists = this.accountService.checkIfExists(email);*/
+        Boolean accountExists = this.accountService.findByEmail(email).isPresent();
         if (Objects.equals(accountExists, false)) {
             AccountDto accountDto2 = this.accountService.createAccount(email, username, password);
             this.accountService.setAccountDto(accountDto2);

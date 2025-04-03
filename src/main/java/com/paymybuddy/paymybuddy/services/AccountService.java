@@ -133,9 +133,4 @@ public class AccountService {
         account.setPassword(password);
         return this.mapper.toAccountDto(this.repository.save(account));
     }
-
-    public Boolean checkIfExists(String email) {
-        Optional<Account> optionalAccount = this.repository.findByEmail(email);
-        return optionalAccount.isPresent();
-    }
 }
