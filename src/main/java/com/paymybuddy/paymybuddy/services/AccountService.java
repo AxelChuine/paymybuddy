@@ -11,7 +11,6 @@ import com.paymybuddy.paymybuddy.services.mapper.AccountMapper;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
-import lombok.Setter;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
@@ -26,13 +25,11 @@ public class AccountService {
     private final AccountMapper mapper;
 
     @Getter
-    @Setter
     private AccountDto accountDto;
 
     public AccountService(IAccountRepository repository, AccountMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
-        this.accountDto = new AccountDto();
     }
 
     public List<Account> findAll() throws AccountNotFoundException {
@@ -131,7 +128,7 @@ public class AccountService {
         if (Objects.isNull(username) || Objects.isNull(password)) {
             throw new BadRequestException("Aucun username ou mot de passe renseigné");
         }
-        Optional<Account> optionalAccount = this.repository.findByUsernameAndPassword(username, password);
+        Optional<Account> optionalAccount = this.repository.findByEmailAndPassword(username, password);
         if (optionalAccount.isPresent()) {
             return this.mapper.toAccountDto(optionalAccount.get());
         } else {
@@ -150,5 +147,9 @@ public class AccountService {
     public Boolean checkIfExists(String email) {
         Optional<Account> optionalAccount = this.repository.findByEmail(email);
         return optionalAccount.isPresent();
+    }
+
+    public void setAccountDto(AccountDto accountDto) {
+        this.accountDto = accountDto;
     }
 }

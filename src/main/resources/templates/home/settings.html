@@ -8,8 +8,8 @@
 </head>
 <body>
 <nav th:replace="header :: navigation"></nav>
-    <form th:action="@{/home/settings}" th:object="${account}" method="post">
-        <div class="container form-profil">
+    <form th:action="@{/home/settings}" th:object="${account}" method="post" class="center-element form-profil">
+        <div class="form-profil-input">
             <div class="username">
                 <label>Username</label>
                 <input class="form-control" type="text" th:field="*{username}"/>

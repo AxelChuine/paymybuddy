@@ -10,7 +10,7 @@
  <div id="login-box">
      <div class="container login-container">
          <h1 class="application-name">Pay My Buddy</h1>
-         <form th:action="@{/transaction/transaction}" th:object="${account}" method="get">
+         <form th:action="@{/home/login}" th:object="${account}" method="post">
              <div class="form-group">
                  <input type="text" class="form-control" name="username" th:field="*{email}" placeholder="mail"/>
                  <input type="password" class="form-control" name="password" th:field="${account.password}" placeholder="Mot de passe"/>

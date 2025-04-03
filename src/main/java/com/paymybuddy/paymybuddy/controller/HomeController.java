@@ -45,6 +45,18 @@ public class HomeController {
         return "/home/login";
     }
 
+    @PostMapping("/login")
+    public String login(Model model, @ModelAttribute AccountDto accountDto) throws BadRequestException {
+        AccountDto account = this.accountService.findByUsernameAndPassword(accountDto.getEmail(), accountDto.getPassword());
+        if (Objects.isNull(account.getIdentifier())) {
+            model.addAttribute("error", "Le compte n'existe pas");
+            return "/home/login";
+        }
+        this.accountService.setAccountDto(account);
+        model.addAttribute("account", account);
+        return "redirect:/transaction/transaction";
+    }
+
     @PostMapping("/transaction/transaction")
     public String newConnection(Model model, @ModelAttribute AccountDto accountDto) throws BadRequestException {
         AccountDto account = this.accountService.findByUsernameAndPassword(accountDto.getUsername(), accountDto.getPassword());

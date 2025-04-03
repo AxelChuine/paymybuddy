@@ -91,8 +91,19 @@ nav a {
 
 .form-profil {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin: 0 1em;
+    gap: 1vw;
+}
+
+.form-profil-input label, .form-profil-input input {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-profil-input {
+    display: flex;
+    flex-direction: column;
 }
 
 div label {
