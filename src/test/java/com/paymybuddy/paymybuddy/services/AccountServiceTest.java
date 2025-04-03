@@ -1,6 +1,7 @@
 package com.paymybuddy.paymybuddy.services;
 
 import com.paymybuddy.paymybuddy.dtos.AccountDto;
+import com.paymybuddy.paymybuddy.dtos.AccountVM;
 import com.paymybuddy.paymybuddy.exceptions.AccountAlreadyExistsException;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
 import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
@@ -163,5 +164,25 @@ public class AccountServiceTest {
         Assertions.assertThat(accountDtoToCompare).isEqualTo(accountDto);
         Assertions.assertThat(accountDtoToCompare.toString()).isEqualTo(accountDto.toString());
         Assertions.assertThat(accountDtoToCompare.hashCode()).isEqualTo(accountDto.hashCode());
+    }
+
+    @Test
+    public void updateAccountShouldReturnAccountVM() throws AccountNotFoundException, ParameterNotProvidedException, BadRequestException {
+        Account account = new Account();
+        AccountVM accountVM = new AccountVM();
+        AccountDto accountDto = new AccountDto();
+        account.setIdentifier(32L);
+        accountDto.setIdentifier(32L);
+        accountVM.setIdentifier(32L);
+
+        Mockito.when(this.repository.findById(account.getIdentifier())).thenReturn(Optional.of(account));
+        Mockito.when(this.mapper.toModel(accountDto)).thenReturn(account);
+        Mockito.when(this.repository.save(account)).thenReturn(account);
+        Mockito.when(this.mapper.toAccountVM(account)).thenReturn(accountVM);
+        AccountVM accountToCompare = this.service.updateAccount(accountDto);
+
+        Assertions.assertThat(accountVM).isEqualTo(accountToCompare);
+        Assertions.assertThat(accountVM.toString()).isEqualTo(accountToCompare.toString());
+        Assertions.assertThat(accountVM.hashCode()).isEqualTo(accountToCompare.hashCode());
     }
 }

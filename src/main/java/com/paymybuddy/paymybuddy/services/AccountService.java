@@ -57,13 +57,11 @@ public class AccountService {
         if (Objects.isNull(account)) {
             throw new ParameterNotProvidedException();
         }
-        Account oldAccount = this.repository.findByIdentifier(account.getIdentifier());
-        if (Objects.isNull(oldAccount)) {
+        boolean exists = this.repository.findById(account.getIdentifier()).isPresent();
+        if (!exists) {
             throw new AccountNotFoundException();
         }
-        Account accountToTransformBeforeReturn = this.repository.findByIdentifier(account.getIdentifier());
-        accountToTransformBeforeReturn.setConnections(oldAccount.getConnections());
-        return this.mapper.toAccountVM(this.repository.save(accountToTransformBeforeReturn));
+        return this.mapper.toAccountVM(this.repository.save(this.mapper.toModel(account)));
     }
 
     public void deleteAccount(Long accountId) throws AccountNotFoundException, ParameterNotProvidedException {
