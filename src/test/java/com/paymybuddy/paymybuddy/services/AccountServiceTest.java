@@ -148,4 +148,20 @@ public class AccountServiceTest {
 
         Assertions.assertThat(accountDtoListToCompare).isEqualTo(accountDtoList);
     }
+
+    @Test
+    public void findAccountShouldReturnAnAccountDto() throws ParameterNotProvidedException, AccountNotFoundException {
+        AccountDto accountDto = new AccountDto();
+        Account account = new Account();
+        account.setIdentifier(32L);
+        accountDto.setIdentifier(32L);
+
+        Mockito.when(this.repository.findByIdentifier(account.getIdentifier())).thenReturn(account);
+        Mockito.when(this.mapper.toAccountDto(account)).thenReturn(accountDto);
+        AccountDto accountDtoToCompare = this.service.findAccount(accountDto.getIdentifier());
+
+        Assertions.assertThat(accountDtoToCompare).isEqualTo(accountDto);
+        Assertions.assertThat(accountDtoToCompare.toString()).isEqualTo(accountDto.toString());
+        Assertions.assertThat(accountDtoToCompare.hashCode()).isEqualTo(accountDto.hashCode());
+    }
 }

@@ -42,13 +42,6 @@ public class AccountService {
         return this.mapper.toDtoList(this.repository.findAll());
     }
 
-    public AccountVM createAccount(Account account) throws AccountAlreadyExistsException, AccountNotFoundException {
-      if (this.findAll().stream().anyMatch(a -> Objects.equals(account.getFirstName(), a.getFirstName()) && Objects.equals(account.getLastName(), a.getLastName()))) {
-        throw new AccountAlreadyExistsException();
-      }
-      return this.mapper.toAccountVM(this.repository.save(account));
-    }
-
     public AccountDto findAccount(Long accountId) throws AccountNotFoundException, ParameterNotProvidedException {
         if (Objects.isNull(accountId)) {
             throw new ParameterNotProvidedException();
