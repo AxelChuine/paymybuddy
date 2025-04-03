@@ -16,6 +16,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -123,5 +125,15 @@ public class AccountServiceTest {
         Assertions.assertThat(accountToCompare).isEqualTo(accountDto);
         Assertions.assertThat(accountToCompare.toString()).isEqualTo(accountDto.toString());
         Assertions.assertThat(accountToCompare.hashCode()).isEqualTo(accountDto.hashCode());
+    }
+
+    @Test
+    public void findAllShouldReturnAListOfAccountDto() throws AccountNotFoundException {
+        List<Account> accountList = new ArrayList<>();
+
+        Mockito.when(this.repository.findAll()).thenReturn(accountList);
+        List<Account> accountListToCompare = this.service.findAll();
+
+        Assertions.assertThat(accountListToCompare).isEqualTo(accountList);
     }
 }
