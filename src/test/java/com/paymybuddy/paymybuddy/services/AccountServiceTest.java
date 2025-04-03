@@ -185,4 +185,22 @@ public class AccountServiceTest {
         Assertions.assertThat(accountVM.toString()).isEqualTo(accountToCompare.toString());
         Assertions.assertThat(accountVM.hashCode()).isEqualTo(accountToCompare.hashCode());
     }
+
+    @Test
+    public void findByNameShouldReturnAnAccountDto() throws AccountNotFoundException, ParameterNotProvidedException, BadRequestException {
+        AccountDto accountDto = new AccountDto();
+        Account account = new Account();
+        account.setIdentifier(32L);
+        accountDto.setIdentifier(32L);
+        account.setName("name");
+        accountDto.setName("name");
+
+        Mockito.when(this.repository.findByName(account.getName())).thenReturn(account);
+        Mockito.when(this.mapper.toAccountDto(account)).thenReturn(accountDto);
+        AccountDto toCompare = this.service.findByName(accountDto.getName());
+
+        Assertions.assertThat(toCompare).isEqualTo(accountDto);
+        Assertions.assertThat(toCompare.toString()).isEqualTo(accountDto.toString());
+        Assertions.assertThat(toCompare.hashCode()).isEqualTo(accountDto.hashCode());
+    }
 }
