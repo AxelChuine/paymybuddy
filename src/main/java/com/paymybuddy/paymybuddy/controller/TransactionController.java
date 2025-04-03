@@ -53,15 +53,20 @@ public class TransactionController {
 
     @PostMapping("/transaction")
     public String createTransaction(@ModelAttribute TransactionDto transactionDto, Model model) throws AccountAlreadyExistsException, ParameterNotProvidedException, AccountNotFoundException {
-        AccountDto accountDto = this.accountService.findById(this.accountService.getAccountDto().getIdentifier());
         AccountDto recipient = this.accountService.findById(transactionDto.getRecipient().getIdentifier());
-        transactionDto.setSender(accountDto);
+        transactionDto.setSender(this.accountService.getAccountDto());
         transactionDto.setRecipient(recipient);
         transactionDto.setAmount(transactionDto.getAmount());
         transactionDto.setRecipient(transactionDto.getRecipient());
         transactionDto.setName(transactionDto.getName());
+        List<TransactionDto> transactionDtoList = this.service.findAllByAccountId(this.accountService.getAccountDto().getIdentifier());
+        if (this.accountService.getAccountDto().getBalance().compareTo(transactionDto.getAmount()) < 0) {
+            model.addAttribute("transaction", new TransactionDto());
+            model.addAttribute("error", "Vous ne pouvez pas faire cette transaction");
+            model.addAttribute("transactions", transactionDtoList);
+            return "transaction/transaction";
+        }
         TransactionDto transactionToReturn = this.service.create(transactionDto);
-        List<TransactionDto> transactionDtoList = this.service.findAllByAccountId(2L);
         model.addAttribute("transaction", transactionToReturn);
         model.addAttribute("transactions", transactionDtoList);
         return "transaction/transaction";
