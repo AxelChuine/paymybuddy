@@ -6,9 +6,7 @@ import com.paymybuddy.paymybuddy.models.Account;
 import com.paymybuddy.paymybuddy.repository.IAccountRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AccountMapper {
@@ -30,7 +28,33 @@ public class AccountMapper {
 
     public Account toModel(AccountDto accountDto) {
         Optional<Account> optionalAccount = this.repository.findById(accountDto.getIdentifier());
+        if (optionalAccount.isPresent()) {
+            Account account = optionalAccount.get();
+            account.setBalance(Objects.requireNonNull(accountDto.getBalance()));
+            account.setConnections(Objects.nonNull(accountDto.getConnectionDtos()) ? this.toConnectionModelSet(accountDto.getConnectionDtos()) : null);
+        }
         return optionalAccount.orElse(null);
+    }
+
+    private Set<Account> toConnectionModelSet(Set<AccountDto> connectionDtos) {
+        Set<Account> accounts = new HashSet<>();
+        for (AccountDto connectionDto : connectionDtos) {
+            accounts.add(this.toConnectionModel(connectionDto));
+        }
+        return accounts;
+    }
+
+    private Account toConnectionModel(AccountDto connectionDto) {
+        Account account = new Account();
+        account.setIdentifier(connectionDto.getIdentifier());
+        account.setFirstName(connectionDto.getFirstName());
+        account.setLastName(connectionDto.getLastName());
+        account.setEmail(connectionDto.getEmail());
+        account.setName(connectionDto.getName());
+        account.setBalance(connectionDto.getBalance());
+        Optional<Account> optional = this.repository.findById(account.getIdentifier());
+        optional.ifPresent(value -> account.setPassword(value.getPassword()));
+        return account;
     }
 
     public Account accountVMToModel(AccountDto accountVM) {

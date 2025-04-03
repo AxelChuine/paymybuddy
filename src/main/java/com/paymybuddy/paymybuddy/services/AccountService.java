@@ -94,19 +94,7 @@ public class AccountService {
         if (Objects.isNull(account)) {
             throw new ParameterNotProvidedException();
         }
-        Account accountToUpdate = this.repository.findByIdentifier(account.getIdentifier());
-        Account accountToSave = new Account();
-        accountToSave.setIdentifier(accountToUpdate.getIdentifier());
-        accountToSave.setFirstName(accountToUpdate.getFirstName());
-        accountToSave.setLastName(accountToUpdate.getLastName());
-        accountToSave.setUsername(Objects.nonNull(account.getUsername()) ? account.getUsername() : accountToUpdate.getUsername());
-        accountToSave.setPassword(Objects.nonNull(account.getPassword()) ? account.getPassword() : accountToUpdate.getPassword());
-        accountToSave.setEmail(Objects.nonNull(account.getEmail()) ? account.getEmail() : accountToUpdate.getEmail());
-        accountToSave.setName(accountToUpdate.getName());
-        accountToSave.setBalance(accountToUpdate.getBalance());
-        accountToSave.setConnections(accountToUpdate.getConnections());
-
-        return this.mapper.toAccountDto(this.repository.save(accountToSave));
+        return this.mapper.toAccountDto(this.repository.save(this.mapper.toModel(account)));
     }
 
 
