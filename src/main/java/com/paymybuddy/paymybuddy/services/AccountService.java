@@ -11,6 +11,7 @@ import com.paymybuddy.paymybuddy.services.mapper.AccountMapper;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ public class AccountService {
 
     private final AccountMapper mapper;
 
+    @Setter
     @Getter
     private AccountDto accountDto;
 
@@ -147,9 +149,5 @@ public class AccountService {
     public Boolean checkIfExists(String email) {
         Optional<Account> optionalAccount = this.repository.findByEmail(email);
         return optionalAccount.isPresent();
-    }
-
-    public void setAccountDto(AccountDto accountDto) {
-        this.accountDto = accountDto;
     }
 }
