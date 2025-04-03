@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -100,5 +101,33 @@ public class AccountServiceTest {
         Assertions.assertThat(accountToCompare).isEqualTo(accountDto);
         Assertions.assertThat(accountToCompare.hashCode()).isEqualTo(accountDto.hashCode());
         Assertions.assertThat(accountToCompare.toString()).isEqualTo(accountDto.toString());
+    }
+
+    @Test
+    public void createAccountShouldReturnAnAccount() throws AccountAlreadyExistsException, ParameterNotProvidedException, AccountNotFoundException {
+        AccountDto accountDto = new AccountDto();
+        Account account = new Account();
+        String username = "hdfkghkdbgj";
+        String email = "hdfkghkdbgj@test.com";
+        String password = "nvfjgnjkdfbgj";
+        BigDecimal balance = BigDecimal.valueOf(100);
+        account.setUsername(username);
+        account.setEmail(email);
+        account.setPassword(password);
+        account.setBalance(balance);
+        accountDto.setUsername(username);
+        accountDto.setEmail(email);
+        accountDto.setPassword(password);
+        accountDto.setBalance(balance);
+
+        Mockito.when(this.repository.save(account)).thenReturn(account);
+        account.setIdentifier(32L);
+        accountDto.setIdentifier(32L);
+        Mockito.when(this.mapper.toAccountDto(account)).thenReturn(accountDto);
+        AccountDto accountToCompare = this.service.createAccount(email, username, password);
+
+        Assertions.assertThat(accountToCompare).isEqualTo(accountDto);
+        Assertions.assertThat(accountToCompare.toString()).isEqualTo(accountDto.toString());
+        Assertions.assertThat(accountToCompare.hashCode()).isEqualTo(accountDto.hashCode());
     }
 }
