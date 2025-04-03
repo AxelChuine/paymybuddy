@@ -136,4 +136,16 @@ public class AccountServiceTest {
 
         Assertions.assertThat(accountListToCompare).isEqualTo(accountList);
     }
+
+    @Test
+    public void findAllDtoShouldReturnAListOfAccountDto() throws AccountNotFoundException {
+        List<AccountDto> accountDtoList = new ArrayList<>();
+        List<Account> accountList = new ArrayList<>();
+
+        Mockito.when(this.repository.findAll()).thenReturn(accountList);
+        Mockito.when(this.mapper.toDtoList(accountList)).thenReturn(accountDtoList);
+        List<AccountDto> accountDtoListToCompare = this.service.findAllDto();
+
+        Assertions.assertThat(accountDtoListToCompare).isEqualTo(accountDtoList);
+    }
 }
