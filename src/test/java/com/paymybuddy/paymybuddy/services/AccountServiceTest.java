@@ -7,6 +7,7 @@ import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
 import com.paymybuddy.paymybuddy.models.Account;
 import com.paymybuddy.paymybuddy.repository.IAccountRepository;
 import com.paymybuddy.paymybuddy.services.mapper.AccountMapper;
+import org.apache.coyote.BadRequestException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -78,5 +79,26 @@ public class AccountServiceTest {
         Assertions.assertThat(accountToCompare).isEqualTo(accountDto);
         Assertions.assertThat(accountToCompare.toString()).isEqualTo(accountDto.toString());
         Assertions.assertThat(accountToCompare.hashCode()).isEqualTo(accountDto.hashCode());
+    }
+
+    @Test
+    public void findByUsernameAndPasswordShouldReturnAnAccount() throws AccountNotFoundException, ParameterNotProvidedException, BadRequestException {
+        Account account = new Account();
+        account.setIdentifier(32L);
+        String username = "babar";
+        String password = "sjfgdhfbj";
+        account.setPassword(password);
+        account.setUsername(username);
+        AccountDto accountDto = new AccountDto();
+        accountDto.setIdentifier(32L);
+        accountDto.setUsername(username);
+
+        Mockito.when(this.repository.findByEmailAndPassword(username, password)).thenReturn(Optional.of(account));
+        Mockito.when(this.mapper.toAccountDto(account)).thenReturn(accountDto);
+        AccountDto accountToCompare = this.service.findByUsernameAndPassword(username, password);
+
+        Assertions.assertThat(accountToCompare).isEqualTo(accountDto);
+        Assertions.assertThat(accountToCompare.hashCode()).isEqualTo(accountDto.hashCode());
+        Assertions.assertThat(accountToCompare.toString()).isEqualTo(accountDto.toString());
     }
 }
