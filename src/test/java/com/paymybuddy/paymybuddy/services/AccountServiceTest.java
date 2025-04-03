@@ -15,6 +15,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 @ExtendWith(MockitoExtension.class)
 public class AccountServiceTest {
 
@@ -42,5 +44,23 @@ public class AccountServiceTest {
         Assertions.assertThat(accountToCompare).isEqualTo(accountDto);
         Assertions.assertThat(accountDto.hashCode()).isEqualTo(accountToCompare.hashCode());
         Assertions.assertThat(accountDto.toString()).isEqualTo(accountToCompare.toString());
+    }
+
+    @Test
+    public void saveShouldThrowParameterNotProvidedException() throws AccountAlreadyExistsException, ParameterNotProvidedException {
+        String message = "Parameter not provided";
+    }
+
+    @Test
+    public void findByEmailShouldReturnAnAccount() throws AccountNotFoundException, ParameterNotProvidedException {
+        Account account = new Account();
+        account.setIdentifier(32L);
+        String email = "jhdhvjdjg";
+        account.setEmail(email);
+
+        Mockito.when(this.repository.findByEmail(email)).thenReturn(Optional.of(account));
+        Optional<Account> optional = this.service.findByEmail(email);
+
+        org.junit.jupiter.api.Assertions.assertTrue(optional.isPresent());
     }
 }
