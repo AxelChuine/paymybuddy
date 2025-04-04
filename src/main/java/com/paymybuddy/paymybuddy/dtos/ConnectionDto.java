@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ConnectionDto {
-    private AccountVM accountVM;
-    private AccountVM connectionVM;
+    private AccountDto accountDto;
+    private AccountDto connectionDto;
 
     public String getConnectionEmail() {
-        return connectionVM.getEmail();
+        return connectionDto.getEmail();
     }
 
     public void setConnectionEmail(String connectionEmail) {
-        connectionVM.setEmail(connectionEmail);
+        connectionDto.setEmail(connectionEmail);
     }
 }

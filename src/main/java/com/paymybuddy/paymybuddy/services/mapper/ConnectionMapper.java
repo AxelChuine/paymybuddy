@@ -19,8 +19,8 @@ public class ConnectionMapper {
 
     public ConnectionDto toDto(Connection connection) {
         return new ConnectionDto(
-                Objects.nonNull(connection.getAccount()) ? accountMapper.toAccountVM(connection.getAccount()) : null,
-                Objects.nonNull(connection.getConnection()) ? accountMapper.toAccountVM(connection.getConnection()) : null
+                Objects.nonNull(connection.getAccount()) ? accountMapper.toAccountDto(connection.getAccount()) : null,
+                Objects.nonNull(connection.getConnection()) ? accountMapper.toAccountDto(connection.getConnection()) : null
         );
     }
 
@@ -28,8 +28,8 @@ public class ConnectionMapper {
         return new ConnectionVM(
                 connection.getAccount().getIdentifier(),
                 connection.getConnection().getIdentifier(),
-                Objects.nonNull(connection.getConnection()) ? connection.getConnection().getFirstName() : null,
-                Objects.nonNull(connection.getConnection()) ? connection.getConnection().getLastName() : null
+                connection.getConnection().getFirstName(),
+                connection.getConnection().getLastName()
         );
     }
 

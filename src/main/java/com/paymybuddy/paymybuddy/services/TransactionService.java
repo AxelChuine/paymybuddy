@@ -53,12 +53,13 @@ public class TransactionService {
         payMyBuddy.setBalance(fee);
         this.accountService.save(payMyBuddy);
         transactionDto.getSender().setBalance(transactionDto.getSender().getBalance().subtract(transactionDto.getAmount().add(fee)));
-        this.accountService.updateAccount(transactionDto.getSender());
+        this.accountService.save(transactionDto.getSender());
         transactionDto.getRecipient().setBalance(transactionDto.getRecipient().getBalance().add(transactionDto.getAmount()));
-        this.accountService.updateAccount(transactionDto.getRecipient());
+        this.accountService.save(transactionDto.getRecipient());
         this.connectionService.create(payMyBuddy, transactionDto.getSender());
         this.connectionService.create(payMyBuddy, transactionDto.getRecipient());
         this.connectionService.create(transactionDto.getSender(), transactionDto.getRecipient());
+        this.connectionService.create(transactionDto.getRecipient(), transactionDto.getSender());
         return this.mapper.toTransactionDto(repository.save(this.mapper.transactionDtoToTransaction(transactionDto)));
     }
 
