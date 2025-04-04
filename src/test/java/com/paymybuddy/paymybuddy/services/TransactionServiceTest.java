@@ -8,6 +8,7 @@ import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
 import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
 import com.paymybuddy.paymybuddy.models.Account;
 import com.paymybuddy.paymybuddy.models.Transaction;
+import com.paymybuddy.paymybuddy.repository.IAccountRepository;
 import com.paymybuddy.paymybuddy.repository.ITransactionRepository;
 import com.paymybuddy.paymybuddy.services.mapper.AccountMapper;
 import com.paymybuddy.paymybuddy.services.mapper.TransactionMapper;
@@ -21,10 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -47,6 +45,9 @@ public class TransactionServiceTest {
 
     @Mock
     private ConnectionService connectionService;
+
+    @Mock
+    private IAccountRepository accountRepository;
 
     private final Long id = 1L;
 
@@ -178,5 +179,15 @@ public class TransactionServiceTest {
         assertThat(transactionDto.toString()).isEqualTo(toCompare.toString());
         assertThat(transactionDto.hashCode()).isEqualTo(toCompare.hashCode());
 
+    }
+
+    @Test
+    public void findAllByAccountIdShouldReturnAListOfTransactionDto() throws ParameterNotProvidedException, AccountNotFoundException {
+        Mockito.when(this.accountRepository.findById(1L)).thenReturn(Optional.of(this.sender));
+        Mockito.when(this.repository.findAllByAccountId(1L)).thenReturn(this.transactionList);
+        Mockito.when(this.mapper.toTransactionDtoList(this.transactionList)).thenReturn(this.transactionDtoList);
+        List<TransactionDto> listToCompare = this.service.findAllByAccountId(1L);
+
+        assertThat(listToCompare).isEqualTo(this.transactionDtoList);
     }
 }
