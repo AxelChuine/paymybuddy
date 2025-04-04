@@ -5,9 +5,11 @@ import com.paymybuddy.paymybuddy.dtos.AccountVM;
 import com.paymybuddy.paymybuddy.dtos.ConnectionDto;
 import com.paymybuddy.paymybuddy.dtos.ConnectionVM;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
+import com.paymybuddy.paymybuddy.exceptions.ConnectionNotFoundException;
 import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
 import com.paymybuddy.paymybuddy.models.Account;
 import com.paymybuddy.paymybuddy.models.Connection;
+import com.paymybuddy.paymybuddy.repository.IAccountRepository;
 import com.paymybuddy.paymybuddy.repository.IConnectionRepository;
 import com.paymybuddy.paymybuddy.services.mapper.AccountMapper;
 import com.paymybuddy.paymybuddy.services.mapper.ConnectionMapper;
@@ -21,10 +23,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ConnectionServiceTest {
@@ -33,6 +32,9 @@ public class ConnectionServiceTest {
 
     @Mock
     private AccountService accountService;
+
+    @Mock
+    private IAccountRepository accountRepository;
 
     @Mock
     private IConnectionRepository repository;
@@ -132,10 +134,12 @@ public class ConnectionServiceTest {
     private Connection connection = new Connection(account, connectionAccount);
     private ConnectionDto connectionDto = new ConnectionDto(accountDto, connectionDtoAccount);
     private ConnectionVM connectionVM = new ConnectionVM(accountId, connectionId, firstNameConnection, lastNameConnection);
+    private List<Connection> connectionList = new ArrayList<>();
     private List<ConnectionVM> connectionVMList = new ArrayList<>();
 
     @BeforeEach
     public void setUp() {
+        this.connectionList.add(connection);
         this.connectionVMList.add(connectionVM);
     }
 
@@ -150,5 +154,15 @@ public class ConnectionServiceTest {
         Assertions.assertThat(toCompare).isEqualTo(this.connectionDto);
         Assertions.assertThat(toCompare.hashCode()).isEqualTo(this.connectionDto.hashCode());
         Assertions.assertThat(toCompare.toString()).isEqualTo(this.connectionDto.toString());
+    }
+
+    @Test
+    public void findAllByAccountShouldReturnAListOfConnectionVM() throws AccountNotFoundException, ParameterNotProvidedException, ConnectionNotFoundException {
+        Mockito.when(this.accountRepository.findById(accountId)).thenReturn(Optional.of(account));
+        Mockito.when(this.repository.findAllByAccount(account)).thenReturn(this.connectionList);
+        Mockito.when(this.mapper.toVMList(this.connectionList)).thenReturn(this.connectionVMList);
+        List<ConnectionVM> listToCompare = this.service.findAllByAccount(accountDto);
+
+        Assertions.assertThat(listToCompare).isEqualTo(this.connectionVMList);
     }
 }
