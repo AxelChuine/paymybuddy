@@ -175,6 +175,16 @@ public class AccountServiceTest {
     }
 
     @Test
+    public void findAccountShouldThrowParameterNotProvidedException() throws ParameterNotProvidedException, AccountNotFoundException {
+        String message = "Parameter not provided";
+
+        ParameterNotProvidedException exception = assertThrows(ParameterNotProvidedException.class, () -> this.service.findAccount(null), message);
+
+        Assertions.assertThat(exception.getMessage()).isEqualTo(message);
+        Assertions.assertThat(exception.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
     public void updateAccountShouldReturnAccountVM() throws AccountNotFoundException, ParameterNotProvidedException, BadRequestException {
         Account account = new Account();
         AccountVM accountVM = new AccountVM();
