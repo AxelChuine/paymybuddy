@@ -16,10 +16,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 public class AccountServiceTest {
@@ -53,6 +56,11 @@ public class AccountServiceTest {
     @Test
     public void saveShouldThrowParameterNotProvidedException() throws AccountAlreadyExistsException, ParameterNotProvidedException {
         String message = "Parameter not provided";
+
+        ParameterNotProvidedException exception = assertThrows(ParameterNotProvidedException.class, () -> this.service.save(null), message);
+
+        Assertions.assertThat(exception.getMessage()).isEqualTo(message);
+        Assertions.assertThat(exception.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
     @Test
@@ -96,7 +104,6 @@ public class AccountServiceTest {
         accountDto.setIdentifier(32L);
         accountDto.setUsername(username);
 
-        /*Mockito.when(this.repository.findByEmailAndPassword(username, password)).thenReturn(Optional.of(account));*/
         Mockito.when(this.repository.findByEmailAndPassword(username, password)).thenReturn(account);
         Mockito.when(this.mapper.toAccountDto(account)).thenReturn(accountDto);
         AccountDto accountToCompare = this.service.findByUsernameAndPassword(username, password);
