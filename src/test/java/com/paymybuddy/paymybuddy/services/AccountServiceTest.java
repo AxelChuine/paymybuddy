@@ -185,6 +185,17 @@ public class AccountServiceTest {
     }
 
     @Test
+    public void findAccountShouldThrowAccountNotFoundException() throws AccountNotFoundException {
+        String message = "No account found";
+
+        Mockito.when(this.repository.findByIdentifier(32L)).thenReturn(null);
+        AccountNotFoundException exception = assertThrows(AccountNotFoundException.class, () -> this.service.findAccount(32L), message);
+
+        Assertions.assertThat(exception.getMessage()).isEqualTo(message);
+        Assertions.assertThat(exception.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
     public void updateAccountShouldReturnAccountVM() throws AccountNotFoundException, ParameterNotProvidedException, BadRequestException {
         Account account = new Account();
         AccountVM accountVM = new AccountVM();
