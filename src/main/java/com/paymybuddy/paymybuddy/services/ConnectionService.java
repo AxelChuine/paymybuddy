@@ -66,18 +66,12 @@ public class ConnectionService {
         return connectionVMList;
     }
 
-    public void delete(Long accountId, Long connectionId) throws ParameterNotProvidedException, AccountNotFoundException {
-        if (Objects.isNull(accountId) || Objects.isNull(connectionId)) {
-            throw new ParameterNotProvidedException();
-        }
-        this.repository.delete(this.repository.findByConnection(this.accountMapper.toModel(this.accountService.findById(connectionId))));
-    }
-
     public ConnectionDto create(long l, String email) throws ParameterNotProvidedException, AccountNotFoundException {
         AccountDto account = this.accountService.findById(l);
         Optional<Account> optionalConnection = this.accountService.findByEmail(email);
         if (optionalConnection.isPresent()) {
-            return this.create(account, this.accountMapper.toAccountDto(optionalConnection.get()));
+            AccountDto connection = this.accountMapper.toAccountDto(optionalConnection.get());
+            return this.create(account, connection);
         }
         return null;
     }

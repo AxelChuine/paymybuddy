@@ -96,7 +96,8 @@ public class AccountServiceTest {
         accountDto.setIdentifier(32L);
         accountDto.setUsername(username);
 
-        Mockito.when(this.repository.findByEmailAndPassword(username, password)).thenReturn(Optional.of(account));
+        /*Mockito.when(this.repository.findByEmailAndPassword(username, password)).thenReturn(Optional.of(account));*/
+        Mockito.when(this.repository.findByEmailAndPassword(username, password)).thenReturn(account);
         Mockito.when(this.mapper.toAccountDto(account)).thenReturn(accountDto);
         AccountDto accountToCompare = this.service.findByUsernameAndPassword(username, password);
 

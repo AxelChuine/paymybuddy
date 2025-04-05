@@ -75,7 +75,7 @@ public class AccountMapper {
         accountDto.setEmail(Objects.nonNull(account.getEmail()) ? account.getEmail() : "");
         accountDto.setName(Objects.nonNull(account.getName()) ? account.getName() : "");
         accountDto.setBalance(Objects.nonNull(account.getBalance()) ? account.getBalance() : BigDecimal.ZERO);
-        accountDto.setConnectionDtos(!account.getConnections().isEmpty() ? this.toConnectionDtoSet(account.getConnections()) : new HashSet<>());
+        /*accountDto.setConnectionDtos(!account.getConnections().isEmpty() ? this.toConnectionDtoSet(account.getConnections()) : new HashSet<>());*/
         return accountDto;
     }
 

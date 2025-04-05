@@ -26,4 +26,12 @@ public class AccountRepositoryTest {
         Assertions.assertNotNull(accounts);
         Assertions.assertNotNull(accounts.getFirst());
     }
+
+    @Test
+    public void findByEmailAndPasswordShouldReturnAAccount() {
+        Account account = this.repository.findByEmailAndPassword("jdubois@test.com", "1234");
+
+        Assertions.assertNotNull(account);
+        Assertions.assertNotNull(account.getIdentifier());
+    }
 }

@@ -165,4 +165,20 @@ public class ConnectionServiceTest {
 
         Assertions.assertThat(listToCompare).isEqualTo(this.connectionVMList);
     }
+
+    @Test
+    public void createConnectionByIdAndEmailShouldReturnAConnectionDto() throws ParameterNotProvidedException, AccountNotFoundException {
+        Mockito.when(this.accountService.findById(accountId)).thenReturn(this.accountDto);
+        Mockito.when(this.accountService.findByEmail(emailConnection)).thenReturn(Optional.of(connectionAccount));
+        Mockito.when(this.accountMapper.toAccountDto(this.connectionAccount)).thenReturn(this.connectionDtoAccount);
+        Mockito.when(this.accountMapper.toModel(this.accountDto)).thenReturn(this.account);
+        Mockito.when(this.accountMapper.toModel(this.connectionDtoAccount)).thenReturn(this.connectionAccount);
+        Mockito.when(this.repository.save(this.connection)).thenReturn(this.connection);
+        Mockito.when(this.mapper.toDto(this.connection)).thenReturn(this.connectionDto);
+        ConnectionDto toCompare = this.service.create(accountId, emailConnection);
+
+        Assertions.assertThat(toCompare).isEqualTo(this.connectionDto);
+        Assertions.assertThat(toCompare.hashCode()).isEqualTo(this.connectionDto.hashCode());
+        Assertions.assertThat(toCompare.toString()).isEqualTo(this.connectionDto.toString());
+    }
 }
