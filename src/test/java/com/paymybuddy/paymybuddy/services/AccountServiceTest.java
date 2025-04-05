@@ -135,6 +135,15 @@ public class AccountServiceTest {
     }
 
     @Test
+    public void findByUsernameShouldThrowParameterNotProvidedException() throws AccountNotFoundException, ParameterNotProvidedException {
+        String message = "Aucun username ou mot de passe renseigné";
+
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> this.service.findByUsernameAndPassword(null, null), message);
+
+        Assertions.assertThat(exception.getMessage()).isEqualTo(message);
+    }
+
+    @Test
     public void createAccountShouldReturnAnAccount() throws AccountAlreadyExistsException, ParameterNotProvidedException, AccountNotFoundException {
         AccountDto accountDto = new AccountDto();
         Account account = new Account();
