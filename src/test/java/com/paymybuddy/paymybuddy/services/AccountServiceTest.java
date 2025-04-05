@@ -226,6 +226,19 @@ public class AccountServiceTest {
     }
 
     @Test
+    public void updateAccountShouldThrowAccountNotFoundException() throws AccountNotFoundException {
+        AccountDto accountDto = new AccountDto();
+        accountDto.setIdentifier(32L);
+        String message = "No account found";
+
+        Mockito.when(this.repository.findById(32L)).thenReturn(null);
+        AccountNotFoundException exception = assertThrows(AccountNotFoundException.class, () -> this.service.updateAccount(accountDto), message);
+
+        Assertions.assertThat(exception.getMessage()).isEqualTo(message);
+        Assertions.assertThat(exception.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
     public void findByNameShouldReturnAnAccountDto() throws AccountNotFoundException, ParameterNotProvidedException, BadRequestException {
         AccountDto accountDto = new AccountDto();
         Account account = new Account();
