@@ -180,6 +180,19 @@ public class ConnectionServiceTest {
     }
 
     @Test
+    public void findAllConnectionsByAccountShouldThrowConnectionNotFoundException() throws AccountNotFoundException, ParameterNotProvidedException {
+        String message = "Connection not found";
+        List<ConnectionVM> connectionVMList = new ArrayList<>();
+
+        Mockito.when(this.accountRepository.findById(accountId)).thenReturn(Optional.of(account));
+        Mockito.when(this.repository.findAllByAccount(account)).thenReturn(this.connectionList);
+        ConnectionNotFoundException exception = assertThrows(ConnectionNotFoundException.class, () -> this.service.findAllByAccount(accountDto), message);
+
+        Assertions.assertThat(exception.getMessage()).isEqualTo(message);
+        Assertions.assertThat(exception.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
     public void createConnectionByIdAndEmailShouldReturnAConnectionDto() throws ParameterNotProvidedException, AccountNotFoundException {
         Mockito.when(this.accountService.findById(accountId)).thenReturn(this.accountDto);
         Mockito.when(this.accountService.findByEmail(emailConnection)).thenReturn(Optional.of(connectionAccount));
