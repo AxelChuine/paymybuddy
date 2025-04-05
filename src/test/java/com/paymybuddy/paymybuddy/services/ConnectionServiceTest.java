@@ -170,6 +170,16 @@ public class ConnectionServiceTest {
     }
 
     @Test
+    public void findAllByAccountShouldThrowParameterNotProvidedException() throws AccountNotFoundException, ParameterNotProvidedException {
+        String message = "Parameter not provided";
+
+        ParameterNotProvidedException exception = assertThrows(ParameterNotProvidedException.class, () -> this.service.findAllByAccount(null), message);
+
+        Assertions.assertThat(exception.getMessage()).isEqualTo(message);
+        Assertions.assertThat(exception.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
     public void createConnectionByIdAndEmailShouldReturnAConnectionDto() throws ParameterNotProvidedException, AccountNotFoundException {
         Mockito.when(this.accountService.findById(accountId)).thenReturn(this.accountDto);
         Mockito.when(this.accountService.findByEmail(emailConnection)).thenReturn(Optional.of(connectionAccount));
