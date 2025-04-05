@@ -64,16 +64,6 @@ public class AccountService {
         return this.mapper.toAccountVM(this.repository.save(this.mapper.toModel(account)));
     }
 
-    public void deleteAccount(Long accountId) throws AccountNotFoundException, ParameterNotProvidedException {
-        if (Objects.isNull(accountId)) {
-            throw new ParameterNotProvidedException();
-        }
-        if (Objects.isNull(this.repository.findByIdentifier(accountId))) {
-            throw new AccountNotFoundException();
-        }
-        this.repository.deleteById(accountId);
-    }
-
     public AccountDto findByName(String accountName) throws AccountNotFoundException {
         if (Objects.isNull(accountName)) {
             throw new AccountNotFoundException();
@@ -109,14 +99,7 @@ public class AccountService {
         if (Objects.isNull(username) || Objects.isNull(password)) {
             throw new BadRequestException("Aucun username ou mot de passe renseigné");
         }
-        /*Optional<Account> optionalAccount = this.repository.findByEmailAndPassword(username, password);*/
         return this.mapper.toAccountDto(this.repository.findByEmailAndPassword(username, password));
-
-        /*if (optionalAccount.isPresent()) {
-            return this.mapper.toAccountDto(optionalAccount.get());
-        } else {
-            throw new BadRequestException("Il semble que le compte ne soit pas créé. Veuillez créer le compte");
-        }*/
     }
 
     public AccountDto createAccount(@NotEmpty(message = "The email is required") @Email String email, String username, String password) {
