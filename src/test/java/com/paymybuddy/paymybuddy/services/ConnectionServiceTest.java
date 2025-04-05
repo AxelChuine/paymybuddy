@@ -21,9 +21,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 
 import java.math.BigDecimal;
 import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 public class ConnectionServiceTest {
@@ -180,5 +183,15 @@ public class ConnectionServiceTest {
         Assertions.assertThat(toCompare).isEqualTo(this.connectionDto);
         Assertions.assertThat(toCompare.hashCode()).isEqualTo(this.connectionDto.hashCode());
         Assertions.assertThat(toCompare.toString()).isEqualTo(this.connectionDto.toString());
+    }
+
+    @Test
+    public void createAccountShouldThrowParameterNotProvidedException() throws AccountNotFoundException, ParameterNotProvidedException {
+        String message = "Parameter not provided";
+
+        ParameterNotProvidedException exception = assertThrows(ParameterNotProvidedException.class, () -> this.service.create(null, null), message);
+
+        Assertions.assertThat(exception.getMessage()).isEqualTo(message);
+        Assertions.assertThat(exception.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 }
