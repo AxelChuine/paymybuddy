@@ -77,6 +77,27 @@ public class AccountServiceTest {
     }
 
     @Test
+    public void findByEmailShouldThrowParameterNotProvidedException() throws AccountNotFoundException, ParameterNotProvidedException {
+        String message = "Parameter not provided";
+
+        ParameterNotProvidedException exception = assertThrows(ParameterNotProvidedException.class, () -> this.service.findByEmail(null), message);
+
+        Assertions.assertThat(exception.getMessage()).isEqualTo(message);
+        Assertions.assertThat(exception.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void findByEmailShouldThrowNotFoundException() throws AccountNotFoundException, ParameterNotProvidedException {
+        String message = "No account found";
+
+        Mockito.when(this.repository.findByEmail(Mockito.anyString())).thenReturn(Optional.empty());
+        AccountNotFoundException exception = assertThrows(AccountNotFoundException.class, () -> this.service.findByEmail(Mockito.anyString()), message);
+
+        Assertions.assertThat(exception.getMessage()).isEqualTo(message);
+        Assertions.assertThat(exception.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
     public void findByIdShouldReturnAnAccount() throws AccountNotFoundException, ParameterNotProvidedException {
         Account account = new Account();
         account.setIdentifier(32L);
