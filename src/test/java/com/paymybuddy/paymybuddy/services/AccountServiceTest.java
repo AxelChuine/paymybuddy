@@ -231,7 +231,7 @@ public class AccountServiceTest {
         accountDto.setIdentifier(32L);
         String message = "No account found";
 
-        Mockito.when(this.repository.findById(32L)).thenReturn(null);
+        Mockito.when(this.repository.findById(32L)).thenReturn(Optional.empty());
         AccountNotFoundException exception = assertThrows(AccountNotFoundException.class, () -> this.service.updateAccount(accountDto), message);
 
         Assertions.assertThat(exception.getMessage()).isEqualTo(message);
