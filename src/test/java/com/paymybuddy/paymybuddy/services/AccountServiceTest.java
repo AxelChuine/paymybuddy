@@ -255,4 +255,14 @@ public class AccountServiceTest {
         Assertions.assertThat(toCompare.toString()).isEqualTo(accountDto.toString());
         Assertions.assertThat(toCompare.hashCode()).isEqualTo(accountDto.hashCode());
     }
+
+    @Test
+    public void findByNameShouldThrowParameterNotProvidedException() throws ParameterNotProvidedException, AccountNotFoundException {
+        String message = "No account found";
+
+        AccountNotFoundException exception = assertThrows(AccountNotFoundException.class, () -> this.service.findByName(null), message);
+
+        Assertions.assertThat(exception.getMessage()).isEqualTo(message);
+        Assertions.assertThat(exception.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
 }
