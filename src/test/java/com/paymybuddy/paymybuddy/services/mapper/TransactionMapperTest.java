@@ -92,4 +92,11 @@ public class TransactionMapperTest {
         Assertions.assertThat(toCompare.toString()).isEqualTo(this.transaction.toString());
         Assertions.assertThat(toCompare.hashCode()).isEqualTo(this.transaction.hashCode());
     }
+
+    @Test
+    public void toDtoListShouldReturnTransactionDtoList() {
+        List<TransactionDto> toCompare = this.mapper.toTransactionDtoList(transactionList);
+
+        Assertions.assertThat(toCompare).isEqualTo(this.transactionDtoList);
+    }
 }
