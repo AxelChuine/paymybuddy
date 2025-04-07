@@ -84,4 +84,13 @@ public class AccountMapperTest {
         Assertions.assertThat(toCompare.toString()).isEqualTo(this.account.toString());
         Assertions.assertThat(toCompare.hashCode()).isEqualTo(this.account.hashCode());
     }
+
+    @Test
+    public void toVMShouldReturnAnAccountVM() {
+        AccountVM toCompare = this.mapper.toAccountVM(this.account);
+
+        Assertions.assertThat(toCompare).isEqualTo(this.accountVM);
+        Assertions.assertThat(toCompare.toString()).isEqualTo(this.accountVM.toString());
+        Assertions.assertThat(toCompare.hashCode()).isEqualTo(this.accountVM.hashCode());
+    }
 }
