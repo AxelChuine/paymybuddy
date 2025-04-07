@@ -144,4 +144,15 @@ public class ConnectionMapperTest {
 
         Assertions.assertThat(toCompare).isEqualTo(connectionVMList);
     }
+
+    @Test
+    public void toModelShouldReturnAConnection() {
+        Mockito.when(this.accountMapper.toModel(this.accountDto)).thenReturn(this.account);
+        Mockito.when(this.accountMapper.toModel(this.accountConnectionDto)).thenReturn(this.accountConnection);
+        Connection toCompare = this.mapper.toModel(this.connectionDto);
+
+        Assertions.assertThat(toCompare).isEqualTo(this.connection);
+        Assertions.assertThat(toCompare.toString()).isEqualTo(connection.toString());
+        Assertions.assertThat(toCompare.hashCode()).isEqualTo(connection.hashCode());
+    }
 }

@@ -41,4 +41,11 @@ public class ConnectionMapper {
         }
         return connectionVMList;
     }
+
+    public Connection toModel(final ConnectionDto connectionDto) {
+        Connection connection = new Connection();
+        connection.setAccount(this.accountMapper.toModel(connectionDto.getAccountDto()));
+        connection.setConnection(this.accountMapper.toModel(connectionDto.getConnectionDto()));
+        return connection;
+    }
 }
