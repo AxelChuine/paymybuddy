@@ -64,6 +64,7 @@ public class AccountMapper {
         accountDto.setFirstName(Objects.nonNull(account.getFirstName()) ? account.getFirstName() : "");
         accountDto.setLastName(Objects.nonNull(account.getLastName()) ? account.getLastName() : "");
         accountDto.setUsername(Objects.nonNull(account.getUsername()) ? account.getUsername() : "");
+        accountDto.setPassword(Objects.nonNull(account.getPassword()) ? account.getPassword() : "");
         accountDto.setEmail(Objects.nonNull(account.getEmail()) ? account.getEmail() : "");
         accountDto.setName(Objects.nonNull(account.getName()) ? account.getName() : "");
         accountDto.setBalance(Objects.nonNull(account.getBalance()) ? account.getBalance() : BigDecimal.ZERO);
