@@ -15,9 +15,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AccountMapperTest {
@@ -38,6 +36,8 @@ public class AccountMapperTest {
     private final String password = "password";
     private final String name = "name";
     private final BigDecimal balance = BigDecimal.TEN;
+    private List<Account> accountList = new ArrayList<>();
+    private List<AccountDto> accountDtoList = new ArrayList<>();
     private Set<Account> connections = new HashSet<>();
     private Set<AccountDto> connectionDtoSet = new HashSet<>();
 
@@ -79,6 +79,8 @@ public class AccountMapperTest {
         );
         connections.add(account);
         connectionDtoSet.add(accountDto);
+        this.accountList.add(account);
+        this.accountDtoList.add(accountDto);
     }
 
     @Test
@@ -123,5 +125,12 @@ public class AccountMapperTest {
         Assertions.assertThat(toCompare).isEqualTo(this.accountDto);
         Assertions.assertThat(toCompare.toString()).isEqualTo(this.accountDto.toString());
         Assertions.assertThat(toCompare.hashCode()).isEqualTo(this.accountDto.hashCode());
+    }
+
+    @Test
+    public void toDtoListShouldReturnAListOfAccountDto() {
+        List<AccountDto> toCompare = this.mapper.toDtoList(this.accountList);
+
+        Assertions.assertThat(toCompare).isEqualTo(this.accountDtoList);
     }
 }

@@ -72,27 +72,6 @@ public class AccountMapper {
         return accountDto;
     }
 
-    private Set<AccountDto> toConnectionDtoSet(Set<Account> connections) {
-        Set<AccountDto> connectionDtoSet = new HashSet<>();
-        for (Account connection : connections) {
-            connectionDtoSet.add(this.toConnectionDto(connection));
-        }
-        return connectionDtoSet;
-    }
-
-    private AccountDto toConnectionDto(Account connection) {
-        AccountDto accountDto = new AccountDto();
-        accountDto.setIdentifier(connection.getIdentifier());
-        accountDto.setFirstName(connection.getFirstName());
-        accountDto.setLastName(connection.getLastName());
-        accountDto.setEmail(connection.getEmail());
-        accountDto.setName(connection.getName());
-        accountDto.setBalance(connection.getBalance());
-        Optional<Account> optional = this.repository.findById(accountDto.getIdentifier());
-        optional.ifPresent(value -> accountDto.setPassword(value.getPassword()));
-        return accountDto;
-    }
-
     public List<AccountDto> toDtoList(List<Account> accountList) {
         List<AccountDto> list = new ArrayList<>();
         for (Account account : accountList) {
