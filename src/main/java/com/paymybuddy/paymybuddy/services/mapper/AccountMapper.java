@@ -45,7 +45,7 @@ public class AccountMapper {
         return accounts;
     }
 
-    private Account toConnectionModel(AccountDto connectionDto) {
+    public Account toConnectionModel(AccountDto connectionDto) {
         Account account = new Account();
         account.setIdentifier(connectionDto.getIdentifier());
         account.setFirstName(connectionDto.getFirstName());

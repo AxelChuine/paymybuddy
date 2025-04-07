@@ -106,4 +106,13 @@ public class AccountMapperTest {
 
         Assertions.assertThat(toCompare).isEqualTo(this.connections);
     }
+
+    @Test
+    public void toConnectionModelShouldReturnAnAccount() {
+        Account toCompare = this.mapper.toConnectionModel(this.accountDto);
+
+        Assertions.assertThat(toCompare).isEqualTo(this.account);
+        Assertions.assertThat(toCompare.toString()).isEqualTo(this.account.toString());
+        Assertions.assertThat(toCompare.hashCode()).isEqualTo(this.account.hashCode());
+    }
 }
