@@ -170,7 +170,7 @@ public class TransactionServiceTest {
         Mockito.when(this.connectionService.create(payMyBuddy, recipientDto)).thenReturn(connectionPayMyBuddyRecipient);
         Mockito.when(this.connectionService.create(senderDto, recipientDto)).thenReturn(connectionSenderDto);
         Mockito.when(this.connectionService.create(recipientDto, senderDto)).thenReturn(connectionRecipientDto);
-        Mockito.when(this.mapper.transactionDtoToTransaction(transactionDto)).thenReturn(transaction);
+        Mockito.when(this.mapper.toModel(transactionDto)).thenReturn(transaction);
         Mockito.when(this.repository.save(transaction)).thenReturn(transaction);
         Mockito.when(this.mapper.toTransactionDto(this.transaction)).thenReturn(this.transactionDto);
         TransactionDto toCompare = this.service.create(transactionDto);

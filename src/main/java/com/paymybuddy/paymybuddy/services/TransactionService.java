@@ -60,7 +60,7 @@ public class TransactionService {
         this.connectionService.create(payMyBuddy, transactionDto.getRecipient());
         this.connectionService.create(transactionDto.getSender(), transactionDto.getRecipient());
         this.connectionService.create(transactionDto.getRecipient(), transactionDto.getSender());
-        return this.mapper.toTransactionDto(repository.save(this.mapper.transactionDtoToTransaction(transactionDto)));
+        return this.mapper.toTransactionDto(repository.save(this.mapper.toModel(transactionDto)));
     }
 
     public List<TransactionDto> findAllByAccountId(long l) throws ParameterNotProvidedException, AccountNotFoundException {

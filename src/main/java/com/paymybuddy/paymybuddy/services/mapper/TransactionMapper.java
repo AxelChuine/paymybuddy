@@ -28,27 +28,15 @@ public class TransactionMapper {
         );
     }
 
-    public Transaction toModel(TransactionDto transactionDto) {
-        return new Transaction(
-                transactionDto.getIdentifier(),
-                transactionDto.getName(),
-                transactionDto.getAmount(),
-                Objects.nonNull(transactionDto.getSender()) ? this.accountMapper.toModel(transactionDto.getSender()) : null,
-                Objects.nonNull(transactionDto.getRecipient()) ? this.accountMapper.toModel(transactionDto.getRecipient()) : null,
-                transactionDto.getTransactionDate()
-        );
-    }
-
     public List<TransactionDto> toTransactionDtoList(List<Transaction> transactionList) {
         List<TransactionDto> transactionDtoList = new ArrayList<>();
         for (Transaction transaction : transactionList) {
-            TransactionDto transactionDto = toTransactionDto(transaction);
             transactionDtoList.add(toTransactionDto(transaction));
         }
         return transactionDtoList;
     }
 
-    public Transaction transactionDtoToTransaction(TransactionDto transactionDto) {
+    public Transaction toModel(TransactionDto transactionDto) {
         Transaction transaction = new Transaction();
         transaction.setIdentifier(Objects.nonNull(transactionDto.getIdentifier()) ? transactionDto.getIdentifier() : null);
         transaction.setName(transactionDto.getName());

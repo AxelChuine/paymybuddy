@@ -77,12 +77,19 @@ public class TransactionMapperTest {
 
     @Test
     public void toTransactionDtoShouldReturnTransactionDto() {
-        /*Mockito.when(this.accountMapper.toAccountDto(this.sender)).thenReturn(this.senderDto);
-        Mockito.when(this.accountMapper.toAccountDto(this.recipient)).thenReturn(this.recipientDto);*/
         TransactionDto toCompare = mapper.toTransactionDto(transaction);
 
         Assertions.assertThat(toCompare).isEqualTo(this.transactionDto);
         Assertions.assertThat(toCompare.toString()).isEqualTo(this.transactionDto.toString());
         Assertions.assertThat(toCompare.hashCode()).isEqualTo(this.transactionDto.hashCode());
+    }
+
+    @Test
+    public void toModelShouldReturnTransaction() {
+        Transaction toCompare = this.mapper.toModel(this.transactionDto);
+
+        Assertions.assertThat(toCompare).isEqualTo(this.transaction);
+        Assertions.assertThat(toCompare.toString()).isEqualTo(this.transaction.toString());
+        Assertions.assertThat(toCompare.hashCode()).isEqualTo(this.transaction.hashCode());
     }
 }
