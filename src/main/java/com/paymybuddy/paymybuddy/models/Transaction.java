@@ -38,12 +38,4 @@ public class Transaction {
 
     @Column(name = "transaction_date")
     private LocalDateTime transactionDate;
-
-    public Transaction(String name, BigDecimal amount, Account sender, Account receiver, LocalDateTime transactionDate) {
-        this.name = name;
-        this.amount = amount;
-        this.sender = sender;
-        this.receiver = receiver;
-        this.transactionDate = transactionDate;
-    }
 }

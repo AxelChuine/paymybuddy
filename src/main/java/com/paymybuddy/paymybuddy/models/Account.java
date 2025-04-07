@@ -48,14 +48,4 @@ public class Account {
             inverseJoinColumns = @JoinColumn(name = "connection")
     )
     private Set<Account> connections;
-
-    public Account(Long identifier, String firstName, String lastName, String password, String email, String name, BigDecimal balance) {
-        this.identifier = identifier;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-        this.email = email;
-        this.name = name;
-        this.balance = balance;
-    }
 }

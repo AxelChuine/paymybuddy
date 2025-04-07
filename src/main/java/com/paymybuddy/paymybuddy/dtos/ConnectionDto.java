@@ -10,12 +10,4 @@ import lombok.NoArgsConstructor;
 public class ConnectionDto {
     private AccountDto accountDto;
     private AccountDto connectionDto;
-
-    public String getConnectionEmail() {
-        return connectionDto.getEmail();
-    }
-
-    public void setConnectionEmail(String connectionEmail) {
-        connectionDto.setEmail(connectionEmail);
-    }
 }
