@@ -50,20 +50,12 @@ public class AccountMapper {
         account.setIdentifier(connectionDto.getIdentifier());
         account.setFirstName(connectionDto.getFirstName());
         account.setLastName(connectionDto.getLastName());
+        account.setUsername(connectionDto.getUsername());
+        account.setPassword(connectionDto.getPassword());
         account.setEmail(connectionDto.getEmail());
         account.setName(connectionDto.getName());
         account.setBalance(connectionDto.getBalance());
-        Optional<Account> optional = this.repository.findById(account.getIdentifier());
-        optional.ifPresent(value -> account.setPassword(value.getPassword()));
         return account;
-    }
-
-    public Account accountVMToModel(AccountDto accountVM) {
-        Optional<Account> optionalAccount = this.repository.findById(accountVM.getIdentifier());
-        if (optionalAccount.isPresent()) {
-            return optionalAccount.get();
-        }
-        return null;
     }
 
     public AccountDto toAccountDto(Account account) {

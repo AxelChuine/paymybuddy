@@ -77,6 +77,8 @@ public class AccountMapperTest {
                 this.name,
                 this.balance
         );
+        connections.add(account);
+        connectionDtoSet.add(accountDto);
     }
 
     @Test
