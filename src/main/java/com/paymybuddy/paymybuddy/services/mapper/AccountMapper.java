@@ -37,7 +37,7 @@ public class AccountMapper {
         return optionalAccount.orElse(null);
     }
 
-    private Set<Account> toConnectionModelSet(Set<AccountDto> connectionDtos) {
+    public Set<Account> toConnectionModelSet(Set<AccountDto> connectionDtos) {
         Set<Account> accounts = new HashSet<>();
         for (AccountDto connectionDto : connectionDtos) {
             accounts.add(this.toConnectionModel(connectionDto));
