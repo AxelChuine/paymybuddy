@@ -1,10 +1,21 @@
 package com.paymybuddy.paymybuddy.services.mapper;
 
+import com.paymybuddy.paymybuddy.dtos.AccountDto;
+import com.paymybuddy.paymybuddy.dtos.TransactionDto;
+import com.paymybuddy.paymybuddy.models.Account;
+import com.paymybuddy.paymybuddy.models.Transaction;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class TransactionMapperTest {
@@ -14,37 +25,64 @@ public class TransactionMapperTest {
     @Mock
     private AccountMapper accountMapper;
 
+    private final Long transactionId = 1L;
+    private final Long accountId = 1L;
+    private final Long recipientId = 2L;
+    private final String firstName = "firstName";
+    private final String firstNameRecipient = "firstNameRecipient";
+    private final String lastName = "lastName";
+    private final String lastNameRecipient = "lastNameRecipient";
+    private final String username = "lastName";
+    private final String usernameRecipient = "lastNameRecipient";
+    private final String password = "password";
+    private final String email = "email";
+    private final String emailRecipient = "emailRecipient";
+    private final String name = "name";
+    private final String nameRecipient = "nameRecipient";
+    private final BigDecimal balance = BigDecimal.TEN;
+    private final LocalDateTime transactionDate = LocalDateTime.now();
+    private final BigDecimal amount = BigDecimal.TEN;
+    private final String nameTransaction = "nameTransaction";
+
+    private Account sender;
+    private AccountDto senderDto;
+    private Account recipient;
+    private AccountDto recipientDto;
+    private Transaction transaction;
+    private TransactionDto transactionDto;
+    private List<Transaction> transactionList = new ArrayList<>();
+    private List<TransactionDto> transactionDtoList = new ArrayList<>();
+
     @BeforeEach
     public void setUp() {
-
+            this.transaction = new Transaction(
+                    this.transactionId,
+                    this.nameTransaction,
+                    this.amount,
+                    this.sender,
+                    this.recipient,
+                    this.transactionDate
+            );
+        this.transactionDto = new TransactionDto(
+                this.transactionId,
+                this.nameTransaction,
+                this.amount,
+                this.senderDto,
+                this.recipientDto,
+                this.transactionDate
+        );
+        this.transactionList.add(this.transaction);
+        this.transactionDtoList.add(this.transactionDto);
     }
 
-    /*@Test
+    @Test
     public void toTransactionDtoShouldReturnTransactionDto() {
-        LocalDateTime transactionDate = LocalDateTime.now();
-        Transaction transaction = new Transaction();
-        TransactionDto transactionDto = new TransactionDto();
-        transaction.setIdentifier(0L);
-        transaction.setName("test");
-        transaction.setAmount(BigDecimal.TEN);
-        transactionDto.setAmount(BigDecimal.TEN);
-        transactionDto.setName("test");
-        transactionDto.setIdentifier(0L);
-        Account sender = new Account();
-        Account receiver = new Account();
-        AccountVM senderVM = new AccountVM();
-        AccountVM receiverVM = new AccountVM();
-        transaction.setSender(sender);
-        transaction.setReceiver(receiver);
-        transaction.setTransactionDate(transactionDate);
-        transactionDto.setSender(senderVM);
-        transactionDto.setRecipient(receiverVM);
-        transactionDto.setTransactionDate(transactionDate);
+        /*Mockito.when(this.accountMapper.toAccountDto(this.sender)).thenReturn(this.senderDto);
+        Mockito.when(this.accountMapper.toAccountDto(this.recipient)).thenReturn(this.recipientDto);*/
+        TransactionDto toCompare = mapper.toTransactionDto(transaction);
 
-        Mockito.when(this.accountMapper.toAccountVM(sender)).thenReturn(senderVM);
-        Mockito.when(this.accountMapper.toAccountVM(receiver)).thenReturn(receiverVM);
-        TransactionDto transactionDtoToCompare = mapper.toTransactionDto(transaction);
-
-        Assertions.assertEquals(transactionDto, transactionDtoToCompare);
-    }*/
+        Assertions.assertThat(toCompare).isEqualTo(this.transactionDto);
+        Assertions.assertThat(toCompare.toString()).isEqualTo(this.transactionDto.toString());
+        Assertions.assertThat(toCompare.hashCode()).isEqualTo(this.transactionDto.hashCode());
+    }
 }
