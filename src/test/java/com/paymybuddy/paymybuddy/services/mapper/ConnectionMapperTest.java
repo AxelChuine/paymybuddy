@@ -137,4 +137,11 @@ public class ConnectionMapperTest {
         Assertions.assertThat(toCompare.toString()).isEqualTo(connectionVM.toString());
         Assertions.assertThat(toCompare.hashCode()).isEqualTo(connectionVM.hashCode());
     }
+
+    @Test
+    public void toVMListShouldReturnAConnectionVMList() {
+        List<ConnectionVM> toCompare = this.mapper.toVMList(this.connectionList);
+
+        Assertions.assertThat(toCompare).isEqualTo(connectionVMList);
+    }
 }
