@@ -4,6 +4,9 @@ import com.paymybuddy.paymybuddy.controller.TransactionController;
 import com.paymybuddy.paymybuddy.dtos.AccountDto;
 import com.paymybuddy.paymybuddy.dtos.ConnectionVM;
 import com.paymybuddy.paymybuddy.dtos.TransactionDto;
+import com.paymybuddy.paymybuddy.exceptions.AccountAlreadyExistsException;
+import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
+import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
 import com.paymybuddy.paymybuddy.services.AccountService;
 import com.paymybuddy.paymybuddy.services.ConnectionService;
 import com.paymybuddy.paymybuddy.services.TransactionService;
@@ -14,8 +17,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -30,7 +31,7 @@ public class TransactionControllerTest {
     private MockMvc mockMvc;
 
     @Mock
-    private TransactionService transactionService;
+    private TransactionService service;
 
     @Mock
     private ConnectionService connectionService;
@@ -75,6 +76,8 @@ public class TransactionControllerTest {
         this.transactionDto = new TransactionDto();
         this.transactionDto.setAmount(amount);
         this.transactionDto.setName(nameTransaction);
+        this.transactionDto.setRecipient(connectionAccount);
+        this.transactionDto.setSender(accountDto);
         this.transactionDtoList.add(transactionDto);
         this.accountDtoList.add(accountDto);
         this.accountDtoList.add(connectionAccount);
@@ -93,7 +96,7 @@ public class TransactionControllerTest {
         Mockito.when(accountService.getAccountDto()).thenReturn(accountDto);
         Mockito.when(connectionService.findAllByAccount(accountDto)).thenReturn(connectionVMList);
         Mockito.when(accountService.findAccount(this.connectionId)).thenReturn(connectionAccount);
-        Mockito.when(transactionService.findAllByAccountId(this.accountId)).thenReturn(transactionDtoList);
+        Mockito.when(service.findAllByAccountId(this.accountId)).thenReturn(transactionDtoList);
 
         // Act & Assert
         this.mockMvc.perform(MockMvcRequestBuilders.get("/transaction/transaction"))
@@ -103,5 +106,22 @@ public class TransactionControllerTest {
             .andExpect(MockMvcResultMatchers.model().attributeExists("transactions"))
             .andExpect(MockMvcResultMatchers.model().attributeExists("currentPage"))
             .andExpect(MockMvcResultMatchers.view().name("transaction/transaction"));
+    }
+
+    @Test
+    public void createTransactionShouldReturnHttpStatusOk() throws Exception {
+        Mockito.when(accountService.findById(this.connectionId)).thenReturn(connectionAccount);
+        Mockito.when(accountService.getAccountDto()).thenReturn(accountDto);
+        Mockito.when(service.findAllByAccountId(this.accountId)).thenReturn(transactionDtoList);
+        Mockito.when(this.service.create(Mockito.any(TransactionDto.class))).thenReturn(this.transactionDto);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/transaction/transaction")
+                .param("amount", amount.toString())
+                .param("name", nameTransaction)
+                .param("recipient.identifier", connectionId.toString()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attributeExists("transaction"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("transactions"))
+                .andExpect(MockMvcResultMatchers.view().name("transaction/transaction"));
     }
 }
