@@ -37,13 +37,12 @@ public class TransactionController {
 
     @GetMapping("/transaction")
     public String findAllTransactions(Model model) throws ParameterNotProvidedException, AccountNotFoundException, ConnectionNotFoundException {
-        AccountDto accountDto = this.accountService.findById(2L);
-        List<ConnectionVM> connections = this.connectionService.findAllByAccount(accountDto);
+        List<ConnectionVM> connections = new ArrayList<>(this.connectionService.findAllByAccount(this.accountService.getAccountDto()));
         List<AccountDto> accountDtoList = new ArrayList<>();
         for (ConnectionVM connection : connections) {
             accountDtoList.add(this.accountService.findAccount(connection.getConnectionId()));
         }
-        List<TransactionDto> transactionDtoList = this.service.findAllByAccountId(2L);
+        List<TransactionDto> transactionDtoList = this.service.findAllByAccountId(this.accountService.getAccountDto().getIdentifier());
         model.addAttribute("transaction", new TransactionDto());
         model.addAttribute("accountDtoList", accountDtoList);
         model.addAttribute("transactions", transactionDtoList);
