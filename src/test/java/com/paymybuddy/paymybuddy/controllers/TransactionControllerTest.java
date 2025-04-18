@@ -124,4 +124,24 @@ public class TransactionControllerTest {
                 .andExpect(MockMvcResultMatchers.model().attributeExists("transactions"))
                 .andExpect(MockMvcResultMatchers.view().name("transaction/transaction"));
     }
+
+    @Test
+    public void createTransactionShouldReturnHttpStatusOkEvenWhenBalanceIsInferiorToAmount() throws Exception {
+        AccountDto accountDto = new AccountDto();
+        accountDto.setIdentifier(accountId);
+        accountDto.setBalance(new BigDecimal("10.00"));
+
+        Mockito.when(accountService.findById(this.connectionId)).thenReturn(connectionAccount);
+        Mockito.when(accountService.getAccountDto()).thenReturn(accountDto);
+        Mockito.when(service.findAllByAccountId(this.accountId)).thenReturn(transactionDtoList);
+        Mockito.when(this.accountService.getAccountDto()).thenReturn(accountDto);
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/transaction/transaction")
+                .param("amount", amount.toString())
+                .param("name", nameTransaction)
+                .param("recipient.identifier", connectionId.toString()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attributeExists("transaction"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("error"))
+                .andExpect(MockMvcResultMatchers.view().name("transaction/transaction"));
+    }
 }
