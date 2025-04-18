@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -69,11 +70,24 @@ public class ConnectionControllerTest {
                 null,
                 null
         );
+        this.connectionDto = new ConnectionDto(this.accountDto, this.connectionAccount);
     }
 
     @Test
     public void connectionShouldReturnHttpStatusOk() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/connection/connection"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attributeExists("account"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("currentPage"))
+                .andExpect(MockMvcResultMatchers.view().name("connection/connection"));
+    }
+
+    @Test
+    public void createConnectionShouldReturnHttpStatusOk() throws Exception {
+        Mockito.when(this.accountService.getAccountDto()).thenReturn(this.accountDto);
+        Mockito.when(this.service.create(this.accountId, this.connectionAccount.getEmail())).thenReturn(this.connectionDto);
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/connection/connection")
+                .param("email", this.connectionAccount.getEmail()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attributeExists("account"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("currentPage"))

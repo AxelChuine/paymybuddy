@@ -39,8 +39,9 @@ public class ConnectionController {
 
     @PostMapping("/connection")
     public String createConnection(@ModelAttribute AccountDto accountDto, Model model) throws ParameterNotProvidedException, AccountNotFoundException {
-        this.service.create(2L, accountDto.getEmail());
+        this.service.create(this.accountService.getAccountDto().getIdentifier(), accountDto.getEmail());
         model.addAttribute("account", new AccountDto());
+        model.addAttribute("currentPage", "page3");
         return "connection/connection";
     }
 }
