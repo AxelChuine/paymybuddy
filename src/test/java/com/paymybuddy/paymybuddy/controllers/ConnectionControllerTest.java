@@ -30,15 +30,10 @@ public class ConnectionControllerTest {
 
     private final Long accountId = 1L;
     private final Long connectionId = 2L;
-    private final String firstName = "firstName";
-    private final String lastName = "lastName";
     private final String username = "username";
     private final String email = "email";
     private final String password = "password";
     private final String name = "name";
-    private final String nameConnection = "nameConnection";
-    private final String firstNameConnection = "firstNameConnection";
-    private final String lastNameConnection = "lastNameConnection";
 
     private AccountDto accountDto;
     private AccountDto connectionAccount;

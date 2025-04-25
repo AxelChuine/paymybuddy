@@ -41,15 +41,7 @@ public class TransactionControllerTest {
     private final Long accountId = 1L;
     private final Long connectionId = 2L;
     private final BigDecimal amount = new BigDecimal("50.00");
-    private final String name = "name";
-    private final String nameConnection = "nameConnection";
-    private final String firstName = "firstName";
-    private final String firstNameConnection = "firstNameConnection";
-    private final String lastName = "lastName";
-    private final String lastNameConnection = "lastNameConnection";
     private final String username = "username";
-    private final String email = "email";
-    private final String password = "password";
     private final String nameTransaction = "nameTransaction";
 
     private AccountDto accountDto;

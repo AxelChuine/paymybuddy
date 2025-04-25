@@ -57,10 +57,6 @@ public class TransactionServiceTest {
     private final Long recipientId = 2L;
     private final String nameSender = "sender";
     private final String nameRecipient = "recipient";
-    private final String senderFirstName = "senderFirstName";
-    private final String senderLastName = "senderLastName";
-    private final String recipientFirstName = "recipientFirstName";
-    private final String recipientLastName = "recipientLastName";
     private final String senderUsername = "senderUsername";
     private final String recipientUsername = "recipientUsername";
     private final String senderEmail = "test-sender@paymybuddy.com";

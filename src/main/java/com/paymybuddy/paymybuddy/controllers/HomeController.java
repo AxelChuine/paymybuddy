@@ -17,7 +17,7 @@ import java.util.Optional;
 import static org.springframework.data.repository.util.ClassUtils.ifPresent;
 
 @Controller
-@RequestMapping("/home")
+@RequestMapping({"/home", "/"})
 public class HomeController {
     private final AccountService accountService;
 
@@ -41,7 +41,7 @@ public class HomeController {
         return "home/settings";
     }
 
-    @GetMapping("/login")
+    @GetMapping({"/login", ""})
     public String logging(Model model) {
         model.addAttribute("account", new AccountDto());
         return "home/login";

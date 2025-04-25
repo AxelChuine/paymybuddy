@@ -49,8 +49,6 @@ public class ConnectionServiceTest {
     private ConnectionMapper mapper;
 
     private final Long accountId = 1L;
-    private final String firstName = "firstName";
-    private final String lastName = "lastName";
     private final String username = "username";
     private final String password = "1234";
     private final String email = "email@email.com";
@@ -61,8 +59,6 @@ public class ConnectionServiceTest {
     private final Set<AccountDto> connectionDtoSet = new HashSet<>();
 
     private final Long connectionId = 2L;
-    private final String firstNameConnection = "firstName";
-    private final String lastNameConnection = "lastName";
     private final String usernameConnection = "username";
     private final String passwordConnection = "1234";
     private final String emailConnection = "email-connection@email.com";
@@ -156,7 +152,6 @@ public class ConnectionServiceTest {
     @Test
     public void findAllConnectionsByAccountShouldThrowConnectionNotFoundException() throws AccountNotFoundException, ParameterNotProvidedException {
         String message = "Connection not found";
-        List<ConnectionVM> connectionVMList = new ArrayList<>();
 
         Mockito.when(this.accountRepository.findById(accountId)).thenReturn(Optional.of(account));
         Mockito.when(this.repository.findAllByAccount(account)).thenReturn(this.connectionList);

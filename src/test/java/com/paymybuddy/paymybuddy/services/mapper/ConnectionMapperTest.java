@@ -28,10 +28,6 @@ public class ConnectionMapperTest {
 
     private final Long accountId = 1L;
     private final Long connectionId = 2L;
-    private final String firstName = "firstName";
-    private final String firstNameConnection = "firstNameConnection";
-    private final String lastName = "lastName";
-    private final String lastNameConnection = "lastNameConnection";
     private final String username = "lastName";
     private final String usernameConnection = "lastNameConnection";
     private final String password = "password";

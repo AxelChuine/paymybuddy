@@ -26,20 +26,6 @@ public class TransactionMapperTest {
     private AccountMapper accountMapper;
 
     private final Long transactionId = 1L;
-    private final Long accountId = 1L;
-    private final Long recipientId = 2L;
-    private final String firstName = "firstName";
-    private final String firstNameRecipient = "firstNameRecipient";
-    private final String lastName = "lastName";
-    private final String lastNameRecipient = "lastNameRecipient";
-    private final String username = "lastName";
-    private final String usernameRecipient = "lastNameRecipient";
-    private final String password = "password";
-    private final String email = "email";
-    private final String emailRecipient = "emailRecipient";
-    private final String name = "name";
-    private final String nameRecipient = "nameRecipient";
-    private final BigDecimal balance = BigDecimal.TEN;
     private final LocalDateTime transactionDate = LocalDateTime.now();
     private final BigDecimal amount = BigDecimal.TEN;
     private final String nameTransaction = "nameTransaction";

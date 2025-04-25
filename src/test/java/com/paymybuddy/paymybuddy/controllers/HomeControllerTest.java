@@ -28,8 +28,6 @@ public class HomeControllerTest {
     private AccountService accountService;
 
     private final Long accountId = 1L;
-    private final String firstName = "firstName";
-    private final String lastName = "lastName";
     private final String username = "username";
     private final String email = "email";
     private final String password = "password";
@@ -67,8 +65,6 @@ public class HomeControllerTest {
         this.mockMvc.perform(MockMvcRequestBuilders.post("/home/settings")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("identifier", this.accountId.toString())
-                .param("firstName", this.firstName)
-                .param("lastName", this.lastName)
                 .param("username", this.username)
                 .param("password", this.password)
                 .param("email", this.email)

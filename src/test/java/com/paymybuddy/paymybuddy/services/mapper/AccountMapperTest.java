@@ -29,8 +29,6 @@ public class AccountMapperTest {
     private IAccountRepository repository;
 
     private final Long id = 1L;
-    private final String firstName = "firstName";
-    private final String lastName = "lastName";
     private final String username = "userName";
     private final String email = "email@email.com";
     private final String password = "password";
