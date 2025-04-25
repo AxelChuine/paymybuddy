@@ -80,4 +80,12 @@ public class HomeControllerTest {
                 .andExpect(MockMvcResultMatchers.model().attributeExists("currentPage"))
                 .andExpect(MockMvcResultMatchers.view().name("home/settings"));
     }
+
+    @Test
+    public void loginShouldReturnHttpStatusOk() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/home/login"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attributeExists("account"))
+                .andExpect(MockMvcResultMatchers.view().name("home/login"));
+    }
 }
