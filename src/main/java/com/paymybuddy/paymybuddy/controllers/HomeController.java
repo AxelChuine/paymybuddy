@@ -1,4 +1,4 @@
-package com.paymybuddy.paymybuddy.controller;
+package com.paymybuddy.paymybuddy.controllers;
 
 import com.paymybuddy.paymybuddy.dtos.AccountDto;
 import com.paymybuddy.paymybuddy.exceptions.AccountAlreadyExistsException;
@@ -26,7 +26,7 @@ public class HomeController {
     public String findAccount(Model model) {
         model.addAttribute("account", this.accountService.getAccountDto());
         model.addAttribute("currentPage", "page2");
-        return "/home/settings";
+        return "home/settings";
     }
 
     @PostMapping("/settings")
@@ -35,13 +35,13 @@ public class HomeController {
         account.setIdentifier(3L);
         account = this.accountService.save(accountDto);
         model.addAttribute("account", account);
-        return "/home/settings";
+        return "home/settings";
     }
 
     @GetMapping("/login")
     public String logging(Model model) {
         model.addAttribute("account", new AccountDto());
-        return "/home/login";
+        return "home/login";
     }
 
     @PostMapping("/login")
@@ -49,7 +49,7 @@ public class HomeController {
         AccountDto account = this.accountService.findByUsernameAndPassword(accountDto.getEmail(), accountDto.getPassword());
         if (Objects.isNull(account.getIdentifier())) {
             model.addAttribute("error", "Le compte n'existe pas");
-            return "/home/login";
+            return "home/login";
         }
         this.accountService.setAccountDto(account);
         model.addAttribute("account", account);
@@ -63,7 +63,7 @@ public class HomeController {
             this.accountService.setAccountDto(account);
         }
         model.addAttribute("account", account);
-        return "/transaction/transaction";
+        return "transaction/transaction";
     }
 
     @GetMapping("/new-account")

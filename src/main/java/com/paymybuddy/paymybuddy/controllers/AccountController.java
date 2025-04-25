@@ -1,4 +1,4 @@
-package com.paymybuddy.paymybuddy.controller;
+package com.paymybuddy.paymybuddy.controllers;
 
 import org.springframework.stereotype.Controller;
 
