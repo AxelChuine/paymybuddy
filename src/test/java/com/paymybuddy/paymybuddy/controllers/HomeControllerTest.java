@@ -88,4 +88,14 @@ public class HomeControllerTest {
                 .andExpect(MockMvcResultMatchers.model().attributeExists("account"))
                 .andExpect(MockMvcResultMatchers.view().name("home/login"));
     }
+
+    @Test
+    public void loginPostShouldReturnHttpStatusOk() throws Exception {
+        Mockito.when(this.accountService.findByUsernameAndPassword(this.accountDto.getEmail(), this.accountDto.getPassword())).thenReturn(this.accountDto);
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/home/login")
+                .param("email", this.accountDto.getEmail())
+                .param("password", this.accountDto.getPassword()))
+                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/transaction/transaction"));
+    }
 }

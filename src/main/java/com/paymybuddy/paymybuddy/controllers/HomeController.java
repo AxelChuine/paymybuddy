@@ -51,7 +51,6 @@ public class HomeController {
             return "home/login";
         }
         this.accountService.setAccountDto(account);
-        model.addAttribute("account", account);
         return "redirect:/transaction/transaction";
     }
 
