@@ -31,10 +31,9 @@ public class HomeController {
 
     @PostMapping("/settings")
     public String createAccount(Model model, @ModelAttribute AccountDto accountDto) throws AccountAlreadyExistsException, ParameterNotProvidedException, AccountNotFoundException {
-        AccountDto account = accountDto;
-        account.setIdentifier(3L);
-        account = this.accountService.save(accountDto);
+        AccountDto account = this.accountService.save(accountDto);
         model.addAttribute("account", account);
+        model.addAttribute("currentPage", "page2");
         return "home/settings";
     }
 
@@ -69,14 +68,14 @@ public class HomeController {
     @GetMapping("/new-account")
     public String newAccount(Model model) throws ParameterNotProvidedException {
         model.addAttribute("account", new AccountDto());
-        return "/home/new-account";
+        return "home/new-account";
     }
 
     @PostMapping("/new-account")
     public String newAccountCreated(@RequestParam("username") String username, @RequestParam("email") String email, @RequestParam("password") String password, Model model) throws ParameterNotProvidedException, AccountNotFoundException {
         if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
             model.addAttribute("error", "Tous les champs sont requis.");
-            return "/home/new-account"; // Assurez-vous que cela renvoie à votre template
+            return "home/new-account"; // Assurez-vous que cela renvoie à votre template
         }
 
         model.addAttribute("account", new AccountDto());
@@ -89,7 +88,7 @@ public class HomeController {
         } else {
             BadRequestException badRequestException = new BadRequestException("Account already exists");
             model.addAttribute("exception", badRequestException);
-            return "/error/403";
+            return "error/403";
         }
     }
 
@@ -100,7 +99,7 @@ public class HomeController {
         if (Objects.nonNull(accountDto1.getIdentifier())) {
             BadRequestException badRequestException = new BadRequestException("Account already exists");
             model.addAttribute("exception", badRequestException);
-            return "/error/403";
+            return "error/403";
         } else {
             AccountDto accountDto2 = this.accountService.createAccount(email, username, password);
             this.accountService.setAccountDto(accountDto2);
