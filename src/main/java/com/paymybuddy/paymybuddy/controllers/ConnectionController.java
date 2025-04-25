@@ -1,7 +1,6 @@
 package com.paymybuddy.paymybuddy.controllers;
 
 import com.paymybuddy.paymybuddy.dtos.AccountDto;
-import com.paymybuddy.paymybuddy.dtos.AccountVM;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
 import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
 import com.paymybuddy.paymybuddy.services.AccountService;
@@ -22,8 +21,6 @@ public class ConnectionController {
     private final ConnectionService service;
 
     private final AccountService accountService;
-
-    private List<AccountVM> connections = new ArrayList<>();
 
     public ConnectionController(ConnectionService service, AccountService accountService) {
         this.service = service;

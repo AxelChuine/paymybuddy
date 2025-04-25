@@ -1,7 +1,7 @@
 package com.paymybuddy.paymybuddy.services;
 
 import com.paymybuddy.paymybuddy.dtos.AccountDto;
-import com.paymybuddy.paymybuddy.dtos.AccountVM;
+
 import com.paymybuddy.paymybuddy.dtos.ConnectionDto;
 import com.paymybuddy.paymybuddy.dtos.ConnectionVM;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
@@ -70,8 +70,6 @@ public class ConnectionServiceTest {
 
     private AccountDto accountDto = new AccountDto(
             this.accountId,
-            this.firstName,
-            this.lastName,
             this.username,
             this.password,
             this.email,
@@ -82,8 +80,6 @@ public class ConnectionServiceTest {
 
     private Account account = new Account(
             this.accountId,
-            this.firstName,
-            this.lastName,
             this.username,
             this.password,
             this.email,
@@ -94,8 +90,6 @@ public class ConnectionServiceTest {
 
     private Account connectionAccount = new Account(
             this.connectionId,
-            this.firstNameConnection,
-            this.lastNameConnection,
             this.usernameConnection,
             this.passwordConnection,
             this.emailConnection,
@@ -104,19 +98,8 @@ public class ConnectionServiceTest {
             this.connections
     );
 
-    private AccountVM accountVM = new AccountVM(
-            this.accountId,
-            this.firstName,
-            this.lastName,
-            this.email,
-            this.name,
-            this.balance
-    );
-
     private AccountDto connectionDtoAccount = new AccountDto(
             this.connectionId,
-            this.firstNameConnection,
-            this.lastNameConnection,
             this.usernameConnection,
             this.passwordConnection,
             this.emailConnection,
@@ -125,18 +108,9 @@ public class ConnectionServiceTest {
             this.connectionDtoSet
     );
 
-    private AccountVM connectionVMAccount = new AccountVM(
-            this.connectionId,
-            this.firstNameConnection,
-            this.lastNameConnection,
-            this.emailConnection,
-            this.nameConnection,
-            this.balance
-    );
-
     private Connection connection = new Connection(account, connectionAccount);
     private ConnectionDto connectionDto = new ConnectionDto(accountDto, connectionDtoAccount);
-    private ConnectionVM connectionVM = new ConnectionVM(accountId, connectionId, firstNameConnection, lastNameConnection);
+    private ConnectionVM connectionVM = new ConnectionVM(accountId, connectionId, usernameConnection);
     private List<Connection> connectionList = new ArrayList<>();
     private List<ConnectionVM> connectionVMList = new ArrayList<>();
 

@@ -16,7 +16,7 @@
                     <option value="" disabled selected>Choisissez une connexion</option>
                     <option th:each="account : ${accountDtoList}"
                             th:value="${account.getIdentifier()}"
-                            th:text="${account.getFirstName()} + ' ' + ${account.getLastName()}">
+                            th:text="${account.getUsername()}">
 
                     </option>
                 </select>

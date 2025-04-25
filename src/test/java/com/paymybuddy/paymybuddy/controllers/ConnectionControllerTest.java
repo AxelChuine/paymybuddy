@@ -49,8 +49,6 @@ public class ConnectionControllerTest {
         mockMvc = org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup(controller).build();
         this.accountDto = new AccountDto(
                 this.accountId,
-                this.firstName,
-                this.lastName,
                 this.username,
                 this.password,
                 this.email,
@@ -60,8 +58,6 @@ public class ConnectionControllerTest {
         );
         this.connectionAccount = new AccountDto(
                 this.connectionId,
-                this.firstNameConnection,
-                this.lastNameConnection,
                 this.username,
                 this.password,
                 this.email,

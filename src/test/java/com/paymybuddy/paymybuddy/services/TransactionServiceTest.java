@@ -76,8 +76,6 @@ public class TransactionServiceTest {
 
     private Account sender = new Account(
             this.senderId,
-            this.senderFirstName,
-            this.senderLastName,
             this.senderUsername,
             this.password,
             this.senderEmail,
@@ -88,8 +86,6 @@ public class TransactionServiceTest {
 
     private Account recipient = new Account(
             this.recipientId,
-            this.recipientFirstName,
-            this.recipientLastName,
             this.recipientUsername,
             this.password,
             this.recipientEmail,
@@ -100,8 +96,6 @@ public class TransactionServiceTest {
 
     private AccountDto senderDto = new AccountDto(
             this.senderId,
-            this.senderFirstName,
-            this.senderLastName,
             this.senderUsername,
             this.password,
             this.senderEmail,
@@ -112,8 +106,6 @@ public class TransactionServiceTest {
 
     private AccountDto recipientDto = new AccountDto(
             this.recipientId,
-            this.recipientFirstName,
-            this.recipientLastName,
             this.recipientUsername,
             this.password,
             this.recipientEmail,

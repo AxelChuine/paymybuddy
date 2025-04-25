@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 public class ConnectionVM {
     private Long accountId;
     private Long connectionId;
-    private String firstNameConnection;
-    private String lastNameConnection;
+    private String usernameConnection;
 }

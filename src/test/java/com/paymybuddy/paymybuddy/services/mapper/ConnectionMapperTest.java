@@ -57,8 +57,6 @@ public class ConnectionMapperTest {
     public void setUp() {
         this.account = new Account(
                 this.accountId,
-                this.firstName,
-                this.lastName,
                 this.username,
                 this.password,
                 this.email,
@@ -68,8 +66,6 @@ public class ConnectionMapperTest {
         );
         this.accountDto = new AccountDto(
                 this.accountId,
-                this.firstName,
-                this.lastName,
                 this.username,
                 this.password,
                 this.email,
@@ -79,8 +75,6 @@ public class ConnectionMapperTest {
         );
         this.accountConnection = new Account(
                 this.connectionId,
-                this.firstNameConnection,
-                this.lastNameConnection,
                 this.usernameConnection,
                 this.password,
                 this.emailConnection,
@@ -90,8 +84,6 @@ public class ConnectionMapperTest {
         );
         this.accountConnectionDto = new AccountDto(
                 this.connectionId,
-                this.firstNameConnection,
-                this.lastNameConnection,
                 this.usernameConnection,
                 this.password,
                 this.emailConnection,
@@ -110,8 +102,7 @@ public class ConnectionMapperTest {
         this.connectionVM = new ConnectionVM(
                this.accountId,
                this.connectionId,
-               this.firstNameConnection,
-               this.lastNameConnection
+               this.usernameConnection
         );
         this.connectionList.add(connection);
         this.connectionDtoList.add(connectionDto);

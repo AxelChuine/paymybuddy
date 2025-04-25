@@ -1,7 +1,7 @@
 package com.paymybuddy.paymybuddy.services.mapper;
 
 import com.paymybuddy.paymybuddy.dtos.AccountDto;
-import com.paymybuddy.paymybuddy.dtos.AccountVM;
+
 import com.paymybuddy.paymybuddy.models.Account;
 import com.paymybuddy.paymybuddy.repository.IAccountRepository;
 import org.springframework.stereotype.Service;
@@ -16,15 +16,6 @@ public class AccountMapper {
 
     public AccountMapper(IAccountRepository repository) {
         this.repository = repository;
-    }
-
-    public AccountVM toAccountVM(Account account) {
-        return new AccountVM(account.getIdentifier(),
-                account.getFirstName(),
-                account.getLastName(),
-                account.getEmail(),
-                account.getName(),
-                account.getBalance());
     }
 
     public Account toModel(AccountDto accountDto) {
@@ -48,8 +39,6 @@ public class AccountMapper {
     public Account toConnectionModel(AccountDto connectionDto) {
         Account account = new Account();
         account.setIdentifier(connectionDto.getIdentifier());
-        account.setFirstName(connectionDto.getFirstName());
-        account.setLastName(connectionDto.getLastName());
         account.setUsername(connectionDto.getUsername());
         account.setPassword(connectionDto.getPassword());
         account.setEmail(connectionDto.getEmail());
@@ -61,8 +50,6 @@ public class AccountMapper {
     public AccountDto toAccountDto(Account account) {
         AccountDto accountDto = new AccountDto();
         accountDto.setIdentifier(Objects.nonNull(account.getIdentifier()) ? account.getIdentifier() : null);
-        accountDto.setFirstName(Objects.nonNull(account.getFirstName()) ? account.getFirstName() : "");
-        accountDto.setLastName(Objects.nonNull(account.getLastName()) ? account.getLastName() : "");
         accountDto.setUsername(Objects.nonNull(account.getUsername()) ? account.getUsername() : "");
         accountDto.setPassword(Objects.nonNull(account.getPassword()) ? account.getPassword() : "");
         accountDto.setEmail(Objects.nonNull(account.getEmail()) ? account.getEmail() : "");

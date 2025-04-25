@@ -80,8 +80,7 @@ public class TransactionControllerTest {
         this.connectionVM = new ConnectionVM(
                 accountId,
                 connectionId,
-                firstNameConnection,
-                lastNameConnection
+                username
         );
         this.connectionVMList.add(this.connectionVM);
     }

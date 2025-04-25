@@ -14,8 +14,6 @@ import java.util.Set;
 @EqualsAndHashCode
 public class AccountDto {
     private Long identifier;
-    private String firstName;
-    private String lastName;
     private String username;
     private String password;
     private String email;

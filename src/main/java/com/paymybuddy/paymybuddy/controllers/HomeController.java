@@ -4,6 +4,7 @@ import com.paymybuddy.paymybuddy.dtos.AccountDto;
 import com.paymybuddy.paymybuddy.exceptions.AccountAlreadyExistsException;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
 import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
+import com.paymybuddy.paymybuddy.models.Account;
 import com.paymybuddy.paymybuddy.services.AccountService;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
+import java.util.Optional;
+
+import static org.springframework.data.repository.util.ClassUtils.ifPresent;
 
 @Controller
 @RequestMapping("/home")
@@ -54,16 +58,6 @@ public class HomeController {
         return "redirect:/transaction/transaction";
     }
 
-    @PostMapping("/transaction/transaction")
-    public String newConnection(Model model, @ModelAttribute AccountDto accountDto) throws BadRequestException {
-        AccountDto account = this.accountService.findByUsernameAndPassword(accountDto.getUsername(), accountDto.getPassword());
-        if (Objects.nonNull(account.getIdentifier())) {
-            this.accountService.setAccountDto(account);
-        }
-        model.addAttribute("account", account);
-        return "transaction/transaction";
-    }
-
     @GetMapping("/new-account")
     public String newAccount(Model model) throws ParameterNotProvidedException {
         model.addAttribute("account", new AccountDto());
@@ -78,31 +72,17 @@ public class HomeController {
         }
 
         model.addAttribute("account", new AccountDto());
-        /*Boolean accountExists = this.accountService.checkIfExists(email);*/
-        Boolean accountExists = this.accountService.findByEmail(email).isPresent();
-        if (Objects.equals(accountExists, false)) {
+        AccountDto accountDto2 = this.accountService.createAccount(email, username, password);
+        this.accountService.setAccountDto(accountDto2);
+        return "redirect:/transaction/transaction";
+        /*try {
             AccountDto accountDto2 = this.accountService.createAccount(email, username, password);
             this.accountService.setAccountDto(accountDto2);
             return "redirect:/transaction/transaction";
-        } else {
+        } catch (Exception) {
             BadRequestException badRequestException = new BadRequestException("Account already exists");
             model.addAttribute("exception", badRequestException);
             return "error/403";
-        }
+        }*/
     }
-
-
-    /*@PostMapping("/home/new-account")
-    public String newAccountCreated(@RequestParam("username") String username, @RequestParam("email") String email, @RequestParam("password") String password, Model model) throws BadRequestException, ParameterNotProvidedException, AccountNotFoundException {
-        AccountDto accountDto1 = this.accountService.findByEmail(email);
-        if (Objects.nonNull(accountDto1.getIdentifier())) {
-            BadRequestException badRequestException = new BadRequestException("Account already exists");
-            model.addAttribute("exception", badRequestException);
-            return "error/403";
-        } else {
-            AccountDto accountDto2 = this.accountService.createAccount(email, username, password);
-            this.accountService.setAccountDto(accountDto2);
-            return "redirect:/transaction/transaction";
-        }
-    }*/
 }

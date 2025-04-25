@@ -37,17 +37,26 @@ public class TransactionController {
 
     @GetMapping("/transaction")
     public String findAllTransactions(Model model) throws ParameterNotProvidedException, AccountNotFoundException, ConnectionNotFoundException {
-        List<ConnectionVM> connections = new ArrayList<>(this.connectionService.findAllByAccount(this.accountService.getAccountDto()));
-        List<AccountDto> accountDtoList = new ArrayList<>();
-        for (ConnectionVM connection : connections) {
-            accountDtoList.add(this.accountService.findAccount(connection.getConnectionId()));
+        try {
+            List<ConnectionVM> connections = new ArrayList<>(this.connectionService.findAllByAccount(this.accountService.getAccountDto()));
+            List<AccountDto> accountDtoList = new ArrayList<>();
+            for (ConnectionVM connection : connections) {
+                accountDtoList.add(this.accountService.findAccount(connection.getConnectionId()));
+            }
+            List<TransactionDto> transactionDtoList = this.service.findAllByAccountId(this.accountService.getAccountDto().getIdentifier());
+            model.addAttribute("transaction", new TransactionDto());
+            model.addAttribute("accountDtoList", accountDtoList);
+            model.addAttribute("transactions", transactionDtoList);
+            model.addAttribute("currentPage", "page1");
+            return "transaction/transaction";
+        } catch (ConnectionNotFoundException e) {
+            List<TransactionDto> transactionDtoList = this.service.findAllByAccountId(this.accountService.getAccountDto().getIdentifier());
+            model.addAttribute("transaction", new TransactionDto());
+            model.addAttribute("transactions", transactionDtoList);
+            model.addAttribute("currentPage", "page1");
+            return "transaction/transaction";
         }
-        List<TransactionDto> transactionDtoList = this.service.findAllByAccountId(this.accountService.getAccountDto().getIdentifier());
-        model.addAttribute("transaction", new TransactionDto());
-        model.addAttribute("accountDtoList", accountDtoList);
-        model.addAttribute("transactions", transactionDtoList);
-        model.addAttribute("currentPage", "page1");
-        return "transaction/transaction";
+
     }
 
     @PostMapping("/transaction")

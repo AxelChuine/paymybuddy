@@ -42,8 +42,6 @@ public class HomeControllerTest {
         mockMvc = org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup(controller).build();
         this.accountDto = new AccountDto(
                 this.accountId,
-                this.firstName,
-                this.lastName,
                 this.username,
                 this.password,
                 this.email,

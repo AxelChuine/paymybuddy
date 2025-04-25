@@ -1,7 +1,6 @@
 package com.paymybuddy.paymybuddy.services;
 
 import com.paymybuddy.paymybuddy.dtos.AccountDto;
-import com.paymybuddy.paymybuddy.dtos.AccountVM;
 import com.paymybuddy.paymybuddy.exceptions.AccountAlreadyExistsException;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
 import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
@@ -53,7 +52,7 @@ public class AccountService {
         return this.mapper.toAccountDto(account);
     }
 
-    public AccountVM updateAccount(AccountDto account) throws AccountNotFoundException, ParameterNotProvidedException {
+    public AccountDto updateAccount(AccountDto account) throws AccountNotFoundException, ParameterNotProvidedException {
         if (Objects.isNull(account)) {
             throw new ParameterNotProvidedException();
         }
@@ -61,7 +60,7 @@ public class AccountService {
         if (!exists) {
             throw new AccountNotFoundException();
         }
-        return this.mapper.toAccountVM(this.repository.save(this.mapper.toModel(account)));
+        return this.mapper.toAccountDto(this.repository.save(this.mapper.toModel(account)));
     }
 
     public AccountDto findByName(String accountName) throws AccountNotFoundException {

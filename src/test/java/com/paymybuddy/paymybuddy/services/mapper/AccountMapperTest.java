@@ -1,7 +1,7 @@
 package com.paymybuddy.paymybuddy.services.mapper;
 
 import com.paymybuddy.paymybuddy.dtos.AccountDto;
-import com.paymybuddy.paymybuddy.dtos.AccountVM;
+
 import com.paymybuddy.paymybuddy.models.Account;
 import com.paymybuddy.paymybuddy.repository.IAccountRepository;
 import com.paymybuddy.paymybuddy.services.AccountService;
@@ -43,14 +43,11 @@ public class AccountMapperTest {
 
     private Account account;
     private AccountDto accountDto;
-    private AccountVM accountVM;
 
     @BeforeEach
     public void setUp() {
         account = new Account(
                 this.id,
-                this.firstName,
-                this.lastName,
                 this.username,
                 this.password,
                 this.email,
@@ -60,22 +57,12 @@ public class AccountMapperTest {
         );
         accountDto = new AccountDto(
                 this.id,
-                this.firstName,
-                this.lastName,
                 this.username,
                 this.password,
                 this.email,
                 this.name,
                 this.balance,
                 null
-        );
-        this.accountVM = new AccountVM(
-                this.id,
-                this.firstName,
-                this.lastName,
-                this.email,
-                this.name,
-                this.balance
         );
         connections.add(account);
         connectionDtoSet.add(accountDto);
@@ -91,15 +78,6 @@ public class AccountMapperTest {
         Assertions.assertThat(toCompare).isEqualTo(this.account);
         Assertions.assertThat(toCompare.toString()).isEqualTo(this.account.toString());
         Assertions.assertThat(toCompare.hashCode()).isEqualTo(this.account.hashCode());
-    }
-
-    @Test
-    public void toVMShouldReturnAnAccountVM() {
-        AccountVM toCompare = this.mapper.toAccountVM(this.account);
-
-        Assertions.assertThat(toCompare).isEqualTo(this.accountVM);
-        Assertions.assertThat(toCompare.toString()).isEqualTo(this.accountVM.toString());
-        Assertions.assertThat(toCompare.hashCode()).isEqualTo(this.accountVM.hashCode());
     }
 
     @Test

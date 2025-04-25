@@ -28,8 +28,7 @@ public class ConnectionMapper {
         return new ConnectionVM(
                 connection.getAccount().getIdentifier(),
                 connection.getConnection().getIdentifier(),
-                connection.getConnection().getFirstName(),
-                connection.getConnection().getLastName()
+                connection.getConnection().getUsername()
         );
     }
 

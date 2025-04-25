@@ -1,12 +1,18 @@
+create database pay_my_buddy;
+
+use pay_my_buddy;
+
 create table if not exists account
 (
-    identifier int not null auto_increment primary key,
-    first_name varchar(255),
-    last_name  varchar(255),
-    email      varchar(255),
-    password   text,
-    name       varchar(255),
-    balance    numeric
+    identifier int auto_increment
+        primary key,
+    email      varchar(255)   null,
+    password   varchar(255)   not null,
+    name       varchar(255)   null,
+    balance    decimal(38, 2) null,
+    username   varchar(255)   null,
+    constraint account_uk
+        unique (email)
 );
 
 create table if not exists connection
