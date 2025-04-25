@@ -46,7 +46,7 @@ public class HomeController {
     @PostMapping("/login")
     public String login(Model model, @ModelAttribute AccountDto accountDto) throws BadRequestException {
         AccountDto account = this.accountService.findByUsernameAndPassword(accountDto.getEmail(), accountDto.getPassword());
-        if (Objects.isNull(account.getIdentifier())) {
+        if (Objects.isNull(account)) {
             model.addAttribute("error", "Le compte n'existe pas");
             return "home/login";
         }

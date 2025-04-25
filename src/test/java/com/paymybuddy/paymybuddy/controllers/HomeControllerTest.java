@@ -98,4 +98,15 @@ public class HomeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isFound())
                 .andExpect(MockMvcResultMatchers.view().name("redirect:/transaction/transaction"));
     }
+
+    @Test
+    public void loginPostShouldReturnHttpStatusOkWhenAccountNotFound() throws Exception {
+        Mockito.when(this.accountService.findByUsernameAndPassword(this.accountDto.getEmail(), this.accountDto.getPassword())).thenReturn(null);
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/home/login")
+                        .param("email", this.accountDto.getEmail())
+                        .param("password", this.accountDto.getPassword()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attributeExists("error"))
+                .andExpect(MockMvcResultMatchers.view().name("home/login"));
+    }
 }
