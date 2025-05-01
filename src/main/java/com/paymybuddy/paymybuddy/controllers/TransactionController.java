@@ -60,21 +60,29 @@ public class TransactionController {
     }
 
     @PostMapping("/transaction")
-    public String createTransaction(@ModelAttribute TransactionDto transactionDto, Model model) throws AccountAlreadyExistsException, ParameterNotProvidedException, AccountNotFoundException {
+    public String createTransaction(@ModelAttribute TransactionDto transactionDto, Model model) throws AccountAlreadyExistsException, ParameterNotProvidedException, AccountNotFoundException, ConnectionNotFoundException {
         AccountDto recipient = this.accountService.findById(transactionDto.getRecipient().getIdentifier());
         transactionDto.setSender(this.accountService.getAccountDto());
         transactionDto.setRecipient(recipient);
         transactionDto.setAmount(transactionDto.getAmount());
         transactionDto.setRecipient(transactionDto.getRecipient());
         transactionDto.setName(transactionDto.getName());
+        List<ConnectionVM> connectionVMList = this.connectionService.findAllByAccount(this.accountService.getAccountDto());
+        List<AccountDto> accountDtoList = new ArrayList<>();
+        for (ConnectionVM connectionVM : connectionVMList) {
+            accountDtoList.add(this.accountService.findAccount(connectionVM.getConnectionId()));
+        }
         List<TransactionDto> transactionDtoList = this.service.findAllByAccountId(this.accountService.getAccountDto().getIdentifier());
         if (this.accountService.getAccountDto().getBalance().compareTo(transactionDto.getAmount()) < 0) {
             model.addAttribute("transaction", new TransactionDto());
+            model.addAttribute("accountDtoList", accountDtoList);
             model.addAttribute("error", "Vous ne pouvez pas faire cette transaction");
             model.addAttribute("transactions", transactionDtoList);
             return "transaction/transaction";
         }
         TransactionDto transactionToReturn = this.service.create(transactionDto);
+        transactionDtoList.add(transactionToReturn);
+        model.addAttribute("accountDtoList", accountDtoList);
         model.addAttribute("transaction", transactionToReturn);
         model.addAttribute("transactions", transactionDtoList);
         return "transaction/transaction";
