@@ -42,4 +42,9 @@ public class Account {
             inverseJoinColumns = @JoinColumn(name = "connection")
     )
     private Set<Account> connections;
+
+    public Set<Account> addConnection(Account account) {
+        this.connections.add(account);
+        return this.connections;
+    }
 }
