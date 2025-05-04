@@ -1,7 +1,7 @@
 package com.paymybuddy.paymybuddy.controllers;
 
-import com.paymybuddy.paymybuddy.dtos.AccountDto;
-import com.paymybuddy.paymybuddy.dtos.ConnectionDto;
+import com.paymybuddy.paymybuddy.models.Account;
+import com.paymybuddy.paymybuddy.models.Connection;
 import com.paymybuddy.paymybuddy.services.AccountService;
 import com.paymybuddy.paymybuddy.services.ConnectionService;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,14 +35,14 @@ public class ConnectionControllerTest {
     private final String password = "password";
     private final String name = "name";
 
-    private AccountDto accountDto;
-    private AccountDto connectionAccount;
-    private ConnectionDto connectionDto;
+    private Account account;
+    private Account connectionAccount;
+    private Connection connectionDto;
 
     @BeforeEach
     public void setup() {
         mockMvc = org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup(controller).build();
-        this.accountDto = new AccountDto(
+        this.account = new Account(
                 this.accountId,
                 this.username,
                 this.password,
@@ -51,7 +51,7 @@ public class ConnectionControllerTest {
                 null,
                 null
         );
-        this.connectionAccount = new AccountDto(
+        this.connectionAccount = new Account(
                 this.connectionId,
                 this.username,
                 this.password,
@@ -60,7 +60,7 @@ public class ConnectionControllerTest {
                 null,
                 null
         );
-        this.connectionDto = new ConnectionDto(this.accountDto, this.connectionAccount);
+        this.connectionDto = new Connection(this.account, this.connectionAccount);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class ConnectionControllerTest {
 
     @Test
     public void createConnectionShouldReturnHttpStatusOk() throws Exception {
-        Mockito.when(this.accountService.getAccount()).thenReturn(this.accountDto);
+        Mockito.when(this.accountService.getAccount()).thenReturn(this.account);
         Mockito.when(this.service.create(this.accountId, this.connectionAccount.getEmail())).thenReturn(this.connectionDto);
         this.mockMvc.perform(MockMvcRequestBuilders.post("/connection/connection")
                 .param("email", this.connectionAccount.getEmail()))

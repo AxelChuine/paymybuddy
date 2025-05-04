@@ -1,6 +1,5 @@
 package com.paymybuddy.paymybuddy.services;
 
-import com.paymybuddy.paymybuddy.dtos.AccountDto;
 import com.paymybuddy.paymybuddy.exceptions.AccountAlreadyExistsException;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
 import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
@@ -54,7 +53,6 @@ public class TransactionServiceTest {
     private final String recipientEmail = "test-recipient@paymybuddy.com";
     private final String password = "1234";
     private final Set<Account> connections = new HashSet<>();
-    private final Set<AccountDto> connectionDtoSet = new HashSet<>();
 
 
     private BigDecimal amount = new BigDecimal("100.00");

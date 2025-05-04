@@ -3,7 +3,6 @@ package com.paymybuddy.paymybuddy.controllers;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
 import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
 import com.paymybuddy.paymybuddy.models.Account;
-import com.paymybuddy.paymybuddy.models.Connection;
 import com.paymybuddy.paymybuddy.services.AccountService;
 import com.paymybuddy.paymybuddy.services.ConnectionService;
 import org.springframework.stereotype.Controller;
@@ -12,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/connection")
@@ -33,7 +34,7 @@ public class ConnectionController {
     }
 
     @PostMapping("/connection")
-    public String createConnection(@ModelAttribute Account accountDto, Model model) throws ParameterNotProvidedException, AccountNotFoundException {
+    public String createConnection(@ModelAttribute Account account, Model model) throws ParameterNotProvidedException, AccountNotFoundException {
         try {
             Account currentAccount = this.accountService.getAccount();
             model.addAttribute("account", new Account());
@@ -42,8 +43,10 @@ public class ConnectionController {
                 model.addAttribute("error", "Vous n'êtes pas connecté");
                 return "connection/connection";
             }
-
-            Connection connection = this.service.create(currentAccount.getIdentifier(), accountDto.getEmail());
+            Account connectionToAdd = this.accountService.findAccount(account.getIdentifier());
+            if (!Objects.isNull(connectionToAdd)) {
+                this.accountService.getAccount().addConnection(connectionToAdd);
+            }
             model.addAttribute("error", "Impossible de créer la connexion");
             return "connection/connection";
 

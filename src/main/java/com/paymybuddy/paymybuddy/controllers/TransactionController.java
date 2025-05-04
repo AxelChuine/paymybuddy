@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/transaction")
@@ -37,10 +39,7 @@ public class TransactionController {
     @GetMapping("/transaction")
     public String findAllTransactions(Model model) throws ParameterNotProvidedException, AccountNotFoundException {
         List<Connection> connections = new ArrayList<>(this.connectionService.findAllByAccount(this.accountService.getAccount()));
-        List<Account> accountList = new ArrayList<>();
-        /*for (Connection connection : connections) {
-            accountList.add(this.accountService.findAccount(connection.getConnection().getIdentifier()));
-        }*/
+        Set<Account> accountList = connections.stream().map(Connection::getConnection).collect(Collectors.toSet());
         List<Transaction> transactionDtoList = this.service.findAllByAccountId(this.accountService.getAccount().getIdentifier());
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("accountDtoList", accountList);

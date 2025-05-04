@@ -43,8 +43,10 @@ public class Account {
     )
     private Set<Account> connections;
 
-    public Set<Account> addConnection(Account account) {
+    public void addConnection(Account account) {
         this.connections.add(account);
-        return this.connections;
+        if (this.connections.stream().anyMatch(a -> a.getIdentifier().equals(account.getIdentifier()))) {
+            throw new IllegalArgumentException("Account already connected");
+        }
     }
 }
