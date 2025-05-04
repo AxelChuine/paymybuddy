@@ -9,6 +9,8 @@ La base de données a été créée en utilisant mariadb qui était, à l'origin
 Raison pour laquelle, des bases de données mysql ne devraient avoir aucun problème à lire et, donc, créer la base de données via les scripts présents dans le fichier resources/bdd/create_tables.sql.
 Pour remplir la base de données, il y a le script qui se trouve dans le même dossier que create_tables.sql et qui s'appelle populate.sql.
 
+L'utilisateur est "root" et son mot de passe est "rootroot"
+
 ## Modèle physique de données
 
 
