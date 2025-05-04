@@ -35,7 +35,7 @@ public class Account {
     @Column(name = "balance")
     private BigDecimal balance;
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "connection",
             joinColumns = @JoinColumn(name = "account"),

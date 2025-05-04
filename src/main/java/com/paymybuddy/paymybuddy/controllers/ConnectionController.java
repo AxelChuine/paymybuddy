@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Objects;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/connection")
@@ -43,16 +43,19 @@ public class ConnectionController {
                 model.addAttribute("error", "Vous n'êtes pas connecté");
                 return "connection/connection";
             }
-            Account connectionToAdd = this.accountService.findAccount(account.getIdentifier());
-            if (!Objects.isNull(connectionToAdd)) {
-                this.accountService.getAccount().addConnection(connectionToAdd);
-            }
+            Optional<Account> optional = this.accountService.findByEmail(account.getEmail());
+            optional.ifPresent(value -> this.accountService.getAccount().addConnection(value));
             model.addAttribute("error", "Impossible de créer la connexion");
             return "connection/connection";
 
         } catch (AccountNotFoundException e) {
             model.addAttribute("currentPage", "page3");
             model.addAttribute("error", "Le compte n'existe pas");
+            model.addAttribute("account", new Account());
+            return "connection/connection";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("currentPage", "page3");
+            model.addAttribute("error", "La connexion existe déjà");
             model.addAttribute("account", new Account());
             return "connection/connection";
         }

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class ConnectionService {
@@ -38,15 +37,5 @@ public class ConnectionService {
             throw new ParameterNotProvidedException();
         }
         return this.repository.findAllByAccount(account);
-    }
-
-    public Connection create(long l, String email) throws ParameterNotProvidedException, AccountNotFoundException {
-        Account account = this.accountService.findById(l);
-        Optional<Account> optionalConnection = this.accountService.findByEmail(email);
-        if (optionalConnection.isPresent()) {
-            Account connection = optionalConnection.get();
-            return this.create(account, connection);
-        }
-        return null;
     }
 }
