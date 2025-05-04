@@ -45,8 +45,5 @@ public class Account {
 
     public void addConnection(Account account) {
         this.connections.add(account);
-        if (this.connections.stream().anyMatch(a -> a.getIdentifier().equals(account.getIdentifier()))) {
-            throw new IllegalArgumentException("Account already connected");
-        }
     }
 }

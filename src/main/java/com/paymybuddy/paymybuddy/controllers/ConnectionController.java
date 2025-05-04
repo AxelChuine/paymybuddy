@@ -44,7 +44,19 @@ public class ConnectionController {
                 return "connection/connection";
             }
             Optional<Account> optional = this.accountService.findByEmail(account.getEmail());
-            optional.ifPresent(value -> this.accountService.getAccount().addConnection(value));
+            if (optional.isPresent()) {
+                this.accountService.getAccount().addConnection(optional.get());
+                try {
+                    this.accountService.save(optional.get());
+                } catch (ParameterNotProvidedException | AccountNotFoundException e) {
+                    model.addAttribute("currentPage", "page3");
+                    model.addAttribute("error", "Vous n'avez pas fourni d'email valide ou le compte n'existe pas");
+                    model.addAttribute("account", new Account());
+                    return "connection/connection";
+                }
+                model.addAttribute("success", "Connexion créée avec succès");
+                return "redirect:/transaction/transaction";
+            }
             model.addAttribute("error", "Impossible de créer la connexion");
             return "connection/connection";
 

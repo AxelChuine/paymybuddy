@@ -1,6 +1,5 @@
 package com.paymybuddy.paymybuddy.services;
 
-import com.paymybuddy.paymybuddy.exceptions.AccountAlreadyExistsException;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
 import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
 import com.paymybuddy.paymybuddy.models.Account;
@@ -12,7 +11,8 @@ import lombok.Setter;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class AccountService {
@@ -55,7 +55,7 @@ public class AccountService {
         return this.repository.findByName(accountName);
     }
 
-    public Account save(Account account) throws AccountAlreadyExistsException, ParameterNotProvidedException, AccountNotFoundException {
+    public Account save(Account account) throws ParameterNotProvidedException, AccountNotFoundException {
         if (Objects.isNull(account)) {
             throw new ParameterNotProvidedException();
         }

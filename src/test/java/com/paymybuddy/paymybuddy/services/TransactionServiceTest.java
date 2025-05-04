@@ -32,7 +32,7 @@ public class TransactionServiceTest {
 
     @Mock
     private AccountService accountService;
-    
+
     @Mock
     private ConnectionService connectionService;
 
@@ -87,7 +87,7 @@ public class TransactionServiceTest {
             this.recipient,
             this.transactionDate
     );
-    
+
     private List<Transaction> transactionList = new ArrayList<>();
 
     @BeforeEach
@@ -103,17 +103,15 @@ public class TransactionServiceTest {
 
         Connection connectionPayMyBuddySender = new Connection(payMyBuddy, sender);
         Connection connectionPayMyBuddyRecipient = new Connection(payMyBuddy, recipient);
-        Connection connectionSenderDto = new Connection(sender, recipient);
-        Connection connectionRecipientDto = new Connection(recipient, sender);
 
         Mockito.when(this.accountService.findByName(Mockito.anyString())).thenReturn(payMyBuddy);
         Mockito.when(this.accountService.save(payMyBuddy)).thenReturn(payMyBuddy);
         Mockito.when(this.accountService.save(sender)).thenReturn(sender);
         Mockito.when(this.accountService.save(recipient)).thenReturn(recipient);
+        Mockito.when(this.accountService.getAccount()).thenReturn(sender);
+        Mockito.when(this.accountService.findAccount(recipientId)).thenReturn(recipient);
         Mockito.when(this.connectionService.create(payMyBuddy, sender)).thenReturn(connectionPayMyBuddySender);
         Mockito.when(this.connectionService.create(payMyBuddy, recipient)).thenReturn(connectionPayMyBuddyRecipient);
-        Mockito.when(this.connectionService.create(sender, recipient)).thenReturn(connectionSenderDto);
-        Mockito.when(this.connectionService.create(recipient, sender)).thenReturn(connectionRecipientDto);
         Mockito.when(this.repository.save(transaction)).thenReturn(transaction);
         Transaction toCompare = this.service.create(transaction);
 

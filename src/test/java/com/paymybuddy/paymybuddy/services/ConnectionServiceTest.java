@@ -91,7 +91,6 @@ public class ConnectionServiceTest {
 
     @Test
     public void findAllByAccountShouldReturnAListOfConnectionVM() throws AccountNotFoundException, ParameterNotProvidedException {
-        Mockito.when(this.accountRepository.findById(accountId)).thenReturn(Optional.of(account));
         Mockito.when(this.repository.findAllByAccount(account)).thenReturn(this.connectionList);
         List<Connection> listToCompare = this.service.findAllByAccount(account);
 
@@ -112,7 +111,6 @@ public class ConnectionServiceTest {
     public void findAllConnectionsByAccountShouldReturnEmptyList() throws AccountNotFoundException, ParameterNotProvidedException {
         List<Connection> emptyConnectionList = new ArrayList<>();
 
-        Mockito.when(this.accountRepository.findById(accountId)).thenReturn(Optional.of(account));
         Mockito.when(this.repository.findAllByAccount(account)).thenReturn(emptyConnectionList);
         List<Connection> listToCompare = this.service.findAllByAccount(account);
 

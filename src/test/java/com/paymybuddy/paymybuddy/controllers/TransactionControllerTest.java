@@ -81,7 +81,6 @@ public class TransactionControllerTest {
         // Mock service calls
         Mockito.when(accountService.getAccount()).thenReturn(account);
         Mockito.when(connectionService.findAllByAccount(account)).thenReturn(connectionList);
-        Mockito.when(accountService.findAccount(this.connectionId)).thenReturn(connectionAccount);
         Mockito.when(service.findAllByAccountId(this.accountId)).thenReturn(transactionList);
 
         // Act & Assert
@@ -96,7 +95,6 @@ public class TransactionControllerTest {
 
     @Test
     public void createTransactionShouldReturnHttpStatusOk() throws Exception {
-        Mockito.when(accountService.findById(this.connectionId)).thenReturn(connectionAccount);
         Mockito.when(accountService.getAccount()).thenReturn(account);
         Mockito.when(service.findAllByAccountId(this.accountId)).thenReturn(transactionList);
         Mockito.when(this.service.create(Mockito.any(Transaction.class))).thenReturn(this.transaction);
@@ -117,7 +115,6 @@ public class TransactionControllerTest {
         newAccount.setIdentifier(accountId);
         newAccount.setBalance(new BigDecimal("10.00"));
 
-        Mockito.when(accountService.findById(this.connectionId)).thenReturn(connectionAccount);
         Mockito.when(accountService.getAccount()).thenReturn(newAccount);
         Mockito.when(service.findAllByAccountId(this.accountId)).thenReturn(transactionList);
         Mockito.when(this.accountService.getAccount()).thenReturn(newAccount);

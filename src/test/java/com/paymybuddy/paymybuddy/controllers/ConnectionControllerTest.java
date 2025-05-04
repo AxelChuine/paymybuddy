@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.HashSet;
+
 @ExtendWith(MockitoExtension.class)
 public class ConnectionControllerTest {
     private MockMvc mockMvc;
@@ -49,7 +51,7 @@ public class ConnectionControllerTest {
                 this.email,
                 this.name,
                 null,
-                null
+                new HashSet<>()
         );
         this.connectionAccount = new Account(
                 this.connectionId,
@@ -58,7 +60,7 @@ public class ConnectionControllerTest {
                 this.email,
                 this.name,
                 null,
-                null
+                new HashSet<>()
         );
         this.connectionDto = new Connection(this.account, this.connectionAccount);
     }
@@ -75,11 +77,10 @@ public class ConnectionControllerTest {
     @Test
     public void createConnectionShouldReturnHttpStatusOk() throws Exception {
         Mockito.when(this.accountService.getAccount()).thenReturn(this.account);
+        Mockito.when(this.accountService.findByEmail(this.connectionAccount.getEmail())).thenReturn(java.util.Optional.of(this.connectionAccount));
         this.mockMvc.perform(MockMvcRequestBuilders.post("/connection/connection")
                 .param("email", this.connectionAccount.getEmail()))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.model().attributeExists("account"))
-                .andExpect(MockMvcResultMatchers.model().attributeExists("currentPage"))
-                .andExpect(MockMvcResultMatchers.view().name("connection/connection"));
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/transaction/transaction"));
     }
 }
