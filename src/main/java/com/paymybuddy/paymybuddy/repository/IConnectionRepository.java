@@ -14,6 +14,7 @@ import java.util.List;
 public interface IConnectionRepository extends JpaRepository<Connection, ConnectionId> {
     Connection findByConnection(Account account);
 
-    @Query("SELECT c FROM Connection c WHERE c.account = :account OR c.connection = :account")
-    List<Connection> findAllByAccount(@Param("account") Account account);
+    List<Connection> findAllByAccount(Account account);
+
+    List<Connection> findAllByConnection(Account account);
 }

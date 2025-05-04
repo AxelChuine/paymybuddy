@@ -1,9 +1,6 @@
 package com.paymybuddy.paymybuddy.controllers;
 
-import com.paymybuddy.paymybuddy.dtos.AccountDto;
-import com.paymybuddy.paymybuddy.exceptions.AccountAlreadyExistsException;
-import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
-import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
+import com.paymybuddy.paymybuddy.models.Account;
 import com.paymybuddy.paymybuddy.services.AccountService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,12 +30,12 @@ public class HomeControllerTest {
     private final String password = "password";
     private final String name = "name";
 
-    private AccountDto accountDto;
+    private Account account;
 
     @BeforeEach
     public void setup() {
         mockMvc = org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup(controller).build();
-        this.accountDto = new AccountDto(
+        this.account = new Account(
                 this.accountId,
                 this.username,
                 this.password,
@@ -51,7 +48,7 @@ public class HomeControllerTest {
 
     @Test
     public void findAccountShouldReturnHttpStatusOk() throws Exception {
-        Mockito.when(this.accountService.getAccountDto()).thenReturn(this.accountDto);
+        Mockito.when(this.accountService.getAccount()).thenReturn(this.account);
         this.mockMvc.perform(MockMvcRequestBuilders.get("/home/settings"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attributeExists("account"))
@@ -61,7 +58,7 @@ public class HomeControllerTest {
 
     @Test
     public void createAccountShouldReturnHttpStatusOk () throws Exception {
-        Mockito.when(this.accountService.save(Mockito.any(AccountDto.class))).thenReturn(this.accountDto);
+        Mockito.when(this.accountService.save(Mockito.any(Account.class))).thenReturn(this.account);
         this.mockMvc.perform(MockMvcRequestBuilders.post("/home/settings")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("identifier", this.accountId.toString())
@@ -85,20 +82,20 @@ public class HomeControllerTest {
 
     @Test
     public void loginPostShouldReturnHttpStatusOk() throws Exception {
-        Mockito.when(this.accountService.findByUsernameAndPassword(this.accountDto.getEmail(), this.accountDto.getPassword())).thenReturn(this.accountDto);
+        Mockito.when(this.accountService.findByUsernameAndPassword(this.account.getEmail(), this.account.getPassword())).thenReturn(this.account);
         this.mockMvc.perform(MockMvcRequestBuilders.post("/home/login")
-                .param("email", this.accountDto.getEmail())
-                .param("password", this.accountDto.getPassword()))
+                .param("email", this.account.getEmail())
+                .param("password", this.account.getPassword()))
                 .andExpect(MockMvcResultMatchers.status().isFound())
                 .andExpect(MockMvcResultMatchers.view().name("redirect:/transaction/transaction"));
     }
 
     @Test
     public void loginPostShouldReturnHttpStatusOkWhenAccountNotFound() throws Exception {
-        Mockito.when(this.accountService.findByUsernameAndPassword(this.accountDto.getEmail(), this.accountDto.getPassword())).thenReturn(null);
+        Mockito.when(this.accountService.findByUsernameAndPassword(this.account.getEmail(), this.account.getPassword())).thenReturn(null);
         this.mockMvc.perform(MockMvcRequestBuilders.post("/home/login")
-                        .param("email", this.accountDto.getEmail())
-                        .param("password", this.accountDto.getPassword()))
+                        .param("email", this.account.getEmail())
+                        .param("password", this.account.getPassword()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attributeExists("error"))
                 .andExpect(MockMvcResultMatchers.view().name("home/login"));

@@ -39,7 +39,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="transaction : ${transactions}">
-                    <td th:text="@{${transaction.sender.username}}"></td>
+                    <td th:text="@{${transaction.recipient.username}}"></td>
                     <td th:text="${transaction.name}"></td>
                     <td th:text="${#numbers.formatCurrency(transaction.amount)}"></td>
                 </tr>

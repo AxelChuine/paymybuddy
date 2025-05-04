@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface ITransactionRepository extends JpaRepository<Transaction, Long> {
-    @Query("SELECT t FROM Transaction t WHERE t.sender.identifier = :id OR t.receiver.identifier = :id")
+    @Query("SELECT t FROM Transaction t WHERE t.sender.identifier = :id OR t.recipient.identifier = :id")
     List<Transaction> findAllByAccountId(@Param("id") Long id);
 }

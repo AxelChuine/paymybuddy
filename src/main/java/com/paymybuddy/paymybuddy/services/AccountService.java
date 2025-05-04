@@ -1,12 +1,10 @@
 package com.paymybuddy.paymybuddy.services;
 
-import com.paymybuddy.paymybuddy.dtos.AccountDto;
 import com.paymybuddy.paymybuddy.exceptions.AccountAlreadyExistsException;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
 import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
 import com.paymybuddy.paymybuddy.models.Account;
 import com.paymybuddy.paymybuddy.repository.IAccountRepository;
-import com.paymybuddy.paymybuddy.services.mapper.AccountMapper;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -14,34 +12,21 @@ import lombok.Setter;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AccountService {
     private final IAccountRepository repository;
 
-    private final AccountMapper mapper;
-
     @Setter
     @Getter
-    private AccountDto accountDto;
+    private Account account;
 
-    public AccountService(IAccountRepository repository, AccountMapper mapper) {
+    public AccountService(IAccountRepository repository) {
         this.repository = repository;
-        this.mapper = mapper;
     }
 
-    public List<Account> findAll() throws AccountNotFoundException {
-        return repository.findAll();
-    }
-
-    public List<AccountDto> findAllDto() throws AccountNotFoundException {
-        return this.mapper.toDtoList(this.repository.findAll());
-    }
-
-    public AccountDto findAccount(Long accountId) throws AccountNotFoundException, ParameterNotProvidedException {
+    public Account findAccount(Long accountId) throws AccountNotFoundException, ParameterNotProvidedException {
         if (Objects.isNull(accountId)) {
             throw new ParameterNotProvidedException();
         }
@@ -49,10 +34,10 @@ public class AccountService {
         if (Objects.isNull(account)) {
             throw new AccountNotFoundException();
         }
-        return this.mapper.toAccountDto(account);
+        return account;
     }
 
-    public AccountDto updateAccount(AccountDto account) throws AccountNotFoundException, ParameterNotProvidedException {
+    public Account updateAccount(Account account) throws AccountNotFoundException, ParameterNotProvidedException {
         if (Objects.isNull(account)) {
             throw new ParameterNotProvidedException();
         }
@@ -60,21 +45,21 @@ public class AccountService {
         if (!exists) {
             throw new AccountNotFoundException();
         }
-        return this.mapper.toAccountDto(this.repository.save(this.mapper.toModel(account)));
+        return this.repository.save(account);
     }
 
-    public AccountDto findByName(String accountName) throws AccountNotFoundException {
+    public Account findByName(String accountName) throws AccountNotFoundException {
         if (Objects.isNull(accountName)) {
             throw new AccountNotFoundException();
         }
-        return this.mapper.toAccountDto(this.repository.findByName(accountName));
+        return this.repository.findByName(accountName);
     }
 
-    public AccountDto save(AccountDto account) throws AccountAlreadyExistsException, ParameterNotProvidedException, AccountNotFoundException {
+    public Account save(Account account) throws AccountAlreadyExistsException, ParameterNotProvidedException, AccountNotFoundException {
         if (Objects.isNull(account)) {
             throw new ParameterNotProvidedException();
         }
-        return this.mapper.toAccountDto(this.repository.save(this.mapper.toModel(account)));
+        return this.repository.save(account);
     }
 
 
@@ -89,23 +74,24 @@ public class AccountService {
         return optionalAccount;
     }
 
-    public AccountDto findById(final long l) {
+    public Account findById(final long l) {
         Optional<Account> optionalAccount = this.repository.findById(l);
-        return optionalAccount.map(this.mapper::toAccountDto).orElse(null);
+        return optionalAccount.orElse(null);
     }
 
-    public AccountDto findByUsernameAndPassword(String username, String password) throws BadRequestException {
+    public Account findByUsernameAndPassword(String username, String password) throws BadRequestException {
         if (Objects.isNull(username) || Objects.isNull(password)) {
             throw new BadRequestException("Aucun username ou mot de passe renseigné");
         }
-        return this.mapper.toAccountDto(this.repository.findByEmailAndPassword(username, password));
+        return this.repository.findByEmailAndPassword(username, password);
     }
 
-    public AccountDto createAccount(@NotEmpty(message = "The email is required") @Email String email, String username, String password) {
+    public Account createAccount(@NotEmpty(message = "The email is required") @Email String email, String username, String password) {
         Account account = new Account();
         account.setEmail(email);
         account.setUsername(username);
         account.setPassword(password);
-        return this.mapper.toAccountDto(this.repository.save(account));
+        return this.repository.save(account);
     }
+
 }

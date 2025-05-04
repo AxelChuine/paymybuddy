@@ -1,13 +1,10 @@
 package com.paymybuddy.paymybuddy.services;
 
-import com.paymybuddy.paymybuddy.dtos.AccountDto;
-
 import com.paymybuddy.paymybuddy.exceptions.AccountAlreadyExistsException;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
 import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
 import com.paymybuddy.paymybuddy.models.Account;
 import com.paymybuddy.paymybuddy.repository.IAccountRepository;
-import com.paymybuddy.paymybuddy.services.mapper.AccountMapper;
 import org.apache.coyote.BadRequestException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,8 +15,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -33,24 +28,19 @@ public class AccountServiceTest {
     @Mock
     private IAccountRepository repository;
 
-    @Mock
-    private AccountMapper mapper;
 
     @Test
     public void saveAccountShouldReturnAnAccount() throws AccountAlreadyExistsException, ParameterNotProvidedException, AccountNotFoundException {
-        AccountDto accountDto = new AccountDto();
-        accountDto.setIdentifier(32L);
         Account account = new Account();
         account.setIdentifier(32L);
 
-        Mockito.when(this.mapper.toModel(accountDto)).thenReturn(account);
-        Mockito.when(this.repository.save(account)).thenReturn(account);
-        Mockito.when(this.mapper.toAccountDto(account)).thenReturn(accountDto);
-        AccountDto accountToCompare = this.service.save(accountDto);
 
-        Assertions.assertThat(accountToCompare).isEqualTo(accountDto);
-        Assertions.assertThat(accountDto.hashCode()).isEqualTo(accountToCompare.hashCode());
-        Assertions.assertThat(accountDto.toString()).isEqualTo(accountToCompare.toString());
+        Mockito.when(this.repository.save(account)).thenReturn(account);
+        Account accountToCompare = this.service.save(account);
+
+        Assertions.assertThat(accountToCompare).isEqualTo(account);
+        Assertions.assertThat(account.hashCode()).isEqualTo(accountToCompare.hashCode());
+        Assertions.assertThat(account.toString()).isEqualTo(accountToCompare.toString());
     }
 
     @Test
@@ -101,16 +91,14 @@ public class AccountServiceTest {
     public void findByIdShouldReturnAnAccount() throws AccountNotFoundException, ParameterNotProvidedException {
         Account account = new Account();
         account.setIdentifier(32L);
-        AccountDto accountDto = new AccountDto();
-        accountDto.setIdentifier(32L);
 
         Mockito.when(this.repository.findById(account.getIdentifier())).thenReturn(Optional.of(account));
-        Mockito.when(this.mapper.toAccountDto(account)).thenReturn(accountDto);
-        AccountDto accountToCompare = this.service.findById(account.getIdentifier());
 
-        Assertions.assertThat(accountToCompare).isEqualTo(accountDto);
-        Assertions.assertThat(accountToCompare.toString()).isEqualTo(accountDto.toString());
-        Assertions.assertThat(accountToCompare.hashCode()).isEqualTo(accountDto.hashCode());
+        Account accountToCompare = this.service.findById(account.getIdentifier());
+
+        Assertions.assertThat(accountToCompare).isEqualTo(account);
+        Assertions.assertThat(accountToCompare.toString()).isEqualTo(account.toString());
+        Assertions.assertThat(accountToCompare.hashCode()).isEqualTo(account.hashCode());
     }
 
     @Test
@@ -121,17 +109,13 @@ public class AccountServiceTest {
         String password = "sjfgdhfbj";
         account.setPassword(password);
         account.setUsername(username);
-        AccountDto accountDto = new AccountDto();
-        accountDto.setIdentifier(32L);
-        accountDto.setUsername(username);
 
         Mockito.when(this.repository.findByEmailAndPassword(username, password)).thenReturn(account);
-        Mockito.when(this.mapper.toAccountDto(account)).thenReturn(accountDto);
-        AccountDto accountToCompare = this.service.findByUsernameAndPassword(username, password);
+        Account accountToCompare = this.service.findByUsernameAndPassword(username, password);
 
-        Assertions.assertThat(accountToCompare).isEqualTo(accountDto);
-        Assertions.assertThat(accountToCompare.hashCode()).isEqualTo(accountDto.hashCode());
-        Assertions.assertThat(accountToCompare.toString()).isEqualTo(accountDto.toString());
+        Assertions.assertThat(accountToCompare).isEqualTo(account);
+        Assertions.assertThat(accountToCompare.hashCode()).isEqualTo(account.hashCode());
+        Assertions.assertThat(accountToCompare.toString()).isEqualTo(account.toString());
     }
 
     @Test
@@ -145,7 +129,6 @@ public class AccountServiceTest {
 
     @Test
     public void createAccountShouldReturnAnAccount() throws AccountAlreadyExistsException, ParameterNotProvidedException, AccountNotFoundException {
-        AccountDto accountDto = new AccountDto();
         Account account = new Account();
         String username = "username";
         String email = "test@test.com";
@@ -153,55 +136,26 @@ public class AccountServiceTest {
         account.setUsername(username);
         account.setEmail(email);
         account.setPassword(password);
-        accountDto.setUsername(username);
-        accountDto.setEmail(email);
-        accountDto.setPassword(password);
 
         Mockito.when(this.repository.save(account)).thenReturn(account);
-        Mockito.when(this.mapper.toAccountDto(account)).thenReturn(accountDto);
-        AccountDto accountToCompare = this.service.createAccount(email, username, password);
+        Account accountToCompare = this.service.createAccount(email, username, password);
 
-        Assertions.assertThat(accountToCompare).isEqualTo(accountDto);
-        Assertions.assertThat(accountToCompare.toString()).isEqualTo(accountDto.toString());
-        Assertions.assertThat(accountToCompare.hashCode()).isEqualTo(accountDto.hashCode());
-    }
-
-    @Test
-    public void findAllShouldReturnAListOfAccountDto() throws AccountNotFoundException {
-        List<Account> accountList = new ArrayList<>();
-
-        Mockito.when(this.repository.findAll()).thenReturn(accountList);
-        List<Account> accountListToCompare = this.service.findAll();
-
-        Assertions.assertThat(accountListToCompare).isEqualTo(accountList);
-    }
-
-    @Test
-    public void findAllDtoShouldReturnAListOfAccountDto() throws AccountNotFoundException {
-        List<AccountDto> accountDtoList = new ArrayList<>();
-        List<Account> accountList = new ArrayList<>();
-
-        Mockito.when(this.repository.findAll()).thenReturn(accountList);
-        Mockito.when(this.mapper.toDtoList(accountList)).thenReturn(accountDtoList);
-        List<AccountDto> accountDtoListToCompare = this.service.findAllDto();
-
-        Assertions.assertThat(accountDtoListToCompare).isEqualTo(accountDtoList);
+        Assertions.assertThat(accountToCompare).isEqualTo(account);
+        Assertions.assertThat(accountToCompare.toString()).isEqualTo(account.toString());
+        Assertions.assertThat(accountToCompare.hashCode()).isEqualTo(account.hashCode());
     }
 
     @Test
     public void findAccountShouldReturnAnAccountDto() throws ParameterNotProvidedException, AccountNotFoundException {
-        AccountDto accountDto = new AccountDto();
         Account account = new Account();
         account.setIdentifier(32L);
-        accountDto.setIdentifier(32L);
 
         Mockito.when(this.repository.findByIdentifier(account.getIdentifier())).thenReturn(account);
-        Mockito.when(this.mapper.toAccountDto(account)).thenReturn(accountDto);
-        AccountDto accountDtoToCompare = this.service.findAccount(accountDto.getIdentifier());
+        Account accountToCompare = this.service.findAccount(account.getIdentifier());
 
-        Assertions.assertThat(accountDtoToCompare).isEqualTo(accountDto);
-        Assertions.assertThat(accountDtoToCompare.toString()).isEqualTo(accountDto.toString());
-        Assertions.assertThat(accountDtoToCompare.hashCode()).isEqualTo(accountDto.hashCode());
+        Assertions.assertThat(accountToCompare).isEqualTo(account);
+        Assertions.assertThat(accountToCompare.toString()).isEqualTo(account.toString());
+        Assertions.assertThat(accountToCompare.hashCode()).isEqualTo(account.hashCode());
     }
 
     @Test
@@ -228,19 +182,14 @@ public class AccountServiceTest {
     @Test
     public void updateAccountShouldReturnAccountDto() throws AccountNotFoundException, ParameterNotProvidedException, BadRequestException {
         Account account = new Account();
-        AccountDto accountDto = new AccountDto();
-        account.setIdentifier(32L);
-        accountDto.setIdentifier(32L);
 
         Mockito.when(this.repository.findById(account.getIdentifier())).thenReturn(Optional.of(account));
-        Mockito.when(this.mapper.toModel(accountDto)).thenReturn(account);
         Mockito.when(this.repository.save(account)).thenReturn(account);
-        Mockito.when(this.mapper.toAccountDto(account)).thenReturn(accountDto);
-        AccountDto accountToCompare = this.service.updateAccount(accountDto);
+        Account accountToCompare = this.service.updateAccount(account);
 
-        Assertions.assertThat(accountDto).isEqualTo(accountToCompare);
-        Assertions.assertThat(accountDto.toString()).isEqualTo(accountToCompare.toString());
-        Assertions.assertThat(accountDto.hashCode()).isEqualTo(accountToCompare.hashCode());
+        Assertions.assertThat(account).isEqualTo(accountToCompare);
+        Assertions.assertThat(account.toString()).isEqualTo(accountToCompare.toString());
+        Assertions.assertThat(account.hashCode()).isEqualTo(accountToCompare.hashCode());
     }
 
     @Test
@@ -255,12 +204,12 @@ public class AccountServiceTest {
 
     @Test
     public void updateAccountShouldThrowAccountNotFoundException() throws AccountNotFoundException {
-        AccountDto accountDto = new AccountDto();
-        accountDto.setIdentifier(32L);
+        Account account = new Account();
+        account.setIdentifier(32L);
         String message = "No account found";
 
         Mockito.when(this.repository.findById(32L)).thenReturn(Optional.empty());
-        AccountNotFoundException exception = assertThrows(AccountNotFoundException.class, () -> this.service.updateAccount(accountDto), message);
+        AccountNotFoundException exception = assertThrows(AccountNotFoundException.class, () -> this.service.updateAccount(account), message);
 
         Assertions.assertThat(exception.getMessage()).isEqualTo(message);
         Assertions.assertThat(exception.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
@@ -268,20 +217,16 @@ public class AccountServiceTest {
 
     @Test
     public void findByNameShouldReturnAnAccountDto() throws AccountNotFoundException, ParameterNotProvidedException, BadRequestException {
-        AccountDto accountDto = new AccountDto();
         Account account = new Account();
         account.setIdentifier(32L);
-        accountDto.setIdentifier(32L);
         account.setName("name");
-        accountDto.setName("name");
 
         Mockito.when(this.repository.findByName(account.getName())).thenReturn(account);
-        Mockito.when(this.mapper.toAccountDto(account)).thenReturn(accountDto);
-        AccountDto toCompare = this.service.findByName(accountDto.getName());
+        Account toCompare = this.service.findByName(account.getName());
 
-        Assertions.assertThat(toCompare).isEqualTo(accountDto);
-        Assertions.assertThat(toCompare.toString()).isEqualTo(accountDto.toString());
-        Assertions.assertThat(toCompare.hashCode()).isEqualTo(accountDto.hashCode());
+        Assertions.assertThat(toCompare).isEqualTo(account);
+        Assertions.assertThat(toCompare.toString()).isEqualTo(account.toString());
+        Assertions.assertThat(toCompare.hashCode()).isEqualTo(account.hashCode());
     }
 
     @Test

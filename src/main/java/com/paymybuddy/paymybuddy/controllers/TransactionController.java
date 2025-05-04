@@ -1,12 +1,11 @@
 package com.paymybuddy.paymybuddy.controllers;
 
-import com.paymybuddy.paymybuddy.dtos.AccountDto;
-import com.paymybuddy.paymybuddy.dtos.ConnectionVM;
-import com.paymybuddy.paymybuddy.dtos.TransactionDto;
 import com.paymybuddy.paymybuddy.exceptions.AccountAlreadyExistsException;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
-import com.paymybuddy.paymybuddy.exceptions.ConnectionNotFoundException;
 import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
+import com.paymybuddy.paymybuddy.models.Account;
+import com.paymybuddy.paymybuddy.models.Connection;
+import com.paymybuddy.paymybuddy.models.Transaction;
 import com.paymybuddy.paymybuddy.services.AccountService;
 import com.paymybuddy.paymybuddy.services.ConnectionService;
 import com.paymybuddy.paymybuddy.services.TransactionService;
@@ -36,55 +35,40 @@ public class TransactionController {
     }
 
     @GetMapping("/transaction")
-    public String findAllTransactions(Model model) throws ParameterNotProvidedException, AccountNotFoundException, ConnectionNotFoundException {
-        try {
-            List<ConnectionVM> connections = new ArrayList<>(this.connectionService.findAllByAccount(this.accountService.getAccountDto()));
-            List<AccountDto> accountDtoList = new ArrayList<>();
-            for (ConnectionVM connection : connections) {
-                accountDtoList.add(this.accountService.findAccount(connection.getConnectionId()));
-            }
-            List<TransactionDto> transactionDtoList = this.service.findAllByAccountId(this.accountService.getAccountDto().getIdentifier());
-            model.addAttribute("transaction", new TransactionDto());
-            model.addAttribute("accountDtoList", accountDtoList);
-            model.addAttribute("transactions", transactionDtoList);
-            model.addAttribute("currentPage", "page1");
-            return "transaction/transaction";
-        } catch (ConnectionNotFoundException e) {
-            List<TransactionDto> transactionDtoList = this.service.findAllByAccountId(this.accountService.getAccountDto().getIdentifier());
-            model.addAttribute("transaction", new TransactionDto());
-            model.addAttribute("transactions", transactionDtoList);
-            model.addAttribute("currentPage", "page1");
-            return "transaction/transaction";
-        }
-
+    public String findAllTransactions(Model model) throws ParameterNotProvidedException, AccountNotFoundException {
+        List<Connection> connections = new ArrayList<>(this.connectionService.findAllByAccount(this.accountService.getAccount()));
+        List<Account> accountList = new ArrayList<>();
+        /*for (Connection connection : connections) {
+            accountList.add(this.accountService.findAccount(connection.getConnection().getIdentifier()));
+        }*/
+        List<Transaction> transactionDtoList = this.service.findAllByAccountId(this.accountService.getAccount().getIdentifier());
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("accountDtoList", accountList);
+        model.addAttribute("transactions", transactionDtoList);
+        model.addAttribute("currentPage", "page1");
+        return "transaction/transaction";
     }
 
     @PostMapping("/transaction")
-    public String createTransaction(@ModelAttribute TransactionDto transactionDto, Model model) throws AccountAlreadyExistsException, ParameterNotProvidedException, AccountNotFoundException, ConnectionNotFoundException {
-        AccountDto recipient = this.accountService.findById(transactionDto.getRecipient().getIdentifier());
-        transactionDto.setSender(this.accountService.getAccountDto());
-        transactionDto.setRecipient(recipient);
-        transactionDto.setAmount(transactionDto.getAmount());
-        transactionDto.setRecipient(transactionDto.getRecipient());
-        transactionDto.setName(transactionDto.getName());
-        List<ConnectionVM> connectionVMList = this.connectionService.findAllByAccount(this.accountService.getAccountDto());
-        List<AccountDto> accountDtoList = new ArrayList<>();
-        for (ConnectionVM connectionVM : connectionVMList) {
-            accountDtoList.add(this.accountService.findAccount(connectionVM.getConnectionId()));
+    public String createTransaction(@ModelAttribute Transaction transaction, Model model) throws AccountAlreadyExistsException, ParameterNotProvidedException, AccountNotFoundException {
+        List<Connection> connectionList = this.connectionService.findAllByAccount(this.accountService.getAccount());
+        List<Account> accountList = new ArrayList<>();
+        for (Connection connection : connectionList) {
+            accountList.add(this.accountService.findAccount(connection.getConnection().getIdentifier()));
         }
-        List<TransactionDto> transactionDtoList = this.service.findAllByAccountId(this.accountService.getAccountDto().getIdentifier());
-        if (this.accountService.getAccountDto().getBalance().compareTo(transactionDto.getAmount()) < 0) {
-            model.addAttribute("transaction", new TransactionDto());
-            model.addAttribute("accountDtoList", accountDtoList);
+        List<Transaction> transactionList = this.service.findAllByAccountId(this.accountService.getAccount().getIdentifier());
+        if (this.accountService.getAccount().getBalance().compareTo(transaction.getAmount()) < 0) {
+            model.addAttribute("transaction", new Transaction());
+            model.addAttribute("accountDtoList", accountList);
             model.addAttribute("error", "Vous ne pouvez pas faire cette transaction");
-            model.addAttribute("transactions", transactionDtoList);
+            model.addAttribute("transactions", transactionList);
             return "transaction/transaction";
         }
-        TransactionDto transactionToReturn = this.service.create(transactionDto);
-        transactionDtoList.add(transactionToReturn);
-        model.addAttribute("accountDtoList", accountDtoList);
+        Transaction transactionToReturn = this.service.create(transaction);
+        transactionList.add(transactionToReturn);
+        model.addAttribute("accountDtoList", accountList);
         model.addAttribute("transaction", transactionToReturn);
-        model.addAttribute("transactions", transactionDtoList);
+        model.addAttribute("transactions", transactionList);
         return "transaction/transaction";
     }
 }

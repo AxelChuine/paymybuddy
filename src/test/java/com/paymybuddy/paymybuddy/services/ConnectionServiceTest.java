@@ -1,18 +1,11 @@
 package com.paymybuddy.paymybuddy.services;
 
-import com.paymybuddy.paymybuddy.dtos.AccountDto;
-
-import com.paymybuddy.paymybuddy.dtos.ConnectionDto;
-import com.paymybuddy.paymybuddy.dtos.ConnectionVM;
 import com.paymybuddy.paymybuddy.exceptions.AccountNotFoundException;
-import com.paymybuddy.paymybuddy.exceptions.ConnectionNotFoundException;
 import com.paymybuddy.paymybuddy.exceptions.ParameterNotProvidedException;
 import com.paymybuddy.paymybuddy.models.Account;
 import com.paymybuddy.paymybuddy.models.Connection;
 import com.paymybuddy.paymybuddy.repository.IAccountRepository;
 import com.paymybuddy.paymybuddy.repository.IConnectionRepository;
-import com.paymybuddy.paymybuddy.services.mapper.AccountMapper;
-import com.paymybuddy.paymybuddy.services.mapper.ConnectionMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,11 +35,6 @@ public class ConnectionServiceTest {
     @Mock
     private IConnectionRepository repository;
 
-    @Mock
-    private AccountMapper accountMapper;
-
-    @Mock
-    private ConnectionMapper mapper;
 
     private final Long accountId = 1L;
     private final String username = "username";
@@ -56,23 +44,12 @@ public class ConnectionServiceTest {
 
     private final BigDecimal balance = new BigDecimal("100");
     private final Set<Account> connections = new HashSet<>();
-    private final Set<AccountDto> connectionDtoSet = new HashSet<>();
 
     private final Long connectionId = 2L;
     private final String usernameConnection = "username";
     private final String passwordConnection = "1234";
     private final String emailConnection = "email-connection@email.com";
     private final String nameConnection = "name";
-
-    private AccountDto accountDto = new AccountDto(
-            this.accountId,
-            this.username,
-            this.password,
-            this.email,
-            this.name,
-            this.balance,
-            this.connectionDtoSet
-    );
 
     private Account account = new Account(
             this.accountId,
@@ -94,49 +71,31 @@ public class ConnectionServiceTest {
             this.connections
     );
 
-    private AccountDto connectionDtoAccount = new AccountDto(
-            this.connectionId,
-            this.usernameConnection,
-            this.passwordConnection,
-            this.emailConnection,
-            this.nameConnection,
-            this.balance,
-            this.connectionDtoSet
-    );
-
     private Connection connection = new Connection(account, connectionAccount);
-    private ConnectionDto connectionDto = new ConnectionDto(accountDto, connectionDtoAccount);
-    private ConnectionVM connectionVM = new ConnectionVM(accountId, connectionId, usernameConnection);
     private List<Connection> connectionList = new ArrayList<>();
-    private List<ConnectionVM> connectionVMList = new ArrayList<>();
 
     @BeforeEach
     public void setUp() {
         this.connectionList.add(connection);
-        this.connectionVMList.add(connectionVM);
     }
 
     @Test
     public void createConnectionShouldReturnAConnectionDto() throws AccountNotFoundException, ParameterNotProvidedException {
-        Mockito.when(this.accountMapper.toModel(this.accountDto)).thenReturn(this.account);
-        Mockito.when(this.accountMapper.toModel(this.connectionDtoAccount)).thenReturn(this.connectionAccount);
         Mockito.when(this.repository.save(this.connection)).thenReturn(this.connection);
-        Mockito.when(this.mapper.toDto(this.connection)).thenReturn(this.connectionDto);
-        ConnectionDto toCompare = this.service.create(accountDto, connectionDtoAccount);
+        Connection toCompare = this.service.create(account, connectionAccount);
 
-        Assertions.assertThat(toCompare).isEqualTo(this.connectionDto);
-        Assertions.assertThat(toCompare.hashCode()).isEqualTo(this.connectionDto.hashCode());
-        Assertions.assertThat(toCompare.toString()).isEqualTo(this.connectionDto.toString());
+        Assertions.assertThat(toCompare).isEqualTo(this.connection);
+        Assertions.assertThat(toCompare.hashCode()).isEqualTo(this.connection.hashCode());
+        Assertions.assertThat(toCompare.toString()).isEqualTo(this.connection.toString());
     }
 
     @Test
-    public void findAllByAccountShouldReturnAListOfConnectionVM() throws AccountNotFoundException, ParameterNotProvidedException, ConnectionNotFoundException {
+    public void findAllByAccountShouldReturnAListOfConnectionVM() throws AccountNotFoundException, ParameterNotProvidedException {
         Mockito.when(this.accountRepository.findById(accountId)).thenReturn(Optional.of(account));
         Mockito.when(this.repository.findAllByAccount(account)).thenReturn(this.connectionList);
-        Mockito.when(this.mapper.toVMList(this.connectionList)).thenReturn(this.connectionVMList);
-        List<ConnectionVM> listToCompare = this.service.findAllByAccount(accountDto);
+        List<Connection> listToCompare = this.service.findAllByAccount(account);
 
-        Assertions.assertThat(listToCompare).isEqualTo(this.connectionVMList);
+        Assertions.assertThat(listToCompare).isEqualTo(this.connectionList);
     }
 
     @Test
@@ -150,31 +109,27 @@ public class ConnectionServiceTest {
     }
 
     @Test
-    public void findAllConnectionsByAccountShouldThrowConnectionNotFoundException() throws AccountNotFoundException, ParameterNotProvidedException {
-        String message = "Connection not found";
+    public void findAllConnectionsByAccountShouldReturnEmptyList() throws AccountNotFoundException, ParameterNotProvidedException {
+        List<Connection> emptyConnectionList = new ArrayList<>();
 
         Mockito.when(this.accountRepository.findById(accountId)).thenReturn(Optional.of(account));
-        Mockito.when(this.repository.findAllByAccount(account)).thenReturn(this.connectionList);
-        ConnectionNotFoundException exception = assertThrows(ConnectionNotFoundException.class, () -> this.service.findAllByAccount(accountDto), message);
+        Mockito.when(this.repository.findAllByAccount(account)).thenReturn(emptyConnectionList);
+        List<Connection> listToCompare = this.service.findAllByAccount(account);
 
-        Assertions.assertThat(exception.getMessage()).isEqualTo(message);
-        Assertions.assertThat(exception.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
+        Assertions.assertThat(listToCompare).isEmpty();
+        Assertions.assertThat(listToCompare).isEqualTo(emptyConnectionList);
     }
 
     @Test
     public void createConnectionByIdAndEmailShouldReturnAConnectionDto() throws ParameterNotProvidedException, AccountNotFoundException {
-        Mockito.when(this.accountService.findById(accountId)).thenReturn(this.accountDto);
+        Mockito.when(this.accountService.findById(accountId)).thenReturn(this.account);
         Mockito.when(this.accountService.findByEmail(emailConnection)).thenReturn(Optional.of(connectionAccount));
-        Mockito.when(this.accountMapper.toAccountDto(this.connectionAccount)).thenReturn(this.connectionDtoAccount);
-        Mockito.when(this.accountMapper.toModel(this.accountDto)).thenReturn(this.account);
-        Mockito.when(this.accountMapper.toModel(this.connectionDtoAccount)).thenReturn(this.connectionAccount);
         Mockito.when(this.repository.save(this.connection)).thenReturn(this.connection);
-        Mockito.when(this.mapper.toDto(this.connection)).thenReturn(this.connectionDto);
-        ConnectionDto toCompare = this.service.create(accountId, emailConnection);
+        Connection toCompare = this.service.create(accountId, emailConnection);
 
-        Assertions.assertThat(toCompare).isEqualTo(this.connectionDto);
-        Assertions.assertThat(toCompare.hashCode()).isEqualTo(this.connectionDto.hashCode());
-        Assertions.assertThat(toCompare.toString()).isEqualTo(this.connectionDto.toString());
+        Assertions.assertThat(toCompare).isEqualTo(this.connection);
+        Assertions.assertThat(toCompare.hashCode()).isEqualTo(this.connection.hashCode());
+        Assertions.assertThat(toCompare.toString()).isEqualTo(this.connection.toString());
     }
 
     @Test

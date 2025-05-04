@@ -34,7 +34,7 @@ public class Transaction {
     @ManyToOne
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JoinColumn(name = "receiver", nullable = false)
-    private Account receiver;
+    private Account recipient;
 
     @Column(name = "transaction_date")
     private LocalDateTime transactionDate;

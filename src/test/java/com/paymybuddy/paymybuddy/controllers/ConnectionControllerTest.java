@@ -74,7 +74,7 @@ public class ConnectionControllerTest {
 
     @Test
     public void createConnectionShouldReturnHttpStatusOk() throws Exception {
-        Mockito.when(this.accountService.getAccountDto()).thenReturn(this.accountDto);
+        Mockito.when(this.accountService.getAccount()).thenReturn(this.accountDto);
         Mockito.when(this.service.create(this.accountId, this.connectionAccount.getEmail())).thenReturn(this.connectionDto);
         this.mockMvc.perform(MockMvcRequestBuilders.post("/connection/connection")
                 .param("email", this.connectionAccount.getEmail()))

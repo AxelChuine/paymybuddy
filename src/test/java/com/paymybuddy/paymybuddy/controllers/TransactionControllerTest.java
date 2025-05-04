@@ -1,8 +1,8 @@
 package com.paymybuddy.paymybuddy.controllers;
 
-import com.paymybuddy.paymybuddy.dtos.AccountDto;
-import com.paymybuddy.paymybuddy.dtos.ConnectionVM;
-import com.paymybuddy.paymybuddy.dtos.TransactionDto;
+import com.paymybuddy.paymybuddy.models.Account;
+import com.paymybuddy.paymybuddy.models.Connection;
+import com.paymybuddy.paymybuddy.models.Transaction;
 import com.paymybuddy.paymybuddy.services.AccountService;
 import com.paymybuddy.paymybuddy.services.ConnectionService;
 import com.paymybuddy.paymybuddy.services.TransactionService;
@@ -44,46 +44,45 @@ public class TransactionControllerTest {
     private final String username = "username";
     private final String nameTransaction = "nameTransaction";
 
-    private AccountDto accountDto;
-    private AccountDto connectionAccount;
-    private ConnectionVM connectionVM;
-    private TransactionDto transactionDto;
-    private List<TransactionDto> transactionDtoList = new ArrayList<>();
-    private List<AccountDto> accountDtoList = new ArrayList<>();
-    private List<ConnectionVM> connectionVMList = new ArrayList<>();
+    private Account account;
+    private Account connectionAccount;
+    private Connection connection;
+    private Transaction transaction;
+    private List<Transaction> transactionList = new ArrayList<>();
+    private List<Account> accountList = new ArrayList<>();
+    private List<Connection> connectionList = new ArrayList<>();
 
     @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders.standaloneSetup(transactionController).build();
-        this.accountDto = new AccountDto();
-        this.accountDto.setIdentifier(accountId);
-        this.accountDto.setBalance(new BigDecimal("100.00"));
-        this.connectionAccount = new AccountDto();
+        this.account = new Account();
+        this.account.setIdentifier(accountId);
+        this.account.setBalance(new BigDecimal("100.00"));
+        this.connectionAccount = new Account();
         this.connectionAccount.setIdentifier(connectionId);
         this.connectionAccount.setBalance(new BigDecimal("100.00"));
-        this.transactionDto = new TransactionDto();
-        this.transactionDto.setAmount(amount);
-        this.transactionDto.setName(nameTransaction);
-        this.transactionDto.setRecipient(connectionAccount);
-        this.transactionDto.setSender(accountDto);
-        this.transactionDtoList.add(transactionDto);
-        this.accountDtoList.add(accountDto);
-        this.accountDtoList.add(connectionAccount);
-        this.connectionVM = new ConnectionVM(
-                accountId,
-                connectionId,
-                username
+        this.transaction = new Transaction();
+        this.transaction.setAmount(amount);
+        this.transaction.setName(nameTransaction);
+        this.transaction.setRecipient(connectionAccount);
+        this.transaction.setSender(account);
+        this.transactionList.add(transaction);
+        this.accountList.add(account);
+        this.accountList.add(connectionAccount);
+        this.connection = new Connection(
+                this.account,
+                this.connectionAccount
         );
-        this.connectionVMList.add(this.connectionVM);
+        this.connectionList.add(this.connection);
     }
 
     @Test
     public void findAllShouldReturnHttpStatusOk() throws Exception {
         // Mock service calls
-        Mockito.when(accountService.getAccountDto()).thenReturn(accountDto);
-        Mockito.when(connectionService.findAllByAccount(accountDto)).thenReturn(connectionVMList);
+        Mockito.when(accountService.getAccount()).thenReturn(account);
+        Mockito.when(connectionService.findAllByAccount(account)).thenReturn(connectionList);
         Mockito.when(accountService.findAccount(this.connectionId)).thenReturn(connectionAccount);
-        Mockito.when(service.findAllByAccountId(this.accountId)).thenReturn(transactionDtoList);
+        Mockito.when(service.findAllByAccountId(this.accountId)).thenReturn(transactionList);
 
         // Act & Assert
         this.mockMvc.perform(MockMvcRequestBuilders.get("/transaction/transaction"))
@@ -98,9 +97,9 @@ public class TransactionControllerTest {
     @Test
     public void createTransactionShouldReturnHttpStatusOk() throws Exception {
         Mockito.when(accountService.findById(this.connectionId)).thenReturn(connectionAccount);
-        Mockito.when(accountService.getAccountDto()).thenReturn(accountDto);
-        Mockito.when(service.findAllByAccountId(this.accountId)).thenReturn(transactionDtoList);
-        Mockito.when(this.service.create(Mockito.any(TransactionDto.class))).thenReturn(this.transactionDto);
+        Mockito.when(accountService.getAccount()).thenReturn(account);
+        Mockito.when(service.findAllByAccountId(this.accountId)).thenReturn(transactionList);
+        Mockito.when(this.service.create(Mockito.any(Transaction.class))).thenReturn(this.transaction);
 
         this.mockMvc.perform(MockMvcRequestBuilders.post("/transaction/transaction")
                 .param("amount", amount.toString())
@@ -114,14 +113,14 @@ public class TransactionControllerTest {
 
     @Test
     public void createTransactionShouldReturnHttpStatusOkEvenWhenBalanceIsInferiorToAmount() throws Exception {
-        AccountDto accountDto = new AccountDto();
-        accountDto.setIdentifier(accountId);
-        accountDto.setBalance(new BigDecimal("10.00"));
+        Account newAccount = new Account();
+        newAccount.setIdentifier(accountId);
+        newAccount.setBalance(new BigDecimal("10.00"));
 
         Mockito.when(accountService.findById(this.connectionId)).thenReturn(connectionAccount);
-        Mockito.when(accountService.getAccountDto()).thenReturn(accountDto);
-        Mockito.when(service.findAllByAccountId(this.accountId)).thenReturn(transactionDtoList);
-        Mockito.when(this.accountService.getAccountDto()).thenReturn(accountDto);
+        Mockito.when(accountService.getAccount()).thenReturn(newAccount);
+        Mockito.when(service.findAllByAccountId(this.accountId)).thenReturn(transactionList);
+        Mockito.when(this.accountService.getAccount()).thenReturn(newAccount);
         this.mockMvc.perform(MockMvcRequestBuilders.post("/transaction/transaction")
                 .param("amount", amount.toString())
                 .param("name", nameTransaction)
