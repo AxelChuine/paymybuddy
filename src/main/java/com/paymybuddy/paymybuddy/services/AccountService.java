@@ -63,15 +63,15 @@ public class AccountService {
     }
 
 
-    public Optional<Account> findByEmail(String accountEmail) throws AccountNotFoundException, ParameterNotProvidedException {
+    public Account findByEmail(String accountEmail) throws AccountNotFoundException, ParameterNotProvidedException {
         if (Objects.isNull(accountEmail)) {
             throw new ParameterNotProvidedException();
         }
-        Optional<Account> optionalAccount = this.repository.findByEmail(accountEmail);
-        if (optionalAccount.isEmpty()) {
+        Account connection = this.repository.findByEmail(accountEmail);
+        if (Objects.isNull(connection)) {
             throw new AccountNotFoundException();
         }
-        return optionalAccount;
+        return connection;
     }
 
     public Account findById(final long l) {

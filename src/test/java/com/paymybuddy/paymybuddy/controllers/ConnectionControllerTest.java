@@ -77,10 +77,13 @@ public class ConnectionControllerTest {
     @Test
     public void createConnectionShouldReturnHttpStatusOk() throws Exception {
         Mockito.when(this.accountService.getAccount()).thenReturn(this.account);
-        Mockito.when(this.accountService.findByEmail(this.connectionAccount.getEmail())).thenReturn(java.util.Optional.of(this.connectionAccount));
+        Mockito.when(this.accountService.findByEmail(this.connectionAccount.getEmail())).thenReturn(this.connectionAccount);
         this.mockMvc.perform(MockMvcRequestBuilders.post("/connection/connection")
                 .param("email", this.connectionAccount.getEmail()))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/transaction/transaction"));
+
+        // Verify that the account is saved after adding the connection
+        Mockito.verify(this.accountService).save(this.account);
     }
 }

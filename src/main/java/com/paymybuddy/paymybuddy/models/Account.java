@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -44,6 +46,9 @@ public class Account {
     private Set<Account> connections;
 
     public void addConnection(Account account) {
+        if (Objects.isNull(this.connections)) {
+            this.connections = new HashSet<>();
+        }
         this.connections.add(account);
     }
 }

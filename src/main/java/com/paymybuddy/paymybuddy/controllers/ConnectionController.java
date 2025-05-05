@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Optional;
-
 @Controller
 @RequestMapping("/connection")
 public class ConnectionController {
@@ -43,16 +41,13 @@ public class ConnectionController {
                 model.addAttribute("error", "Vous n'êtes pas connecté");
                 return "connection/connection";
             }
-            Optional<Account> optional = this.accountService.findByEmail(account.getEmail());
-            if (optional.isPresent()) {
-                this.accountService.getAccount().addConnection(optional.get());
-                this.service.create(currentAccount, optional.get());
-                this.service.create(optional.get(), currentAccount);
-                model.addAttribute("success", "Connexion créée avec succès");
-                return "redirect:/transaction/transaction";
-            }
-            model.addAttribute("error", "Impossible de créer la connexion");
-            return "connection/connection";
+            Account connection = this.accountService.findByEmail(account.getEmail());
+            this.accountService.getAccount().addConnection(connection);
+            this.accountService.save(currentAccount);
+            this.service.create(currentAccount, connection);
+            this.service.create(connection, currentAccount);
+            model.addAttribute("success", "Connexion créée avec succès");
+            return "redirect:/transaction/transaction";
 
         } catch (AccountNotFoundException e) {
             model.addAttribute("currentPage", "page3");

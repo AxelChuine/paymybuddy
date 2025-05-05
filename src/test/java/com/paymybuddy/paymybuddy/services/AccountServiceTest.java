@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -60,10 +61,10 @@ public class AccountServiceTest {
         String email = "jhdhvjdjg";
         account.setEmail(email);
 
-        Mockito.when(this.repository.findByEmail(email)).thenReturn(Optional.of(account));
-        Optional<Account> optional = this.service.findByEmail(email);
+        Mockito.when(this.repository.findByEmail(email)).thenReturn(account);
+        Account toCompare = this.service.findByEmail(email);
 
-        org.junit.jupiter.api.Assertions.assertTrue(optional.isPresent());
+        org.junit.jupiter.api.Assertions.assertTrue(Objects.nonNull(toCompare.getIdentifier()));
     }
 
     @Test
@@ -80,7 +81,7 @@ public class AccountServiceTest {
     public void findByEmailShouldThrowNotFoundException() throws AccountNotFoundException, ParameterNotProvidedException {
         String message = "No account found";
 
-        Mockito.when(this.repository.findByEmail(Mockito.anyString())).thenReturn(Optional.empty());
+        Mockito.when(this.repository.findByEmail(Mockito.anyString())).thenReturn(null);
         AccountNotFoundException exception = assertThrows(AccountNotFoundException.class, () -> this.service.findByEmail(Mockito.anyString()), message);
 
         Assertions.assertThat(exception.getMessage()).isEqualTo(message);
