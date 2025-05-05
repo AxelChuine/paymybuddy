@@ -16,7 +16,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"connections"})
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,7 @@ public class Account {
 
     @Column(name = "balance")
     private BigDecimal balance;
-    
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "connection",

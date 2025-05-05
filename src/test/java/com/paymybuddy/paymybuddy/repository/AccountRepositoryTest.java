@@ -34,4 +34,12 @@ public class AccountRepositoryTest {
         Assertions.assertNotNull(account);
         Assertions.assertNotNull(account.getIdentifier());
     }
+
+    @Test
+    public void findByEmailShouldReturnAnAccount () {
+        Account account = this.repository.findByEmail("jdubois@test.com");
+
+        Assertions.assertNotNull(account);
+        Assertions.assertNotNull(account.getIdentifier());
+    }
 }
